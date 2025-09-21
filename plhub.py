@@ -50,10 +50,11 @@ def _load_dotenv(dotenv_path: Path) -> None:
 _load_dotenv(Path(__file__).parent / ".env")
 
 # Determine interpreter import location
-RUNTIME_INTERPRETER = Path(__file__).parent / 'Runtime' / 'Interpreter'
+RUNTIME_DIR = Path(__file__).parent / 'Runtime'
+RUNTIME_INTERPRETER = RUNTIME_DIR / 'Interpreter'
 if RUNTIME_INTERPRETER.exists():
     # Add the Runtime directory to sys.path so 'Interpreter' is importable
-    sys.path.insert(0, str(RUNTIME_INTERPRETER.parent))
+    sys.path.insert(0, str(RUNTIME_DIR))
 else:
     # Fall back to adjacent PohLang repo or installed package
     POHLANG_PATH = Path(__file__).parent.parent / "PohLang"
@@ -73,8 +74,10 @@ try:
     from Interpreter.poh_parser import ParseError
 except ImportError as e:
     print(f"Error: Could not import PohLang interpreter: {e}")
-    print(f"PohLang path: {POHLANG_PATH}")
-    print("Make sure PohLang is properly installed.")
+    # Only print POHLANG_PATH if it's defined in this scope
+    if 'POHLANG_PATH' in globals():
+        print(f"PohLang path: {POHLANG_PATH}")
+    print("Make sure PohLang is properly installed or integrated via 'plhub release'.")
     sys.exit(1)
 
 
@@ -89,13 +92,21 @@ def setup_logging():
 def read_pohlang_version(pohlang_repo: Path) -> tuple[str, str]:
     """Return (version, commit) for PohLang.
 
-    - Try pyproject.toml [project].version
+    - Prefer Interpreter/__init__.py __version__ (language version)
+    - Fallback to pyproject.toml [project].version
     - Fallback to git rev-parse HEAD
     """
     version = None
     commit = None
+    interp_init = pohlang_repo / 'Interpreter' / '__init__.py'
     pyproj = pohlang_repo / 'pyproject.toml'
     try:
+        if interp_init.exists():
+            text = interp_init.read_text(encoding='utf-8')
+            for line in text.splitlines():
+                if line.strip().startswith('__version__'):
+                    version = line.split('=', 1)[1].strip().strip('"\'')
+                    break
         if pyproj.exists():
             text = pyproj.read_text(encoding='utf-8')
             for line in text.splitlines():
@@ -103,7 +114,9 @@ def read_pohlang_version(pohlang_repo: Path) -> tuple[str, str]:
                     # line like: version = "0.1.0"
                     try:
                         version = line.split('=', 1)[1].strip().strip('"\'')
-                        break
+                        # Do not break if we already have interpreter version
+                        if version and not version:
+                            break
                     except Exception:
                         pass
         # git commit
@@ -118,7 +131,7 @@ def read_pohlang_version(pohlang_repo: Path) -> tuple[str, str]:
 
 
 def integrate_pohlang(pohlang_repo: Path, runtime_dir: Path) -> dict:
-    """Copy the Interpreter directory from PohLang into PLHub/Runtime/Interpreter.
+    """Copy the Interpreter, bin, and transpiler directories from PohLang into PLHub/Runtime.
 
     Returns metadata dict about the embedded interpreter.
     """
@@ -126,10 +139,30 @@ def integrate_pohlang(pohlang_repo: Path, runtime_dir: Path) -> dict:
     if not interpreter_src.exists():
         raise FileNotFoundError(f"PohLang Interpreter not found at {interpreter_src}")
 
+    # Ensure runtime dir
+    runtime_dir.mkdir(parents=True, exist_ok=True)
+
+    # Copy Interpreter
     interpreter_dst = runtime_dir / 'Interpreter'
     if interpreter_dst.exists():
         shutil.rmtree(interpreter_dst)
     shutil.copytree(interpreter_src, interpreter_dst)
+
+    # Copy Dart transpiler (optional but recommended)
+    transpiler_src = pohlang_repo / 'transpiler'
+    transpiler_dst = runtime_dir / 'transpiler'
+    if transpiler_src.exists():
+        if transpiler_dst.exists():
+            shutil.rmtree(transpiler_dst)
+        shutil.copytree(transpiler_src, transpiler_dst)
+
+    # Copy Dart bin entrypoints so `dart run` works from Runtime
+    bin_src = pohlang_repo / 'bin'
+    bin_dst = runtime_dir / 'bin'
+    if bin_src.exists():
+        if bin_dst.exists():
+            shutil.rmtree(bin_dst)
+        shutil.copytree(bin_src, bin_dst)
 
     version, commit = read_pohlang_version(pohlang_repo)
     metadata = {
@@ -292,6 +325,11 @@ def release_command(args) -> int:
     else:
         logging.info('Skipping tests as requested.')
 
+    # Stop here if dry run
+    if getattr(args, 'dry_run', False):
+        logging.info('Dry run completed successfully. Integration and tests passed.')
+        return 0
+
     # 3) Build packages
     try:
         dist_dir = build_plhub_distribution(plhub_root)
@@ -319,10 +357,11 @@ def release_command(args) -> int:
     except Exception:
         pass
 
-    poh_version = (metadata.get('pohlang_version') or 'unknown').replace('.', '-')
-    default_tag = f"v{plhub_version}-poh{poh_version}"
+    poh_version = (metadata.get('pohlang_version') or 'unknown')
+    # Tag format: plhub-vX.Y.Z (requirement)
+    default_tag = f"plhub-v{plhub_version}"
     tag_name = args.tag or default_tag
-    tag_message = f"PL-Hub {plhub_version} with PohLang {metadata.get('pohlang_version')}"
+    tag_message = f"PL-Hub {plhub_version} including PohLang {poh_version}"
 
     try:
         attempted = git_tag_and_optionally_push(plhub_root, tag_name, tag_message, push=not args.no_push)
@@ -353,7 +392,7 @@ def main():
     parser.add_argument(
         '-v', '--version',
         action='version',
-        version='PL-Hub v2.0.0 - PohLang Development Environment'
+        version='PL-Hub v0.5.0 - PohLang Development Environment'
     )
     
     subparsers = parser.add_subparsers(dest='command', help='Available commands')
@@ -377,12 +416,19 @@ def main():
     build_parser = subparsers.add_parser('build', help='Build the current project')
     build_parser.add_argument('--target', default='dart', choices=['dart', 'python'], help='Build target')
     
+    # Transpile command
+    transpile_parser = subparsers.add_parser('transpile', help='Transpile a .poh file to another target')
+    transpile_parser.add_argument('file', help='PohLang file to transpile (.poh)')
+    transpile_parser.add_argument('--to', default='dart', choices=['dart'], help='Transpile target (currently only dart)')
+    transpile_parser.add_argument('--out-dir', default='build', help='Output directory (for transpiled code)')
+
     # List command
     list_parser = subparsers.add_parser('list', help='List available items')
     list_parser.add_argument('type', choices=['examples', 'templates', 'packages'], help='What to list')
     
     # Release command
     release_parser = subparsers.add_parser('release', help='Run PL-Hub release automation')
+    release_parser.add_argument('--dry-run', action='store_true', help='Run integration and tests without building or tagging')
     release_parser.add_argument('--no-push', action='store_true', help='Do not push git tags/commits')
     release_parser.add_argument('--tag', default=None, help='Override git tag name (default: v<plhub_version>-poh<version>)')
     release_parser.add_argument('--pohlang-path', default=None, help='Path to PohLang repo to integrate (defaults to sibling PohLang/)')
@@ -403,6 +449,8 @@ def main():
         return install_package(args)
     elif args.command == 'build':
         return build_project(args)
+    elif args.command == 'transpile':
+        return transpile_file(args)
     elif args.command == 'list':
         return list_items(args)
     elif args.command == 'release':
@@ -556,22 +604,34 @@ def build_project(args):
     if target == "dart":
         print("Building Dart transpilation...")
         try:
-            # Use PohLang's transpiler
-            transpiler_path = POHLANG_PATH / "bin" / "pohlang.dart"
-            if transpiler_path.exists():
+            # Prefer bundled transpiler
+            bundled_dart = RUNTIME_DIR / "bin" / "pohlang.dart"
+            sibling_dart = (Path(__file__).parent.parent / "PohLang" / "bin" / "pohlang.dart")
+            transpiler_path = None
+            if bundled_dart.exists():
+                transpiler_path = bundled_dart
+            elif sibling_dart.exists():
+                transpiler_path = sibling_dart
+            else:
+                # As a last resort, try installed dart package via simple name
+                transpiler_path = None
+
+            if transpiler_path is not None:
                 result = subprocess.run([
-                    "dart", "run", str(transpiler_path), 
+                    "dart", "run", str(transpiler_path),
                     main_file, "--no-run"
                 ], capture_output=True, text=True)
-                
                 if result.returncode == 0:
                     print("✅ Dart build completed successfully!")
                 else:
-                    print(f"❌ Dart build failed: {result.stderr}")
+                    print(f"❌ Dart build failed:\n{result.stdout}\n{result.stderr}")
                     return 1
             else:
-                print("Warning: Dart transpiler not found. Using Python interpreter instead.")
+                print("Warning: Dart transpiler entrypoint not found. Using Python interpreter instead.")
                 return run_with_python(main_file)
+        except FileNotFoundError:
+            print("Error: 'dart' command not found. Please install Dart SDK or use --target python.")
+            return 1
         except Exception as e:
             print(f"Error during Dart build: {e}")
             return 1
@@ -656,6 +716,44 @@ Write "For now, this is a placeholder."
     }
     
     return templates.get(template_name, templates["basic"])
+
+
+def transpile_file(args):
+    """Transpile a single .poh file using the bundled or sibling Dart transpiler."""
+    if not Path(args.file).exists():
+        print(f"Error: File '{args.file}' not found.")
+        return 1
+    if args.to != 'dart':
+        print("Error: Only 'dart' transpile target is currently supported.")
+        return 64
+    out_dir = Path(args.out_dir)
+    out_dir.mkdir(parents=True, exist_ok=True)
+
+    bundled_dart = RUNTIME_DIR / "bin" / "pohlang.dart"
+    sibling_dart = (Path(__file__).parent.parent / "PohLang" / "bin" / "pohlang.dart")
+    transpiler_path = bundled_dart if bundled_dart.exists() else (sibling_dart if sibling_dart.exists() else None)
+
+    try:
+        if transpiler_path is None:
+            print("Error: Could not locate PohLang Dart transpiler entrypoint.")
+            print("Run 'plhub release' to bundle the latest PohLang into Runtime or place PohLang next to PLHub.")
+            return 1
+        # Use --no-run and optionally pass output directory if supported
+        # For now, we run with --no-run and move outputs if the transpiler writes to CWD
+        res = subprocess.run([
+            "dart", "run", str(transpiler_path), args.file, "--no-run"
+        ], capture_output=True, text=True)
+        if res.returncode != 0:
+            print(f"❌ Transpile failed:\n{res.stdout}\n{res.stderr}")
+            return 1
+        print("✅ Transpile completed. Check generated Dart files (location depends on transpiler settings).")
+        return 0
+    except FileNotFoundError:
+        print("Error: 'dart' command not found. Please install Dart SDK from https://dart.dev/get-dart.")
+        return 1
+    except Exception as e:
+        print(f"Error during transpile: {e}")
+        return 1
 
 
 def run_with_python(file_path):

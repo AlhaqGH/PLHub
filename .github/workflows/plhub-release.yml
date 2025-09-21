@@ -1,0 +1,385 @@
+name: PL-Hub SDK Release
+
+on:
+  push:
+    tags:
+      - 'plhub-v*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'PL-Hub version to release (e.g., 2.0.0)'
+        required: true
+        type: string
+      pohlang_version:
+        description: 'PohLang version to integrate (e.g., 0.5.0, or "latest")'
+        required: false
+        type: string
+        default: 'latest'
+      dry_run:
+        description: 'Dry run (no publishing)'
+        required: false
+        type: boolean
+        default: false
+
+jobs:
+  integrate-pohlang:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        fetch-depth: 0
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+    
+    - name: Determine PohLang version
+      id: pohlang_version
+      run: |
+        if [ "${{ github.event.inputs.pohlang_version }}" = "latest" ] || [ -z "${{ github.event.inputs.pohlang_version }}" ]; then
+          # Get latest PohLang release
+          LATEST=$(curl -s https://api.github.com/repos/${{ github.repository_owner }}/PohLang/releases/latest | jq -r .tag_name | sed 's/pohlang-v//')
+          echo "version=$LATEST" >> $GITHUB_OUTPUT
+          echo "tag=pohlang-v$LATEST" >> $GITHUB_OUTPUT
+        else
+          echo "version=${{ github.event.inputs.pohlang_version }}" >> $GITHUB_OUTPUT
+          echo "tag=pohlang-v${{ github.event.inputs.pohlang_version }}" >> $GITHUB_OUTPUT
+        fi
+    
+    - name: Download PohLang SDK
+      run: |
+        mkdir -p temp-pohlang
+        cd temp-pohlang
+        
+        # Download the source release
+        curl -L -o pohlang.tar.gz \
+          "https://github.com/${{ github.repository_owner }}/PohLang/archive/refs/tags/${{ steps.pohlang_version.outputs.tag }}.tar.gz"
+        
+        tar -xzf pohlang.tar.gz --strip-components=1
+        
+        # Verify we have the essential components
+        ls -la Interpreter/
+        ls -la transpiler/ || echo "No transpiler directory"
+        ls -la bin/ || echo "No bin directory"
+    
+    - name: Integrate PohLang into Runtime
+      run: |
+        # Clean existing runtime
+        rm -rf Runtime/Interpreter Runtime/transpiler Runtime/bin
+        
+        # Copy components
+        mkdir -p Runtime
+        cp -r temp-pohlang/Interpreter Runtime/
+        cp -r temp-pohlang/transpiler Runtime/ || echo "No transpiler to copy"
+        cp -r temp-pohlang/bin Runtime/ || echo "No bin to copy"
+        
+        # Create metadata
+        cat > Runtime/pohlang_metadata.json << EOF
+        {
+          "pohlang_version": "${{ steps.pohlang_version.outputs.version }}",
+          "source_repo": "https://github.com/${{ github.repository_owner }}/PohLang",
+          "source_tag": "${{ steps.pohlang_version.outputs.tag }}",
+          "integrated_at": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
+          "integrated_by": "GitHub Actions"
+        }
+        EOF
+        
+        echo "Integration complete. PohLang ${{ steps.pohlang_version.outputs.version }} integrated."
+    
+    - name: Upload integrated runtime
+      uses: actions/upload-artifact@v3
+      with:
+        name: integrated-runtime
+        path: Runtime/
+
+  test:
+    needs: integrate-pohlang
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.9', '3.10', '3.11', '3.12']
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Download integrated runtime
+      uses: actions/download-artifact@v3
+      with:
+        name: integrated-runtime
+        path: Runtime/
+    
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pytest
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+    
+    - name: Run PL-Hub tests
+      run: |
+        python -m unittest discover -s Tests -v
+    
+    - name: Test CLI functionality
+      run: |
+        # Test that CLI loads and shows version
+        python plhub.py --version
+        
+        # Test run command with example
+        python plhub.py run Examples/hello_world.poh
+        
+        # Test list commands
+        python plhub.py list templates
+        python plhub.py list examples
+
+  build-sdk:
+    needs: test
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Download integrated runtime
+      uses: actions/download-artifact@v3
+      with:
+        name: integrated-runtime
+        path: Runtime/
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+    
+    - name: Install build dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install build twine
+    
+    - name: Build Python package
+      run: |
+        python -m build
+    
+    - name: Check package
+      run: |
+        python -m twine check dist/*
+    
+    - name: Create SDK bundle
+      run: |
+        mkdir -p plhub-sdk
+        
+        # Copy essential files
+        cp -r CLI/ plhub-sdk/
+        cp -r Editor/ plhub-sdk/
+        cp -r Examples/ plhub-sdk/
+        cp -r templates/ plhub-sdk/
+        cp -r docs/ plhub-sdk/
+        cp -r tools/ plhub-sdk/
+        cp -r Runtime/ plhub-sdk/
+        cp plhub.py plhub-sdk/
+        cp README.md plhub-sdk/
+        cp setup.py plhub-sdk/
+        cp MANIFEST.in plhub-sdk/
+        
+        # Create installer script
+        cat > plhub-sdk/install.sh << 'EOF'
+        #!/bin/bash
+        echo "Installing PL-Hub SDK..."
+        
+        # Install Python package
+        pip install -e .
+        
+        # Make plhub command available
+        INSTALL_DIR=${HOME}/.local/bin
+        mkdir -p "$INSTALL_DIR"
+        
+        cat > "$INSTALL_DIR/plhub" << 'SCRIPT'
+        #!/bin/bash
+        exec python "$(dirname "$0")/../lib/python*/site-packages/plhub.py" "$@"
+        SCRIPT
+        
+        chmod +x "$INSTALL_DIR/plhub"
+        
+        echo "PL-Hub SDK installed successfully!"
+        echo "Add $INSTALL_DIR to your PATH if not already added."
+        echo "Usage: plhub --help"
+        EOF
+        
+        chmod +x plhub-sdk/install.sh
+        
+        # Create Windows installer
+        cat > plhub-sdk/install.bat << 'EOF'
+        @echo off
+        echo Installing PL-Hub SDK...
+        
+        pip install -e .
+        
+        echo PL-Hub SDK installed successfully!
+        echo Usage: python plhub.py --help
+        EOF
+        
+        # Create archive
+        tar -czf plhub-sdk.tar.gz plhub-sdk/
+        
+        # Create zip for Windows
+        zip -r plhub-sdk.zip plhub-sdk/
+    
+    - name: Upload SDK artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: plhub-sdk-bundle
+        path: |
+          plhub-sdk.tar.gz
+          plhub-sdk.zip
+          dist/
+
+  release:
+    needs: build-sdk
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/plhub-v') || github.event_name == 'workflow_dispatch'
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Download SDK bundle
+      uses: actions/download-artifact@v3
+      with:
+        name: plhub-sdk-bundle
+    
+    - name: Extract version
+      id: version
+      run: |
+        if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+          echo "version=${{ github.event.inputs.version }}" >> $GITHUB_OUTPUT
+        else
+          echo "version=${GITHUB_REF#refs/tags/plhub-v}" >> $GITHUB_OUTPUT
+        fi
+    
+    - name: Read integrated PohLang version
+      id: pohlang_info
+      run: |
+        if [ -f Runtime/pohlang_metadata.json ]; then
+          POHLANG_VER=$(jq -r .pohlang_version Runtime/pohlang_metadata.json)
+          echo "pohlang_version=$POHLANG_VER" >> $GITHUB_OUTPUT
+        else
+          echo "pohlang_version=unknown" >> $GITHUB_OUTPUT
+        fi
+    
+    - name: Create Release
+      uses: actions/create-release@v1
+      id: create_release
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: plhub-v${{ steps.version.outputs.version }}
+        release_name: PL-Hub SDK v${{ steps.version.outputs.version }}
+        body: |
+          # PL-Hub SDK v${{ steps.version.outputs.version }}
+          
+          **The complete development environment for PohLang** - like Flutter for Dart.
+          
+          ## What's Included
+          
+          - **Embedded PohLang SDK v${{ steps.pohlang_info.outputs.pohlang_version }}**
+          - Complete CLI tools: `plhub run`, `plhub transpile`, `plhub build`
+          - Project templates and examples
+          - Package management system
+          - Editor integrations and language server
+          - Build system for multiple targets
+          
+          ## Installation
+          
+          ### Option 1: Python Package (Recommended)
+          ```bash
+          pip install plhub==${{ steps.version.outputs.version }}
+          ```
+          
+          ### Option 2: Standalone SDK
+          1. Download `plhub-sdk.tar.gz` (Linux/Mac) or `plhub-sdk.zip` (Windows)
+          2. Extract and run installer:
+             - Linux/Mac: `./install.sh`
+             - Windows: `install.bat`
+          
+          ## Quick Start
+          
+          ```bash
+          # Create new project
+          plhub create my-app --template console
+          cd my-app
+          
+          # Run your program
+          plhub run src/main.poh
+          
+          # Transpile to Dart for performance
+          plhub transpile src/main.poh --to dart
+          
+          # Build project
+          plhub build --target dart
+          ```
+          
+          ## Developer Workflow
+          
+          PL-Hub provides the complete PohLang development experience:
+          - **Language**: Embedded PohLang interpreter & transpiler
+          - **Projects**: Scaffolding, templates, configuration
+          - **Build**: Multi-target compilation (Dart, Python)
+          - **Packages**: Dependency management and distribution
+          - **Tools**: CLI, editor support, testing framework
+          
+          Perfect for building console apps, web applications, and learning programming!
+        draft: false
+        prerelease: false
+    
+    - name: Upload Python wheel
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: dist/plhub-${{ steps.version.outputs.version }}-py3-none-any.whl
+        asset_name: plhub-${{ steps.version.outputs.version }}-py3-none-any.whl
+        asset_content_type: application/zip
+    
+    - name: Upload Python source
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: dist/plhub-${{ steps.version.outputs.version }}.tar.gz
+        asset_name: plhub-${{ steps.version.outputs.version }}.tar.gz
+        asset_content_type: application/gzip
+    
+    - name: Upload SDK Bundle (Linux/Mac)
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: plhub-sdk.tar.gz
+        asset_name: plhub-sdk-${{ steps.version.outputs.version }}.tar.gz
+        asset_content_type: application/gzip
+    
+    - name: Upload SDK Bundle (Windows)
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: plhub-sdk.zip
+        asset_name: plhub-sdk-${{ steps.version.outputs.version }}.zip
+        asset_content_type: application/zip
+    
+    - name: Publish to PyPI
+      if: ${{ !github.event.inputs.dry_run }}
+      env:
+        TWINE_USERNAME: __token__
+        TWINE_PASSWORD: ${{ secrets.PYPI_TOKEN }}
+      run: |
+        pip install twine
+        python -m twine upload dist/* --skip-existing

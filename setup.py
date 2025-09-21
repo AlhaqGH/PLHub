@@ -15,7 +15,7 @@ long_description = readme_file.read_text(encoding="utf-8") if readme_file.exists
 
 setup(
     name="plhub",
-    version="2.0.0",
+    version="0.5.0",
     author="PohLang Team",
     author_email="contact@pohlang.org",
     description="PL-Hub: The comprehensive development environment for PohLang",
@@ -78,6 +78,8 @@ setup(
             "Interpreter/stdlib/**/*",
             "Interpreter/__main__.py",
             "Interpreter/__init__.py",
+            "bin/*.dart",
+            "transpiler/**/*",
         ],
     },
     zip_safe=False,

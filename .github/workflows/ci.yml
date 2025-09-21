@@ -1,0 +1,90 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+    tags: [ 'sdk-v*' ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.9', '3.10', '3.11', '3.12']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install pytest build
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+      - name: Run tests
+        run: |
+          python -m unittest discover -s Tests -v
+
+  package:
+    needs: test
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/sdk-v')
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Extract version from tag
+        id: version
+        run: |
+          echo "version=${GITHUB_REF_NAME#sdk-v}" >> $GITHUB_OUTPUT
+      - name: Build Python package
+        run: |
+          python -m pip install --upgrade pip
+          pip install build
+          python -m build
+      - name: Create SDK bundle (versioned folder)
+        run: |
+          set -e
+          SDK_DIR="plhub-sdk-${{ steps.version.outputs.version }}"
+          mkdir -p "$SDK_DIR"
+
+          # Core components
+          [ -d CLI ] && cp -r CLI "$SDK_DIR/"
+          [ -d Editor ] && cp -r Editor "$SDK_DIR/"
+          [ -d Examples ] && cp -r Examples "$SDK_DIR/"
+          [ -d templates ] && cp -r templates "$SDK_DIR/"
+          [ -d docs ] && cp -r docs "$SDK_DIR/"
+          [ -d tools ] && cp -r tools "$SDK_DIR/"
+          [ -d Runtime ] && cp -r Runtime "$SDK_DIR/"
+
+          # Top-level project files
+          [ -f plhub.py ] && cp plhub.py "$SDK_DIR/"
+          [ -f setup.py ] && cp setup.py "$SDK_DIR/"
+          [ -f MANIFEST.in ] && cp MANIFEST.in "$SDK_DIR/"
+          [ -f README.md ] && cp README.md "$SDK_DIR/"
+          [ -f LICENSE ] && cp LICENSE "$SDK_DIR/" || true
+          printf "%s" "${{ steps.version.outputs.version }}" > "$SDK_DIR/VERSION"
+
+          # Archives
+          tar -czf "$SDK_DIR.tar.gz" "$SDK_DIR"
+          zip -r "$SDK_DIR.zip" "$SDK_DIR"
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: plhub-sdk-${{ steps.version.outputs.version }}
+          path: |
+            plhub-sdk-${{ steps.version.outputs.version }}.zip
+            plhub-sdk-${{ steps.version.outputs.version }}.tar.gz
+            dist/
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            dist/*
+            plhub-sdk-${{ steps.version.outputs.version }}.zip
+            plhub-sdk-${{ steps.version.outputs.version }}.tar.gz
+          name: PL-Hub SDK v${{ steps.version.outputs.version }}
+          generate_release_notes: true

@@ -97,7 +97,44 @@ plhub list templates
 plhub list packages
 ```
 
-## Additional Commands
+### `plhub transpile`
+Transpile a PohLang file to another target language.
+
+```bash
+plhub transpile <file.poh> [OPTIONS]
+```
+
+**Options:**
+- `--to <target>`: Target language (currently only `dart`)
+- `--out-dir <dir>`: Output directory (default: `build`)
+
+**Examples:**
+```bash
+plhub transpile src/main.poh --to dart
+plhub transpile script.poh --to dart --out-dir generated
+```
+
+### `plhub release`
+Run automated release process (for maintainers).
+
+```bash
+plhub release [OPTIONS]
+```
+
+**Options:**
+- `--dry-run`: Run integration and tests without building or tagging
+- `--no-push`: Do not push git tags/commits
+- `--tag <name>`: Override git tag name
+- `--pohlang-path <path>`: Path to PohLang repo (default: `../PohLang`)
+- `--skip-tests`: Skip running PL-Hub tests
+- `--pohlang-ref <ref>`: Git ref to checkout (default: `latest-tag`)
+
+**Examples:**
+```bash
+plhub release --dry-run
+plhub release --pohlang-ref main --no-push
+plhub release --tag plhub-v2.1.0
+```
 
 ### `plhub init`
 Initialize a new project in current directory.

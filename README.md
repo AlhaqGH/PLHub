@@ -21,7 +21,7 @@ PL-Hub is the comprehensive development platform for PohLang that provides:
 🔹 **Testing Framework** – automated testing tools and runners  
 🔹 **Documentation Tools** – generate docs and guides  
 
-## � Quick Start
+## 🚀 Quick Start
 
 ### Installation
 
@@ -52,6 +52,9 @@ python plhub.py run src/main.poh
 ```bash
 # Run a PohLang program
 python plhub.py run <file.poh>
+
+# Transpile a program
+python plhub.py transpile <file.poh> --to dart
 
 # Create new project
 python plhub.py create <project_name> [--template basic|console|web]
@@ -127,7 +130,7 @@ python plhub.py build --target dart
 python plhub.py build --target python
 ```
 
-## � Package Management
+## 📦 Package Management
 
 ### Project Configuration (`plhub.json`)
 ```json
@@ -219,10 +222,11 @@ plhub release
 
 What it does:
 - Copies `PohLang/Interpreter/` into `PLHub/Runtime/Interpreter/`
+- Copies `PohLang/transpiler/` and `PohLang/bin/` into `PLHub/Runtime/` (for Dart transpiler)
 - Writes `PLHub/Runtime/pohlang_metadata.json` with version/commit and timestamp
 - Runs PL-Hub tests (pytest or unittest)
 - Builds sdist and wheel into `dist/`
-- Creates a git tag like `v<plhub>-poh<version>` and optionally pushes
+- Creates a git tag like `plhub-v<PLHub version>` and optionally pushes
 
 Options:
 - `--pohlang-path`: path to PohLang repo (defaults to `../PohLang`)
