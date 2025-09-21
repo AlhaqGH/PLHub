@@ -1,0 +1,49 @@
+{
+  "registry_version": "1.0.0",
+  "last_updated": "2025-09-21",
+  "packages": {
+    "math_utils": {
+      "name": "math_utils",
+      "version": "1.0.0",
+      "description": "Mathematical utility functions for PohLang",
+      "author": "PohLang Team",
+      "type": "official",
+      "path": "official/math_utils",
+      "main": "src/main.poh",
+      "keywords": ["math", "utilities", "calculations"],
+      "dependencies": {},
+      "pohlang_version": ">=0.5.0",
+      "downloads": 0,
+      "created": "2025-09-21"
+    },
+    "string_helpers": {
+      "name": "string_helpers", 
+      "version": "1.0.0",
+      "description": "String manipulation utilities for PohLang",
+      "author": "PohLang Team",
+      "type": "official",
+      "path": "official/string_helpers",
+      "main": "src/main.poh",
+      "keywords": ["strings", "text", "utilities"],
+      "dependencies": {},
+      "pohlang_version": ">=0.5.0",
+      "downloads": 0,
+      "created": "2025-09-21"
+    }
+  },
+  "categories": [
+    "utilities",
+    "math",
+    "strings",
+    "web",
+    "data",
+    "io",
+    "games",
+    "education"
+  ],
+  "stats": {
+    "total_packages": 2,
+    "official_packages": 2,
+    "community_packages": 0
+  }
+}

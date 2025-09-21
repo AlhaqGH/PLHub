@@ -1,0 +1,13 @@
+Ask for name
+Set count to 3
+Make greet with who
+    Return "Hi " plus who
+End
+Repeat count
+    Write greet(name)
+End
+If count is at least 3
+    Write "done"
+Otherwise
+    Write "more"
+End

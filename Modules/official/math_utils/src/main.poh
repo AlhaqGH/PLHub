@@ -1,0 +1,64 @@
+# Math Utils Package for PohLang
+# Provides mathematical utility functions
+
+# Square function
+Make square with number
+    Set result to number times number
+    Return result
+End
+
+# Power function  
+Make power with base, exponent
+    Set result to 1
+    Set counter to 0
+    While counter is less than exponent
+        Set result to result times base
+        Set counter to counter plus 1
+    End
+    Return result
+End
+
+# Absolute value function
+Make abs with number
+    If number is less than 0
+        Return 0 minus number
+    End
+    Return number
+End
+
+# Maximum of two numbers
+Make max with a, b
+    If a is greater than b
+        Return a
+    End
+    Return b
+End
+
+# Minimum of two numbers  
+Make min with a, b
+    If a is less than b
+        Return a
+    End
+    Return b
+End
+
+# Check if number is even
+Make is_even with number
+    Set remainder to number
+    While remainder is greater than 1
+        Set remainder to remainder minus 2
+    End
+    If remainder is equal to 0
+        Return true
+    End
+    Return false
+End
+
+# Check if number is odd
+Make is_odd with number
+    Set even_check to is_even(number)
+    If even_check is true
+        Return false
+    End
+    Return true
+End

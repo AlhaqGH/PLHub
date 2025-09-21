@@ -1,0 +1,46 @@
+{
+  "name": "pohlang",
+  "displayName": "PohLang Support",
+  "description": "Language support for PohLang programming language",
+  "version": "1.0.0",
+  "publisher": "pohlang-team",
+  "engines": {
+    "vscode": "^1.60.0"
+  },
+  "categories": [
+    "Programming Languages",
+    "Syntax Highlighting"
+  ],
+  "contributes": {
+    "languages": [
+      {
+        "id": "pohlang",
+        "aliases": [
+          "PohLang",
+          "pohlang"
+        ],
+        "extensions": [
+          ".poh"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "pohlang",
+        "scopeName": "source.pohlang",
+        "path": "./syntaxes/pohlang.tmGrammar.json"
+      }
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AlhaqGH/PLHub"
+  },
+  "keywords": [
+    "pohlang",
+    "programming",
+    "educational",
+    "beginner"
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "name": "math_utils",
+  "version": "1.0.0",
+  "description": "Mathematical utility functions for PohLang",
+  "author": "PohLang Team",
+  "license": "MIT", 
+  "main": "src/main.poh",
+  "keywords": ["math", "utilities", "calculations"],
+  "dependencies": {},
+  "pohlang_version": ">=0.5.0",
+  "repository": "https://github.com/AlhaqGH/PLHub",
+  "bugs": "https://github.com/AlhaqGH/PLHub/issues"
+}

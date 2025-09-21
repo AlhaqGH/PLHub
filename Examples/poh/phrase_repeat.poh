@@ -1,0 +1,4 @@
+// moved from transpiler/example
+Set count to 3
+Repeat count times Write "Hello"
+Write "Done"

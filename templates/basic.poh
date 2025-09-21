@@ -1,0 +1,14 @@
+# Basic PohLang Program Template
+
+Write "Hello from PohLang!"
+Write "This is a basic project template."
+
+# Variables
+Set message to "Welcome to PohLang development!"
+Write message
+
+# Simple calculation
+Set x to 10
+Set y to 5
+Set result to x plus y
+Write "10 + 5 = " plus result

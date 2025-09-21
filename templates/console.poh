@@ -1,0 +1,43 @@
+# Console Application Template
+
+Write "==================================="
+Write "    Welcome to Your PohLang App    "
+Write "==================================="
+Write ""
+
+# Get user input
+Ask for name
+Write "Hello " plus name plus "!"
+Write ""
+
+# Menu system
+Write "What would you like to do?"
+Write "1. Calculate numbers"
+Write "2. Show information"
+Write "3. Exit"
+Write ""
+
+Ask for choice
+
+If choice is "1"
+    Write "Let's do some math!"
+    Ask for num1
+    Ask for num2
+    Set sum to num1 plus num2
+    Set product to num1 times num2
+    Write "Sum: " plus sum
+    Write "Product: " plus product
+End
+
+If choice is "2"
+    Write "PohLang Information:"
+    Write "- A beginner-friendly programming language"
+    Write "- Uses natural English phrases"
+    Write "- Developed for educational purposes"
+End
+
+If choice is "3"
+    Write "Goodbye " plus name plus "!"
+Otherwise
+    Write "Thanks for using the app!"
+End

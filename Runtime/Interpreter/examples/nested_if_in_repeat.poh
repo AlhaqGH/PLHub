@@ -1,0 +1,9 @@
+Set n to 5
+Repeat n
+    If n is even
+        Write "even"
+    Otherwise
+        Write "odd"
+    End If
+    Set n to n minus 1
+End Repeat
