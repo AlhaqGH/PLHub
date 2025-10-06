@@ -8,6 +8,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.5.1] - 2025-10-06
 
 ### Added
+- New features and improvements
+
+### Changed
+- Updates and modifications
+
+### Fixed
+- Bug fixes and corrections
+## [0.5.1] - 2025-10-06
+
+### Added
 
 #### 🚀 Language-Independent Commands
 - **Global CLI Access** - PLHub now works like professional tools (git, npm, docker)

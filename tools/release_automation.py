@@ -240,6 +240,8 @@ For detailed changes, see [CHANGELOG.md](CHANGELOG.md)
         """Perform git commit, tag, and push"""
         print(f"\n🔧 Git operations...")
         
+        # Note: We commit the .sha256 checksum file but NOT the large .zip file
+        # The .zip file should be attached to the GitHub release as a binary asset
         commands = [
             ["git", "add", "."],
             ["git", "commit", "-m", f"Release v{version}"],
@@ -369,19 +371,37 @@ For detailed changes, see [CHANGELOG.md](CHANGELOG.md)
         """Open GitHub release page in browser"""
         print(f"\n🌐 Creating GitHub release...")
         
+        # Check if SDK zip exists
+        sdk_zip = self.root / f"plhub-sdk-{version}.zip"
+        sdk_zip_exists = sdk_zip.exists()
+        
         url = f"https://github.com/AlhaqGH/PLHub/releases/new?tag=v{version}"
         
         if dry_run:
             print(f"  🔍 Would open: {url}")
         else:
             print(f"  🌐 Opening GitHub release page: {url}")
+            
+            # Show SDK zip location
+            if sdk_zip_exists:
+                size_mb = sdk_zip.stat().st_size / (1024 * 1024)
+                print(f"  📦 SDK Package: {sdk_zip.name} ({size_mb:.2f} MB)")
+                print(f"  📍 Location: {sdk_zip.absolute()}")
+            else:
+                print(f"  ⚠️  SDK zip not found: {sdk_zip.name}")
+            
             import webbrowser
             webbrowser.open(url)
-            print(f"  ℹ️  Please complete the release on GitHub:")
+            print(f"\n  ℹ️  Please complete the release on GitHub:")
             print(f"     1. Review the pre-filled tag and title")
             print(f"     2. Copy release notes from RELEASE_NOTES.md")
-            print(f"     3. Attach plhub-sdk-{version}.zip")
-            print(f"     4. Click 'Publish release'")
+            if sdk_zip_exists:
+                print(f"     3. Drag and drop: {sdk_zip.absolute()}")
+                print(f"        (or attach plhub-sdk-{version}.zip manually)")
+            else:
+                print(f"     3. Attach plhub-sdk-{version}.zip")
+            print(f"     4. Optionally attach plhub-sdk-{version}.zip.sha256")
+            print(f"     5. Click 'Publish release'")
         
         return True
     

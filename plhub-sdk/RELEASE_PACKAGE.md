@@ -61,7 +61,7 @@ pip install watchdog  # For better file watching
 
 # Verify installation
 python plhub.py --version
-# Output: PL-Hub v0.5.0 - PohLang Development Environment with Automation
+# Output: PL-Hub v0.5.1 - PohLang Development Environment with Automation
 
 # Check environment
 python plhub.py doctor
@@ -334,7 +334,7 @@ Thank you to all contributors and users of PL-Hub and PohLang!
 
 ---
 
-**PL-Hub v0.5.0** - Making PohLang development fast, efficient, and enjoyable.
+**PL-Hub v0.5.1** - Making PohLang development fast, efficient, and enjoyable.
 
 **Download**: plhub-sdk.zip (9.3 MB)  
 **Install**: `unzip plhub-sdk.zip && cd plhub && python plhub.py --version`  
