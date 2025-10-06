@@ -1,11 +1,11 @@
-# PL-Hub v0.5.0 - Release Package
+# PL-Hub v0.5.1 - Release Package
 
 ## 📦 Package Information
 
-**Version**: 0.5.0  
+**Version**: 0.5.1  
 **Package Name**: plhub-sdk.zip  
-**Package Size**: 9.3 MB (9,302,249 bytes)  
-**Release Date**: January 2025  
+**Package Size**: ~9.3 MB  
+**Release Date**: January 20, 2025  
 **License**: MIT  
 **Status**: ✅ READY FOR DISTRIBUTION
 

@@ -411,7 +411,7 @@ def main():
     parser.add_argument(
         '-v', '--version',
         action='version',
-        version='PL-Hub v0.5.0 - PohLang Development Environment with Automation'
+        version='PL-Hub v0.5.1 - Language-Independent Commands'
     )
     
     subparsers = parser.add_subparsers(dest='command', help='Available commands')

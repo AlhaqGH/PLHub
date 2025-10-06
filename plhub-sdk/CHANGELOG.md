@@ -5,6 +5,25 @@ All notable changes to PL-Hub will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.1] - 2025-01-20
+
+### Added
+- **Language-Independent Commands** - Run PLHub without Python prefix
+  - `plhub run`, `plhub build`, `plhub create` instead of `python plhub.py run`
+  - Cross-platform launcher scripts (plhub.bat for Windows, plhub.sh for Linux/macOS)
+  - Automatic installation scripts (install.bat, install.sh)
+  - PATH setup automation and troubleshooting guides
+
+- **Short Platform Names** - Simplified build command syntax
+  - `plhub build apk` instead of `plhub build --target android`
+  - `plhub build ipa` for iOS, `plhub build exe` for Windows
+  - `plhub build app` for macOS, `plhub build dmg` for macOS installer
+
+### Changed
+- Updated all documentation to use new short command syntax
+- Improved installation and setup experience
+- Enhanced PATH configuration helpers
+
 ## [0.5.0] - 2025-01-XX
 
 ### Added
