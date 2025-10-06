@@ -1,0 +1,33 @@
+# PLHub Requirements
+# Python dependencies for PohLang Hub development environment
+
+# Core dependencies
+python-dotenv>=1.0.0
+
+# Cross-platform development
+watchdog>=3.0.0          # File system watching for hot reload
+websockets>=12.0         # WebSocket server for hot reload
+
+# Optional (recommended)
+# For enhanced functionality
+
+# Testing
+pytest>=7.4.0           # Test framework
+pytest-cov>=4.1.0       # Coverage reporting
+
+# Code quality
+black>=23.0.0           # Code formatting
+flake8>=6.0.0          # Linting
+mypy>=1.5.0            # Type checking
+
+# Documentation
+markdown>=3.4.0        # Markdown processing
+
+# Note: Platform-specific SDK requirements are documented in:
+# docs/CROSS_PLATFORM_GUIDE.md
+#
+# Android: Android Studio, Java JDK, Android SDK
+# iOS: Xcode, Command Line Tools (macOS only)
+# macOS: Xcode (macOS only)
+# Windows: Visual Studio, .NET SDK (Windows only)
+# Web: Node.js, npm

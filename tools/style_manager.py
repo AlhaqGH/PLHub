@@ -11,7 +11,7 @@ import json
 import shutil
 
 
-@dataclass(slots=True)
+@dataclass
 class StyleRecord:
     """Metadata describing a single style/theme definition."""
 

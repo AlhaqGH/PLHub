@@ -8,9 +8,31 @@ Think of it this way:
 - **PohLang** is like **Dart** (the language runtime)
 - **PL-Hub** is like **Flutter** (the development framework and tools)
 
-## 🎉 v0.5.0 - Automation & Templates
+## 🎉 v0.5.1 - Language-Independent Commands & Professional CLI
 
-**New in version 0.5.0:**
+**New in version 0.5.1:**
+
+✨ **Language-Independent Commands** - NEW!
+- **Short Platform Names** - `plhub build apk` instead of `python plhub.py build --target android`
+- **No Python Prefix** - Use `plhub run app.poh` just like `git`, `npm`, `docker`
+- **Global Accessibility** - Works from any directory after installation
+- **Automated Installation** - `install.bat` (Windows) and `install.sh` (Linux/macOS) scripts
+- **PATH Integration** - Launcher scripts (`plhub.bat`, `plhub.sh`) automatically configured
+- **Professional CLI Feel** - Commands like `plhub build apk --release`, `plhub build ipa`, `plhub build exe`
+- **Backward Compatible** - Old syntax (`python plhub.py build --target android`) still works
+- See [INSTALL_AND_USAGE.md](INSTALL_AND_USAGE.md) and [LANGUAGE_INDEPENDENT_COMMANDS.md](LANGUAGE_INDEPENDENT_COMMANDS.md) for details
+
+**From version 0.5.0:**
+
+✨ **Enhanced User Experience** - NEW!
+- **Beautiful Command Output** - Colored terminal output with Unicode icons (✅ ❌ ⚠️ 💡 🚀)
+- **Progress Indicators** - Real-time progress bars for downloads, builds, and installations
+- **Interactive Wizards** - Guided prompts for project creation and configuration
+- **Smart Error Messages** - Clear errors with actionable solutions and suggestions
+- **Did-You-Mean Suggestions** - Automatic typo correction for commands
+- **Download Progress** - Shows speed, size, and ETA for all network operations
+- **Platform Detection** - Auto-detect available SDKs and show setup instructions
+- See [USER_FRIENDLY_COMMANDS.md](docs/USER_FRIENDLY_COMMANDS.md) for examples
 
 🤖 **Full Development Automation**
 - **Build Automation** - Watch mode, incremental compilation, dependency detection
@@ -31,6 +53,7 @@ Think of it this way:
 
 📚 **Comprehensive Documentation**
 - Complete [AUTOMATION_GUIDE.md](docs/AUTOMATION_GUIDE.md)
+- NEW: [USER_FRIENDLY_COMMANDS.md](docs/USER_FRIENDLY_COMMANDS.md)
 - Updated developer workflows
 - Template usage examples
 
@@ -38,6 +61,8 @@ Think of it this way:
 
 PL-Hub is the comprehensive development platform for PohLang that provides:
 
+🔹 **Complete App Building** – build production-ready applications from scratch to deployment  
+🔹 **Android APK Building** – create and deploy native Android apps with one command  
 🔹 **Runtime Integration** – seamlessly integrates PohLang Rust runtime  
 🔹 **Project Management** – create, build, and manage PohLang projects  
 🔹 **Environment Health Checks** – `doctor` command for diagnostics  
@@ -48,7 +73,10 @@ PL-Hub is the comprehensive development platform for PohLang that provides:
 🔹 **Debugging Support** – breakpoints, variable inspection, step execution  
 🔹 **Templates & Scaffolding** – quick-start templates for different project types  
 🔹 **Build System** – compile to bytecode, transpile to Dart, or interpret with Python  
-🔹 **UI Toolkit** – style themes and reusable widgets for building interfaces  
+🔹 **UI Toolkit** – 6 professional themes + 16 widget templates for building interfaces  
+🔹 **Cross-Platform Development** – Android, iOS, macOS, Windows, Web with hot reload  
+🔹 **Device Management** – Emulators, simulators, and physical device support  
+🔹 **Platform Testing** – Unit, integration, UI, and E2E tests for all platforms  
 🔹 **VS Code Integration** – tasks, launch configurations, problem matchers  
 🔹 **Package System** – manage PohLang packages and dependencies (coming soon)  
 
@@ -61,30 +89,41 @@ PL-Hub is the comprehensive development platform for PohLang that provides:
 git clone https://github.com/AlhaqGH/PLHub
 cd PLHub
 
+# Install PLHub globally (adds to PATH)
+# Windows:
+.\install.bat
+
+# Linux/macOS:
+chmod +x install.sh && ./install.sh
+
+# Close and reopen your terminal, then verify installation
+plhub --version
+plhub doctor
+```
+
+**Legacy (without installation):**
+```bash
 # Sync the Rust runtime (assumes PohLang is adjacent)
 python plhub.py sync-runtime-local
 
 # Or download official runtime
 python plhub.py update-runtime --version latest
-
-# Check environment
-python plhub.py doctor
 ```
 
 ### Create Your First Project
 
 ```bash
 # Create a new project with templates
-python plhub.py create my_app --template basic      # Simple starter
-python plhub.py create my_cli --template console    # Interactive CLI
-python plhub.py create my_lib --template library    # Reusable package
-python plhub.py create my_web --template web        # Web app (future)
+plhub create my_app --template basic      # Simple starter
+plhub create my_cli --template console    # Interactive CLI
+plhub create my_lib --template library    # Reusable package
+plhub create my_web --template web        # Web app (future)
 
 # Navigate to project
 cd my_app
 
 # Run the project
-python plhub.py run src/main.poh
+plhub run src/main.poh
 
 # Explore generated structure
 ls src/           # Source code
@@ -98,42 +137,83 @@ ls ui/styles      # Active theme and README
 ls ui/widgets     # Sample widgets
 ```
 
+### Try Complete Applications
+
+PLHub includes **complete, production-ready applications** including an **Android Calculator APK**:
+
+```bash
+# Advanced Calculator (basic & advanced math operations, history)
+cd Examples/complete-apps/calculator
+plhub run src/main.poh
+plhub run tests/test_basic.poh  # Run tests
+
+# Android Calculator APK (build for Android devices)
+cd Examples/android-calculator
+plhub build apk                   # Build debug APK
+plhub build apk --release         # Build release APK
+adb install build/android/android-calculator-debug.apk  # Install
+
+# Todo List Manager (CRUD, priorities, filtering, statistics)
+cd Examples/complete-apps/todo-manager
+plhub run src/main.poh
+plhub run tests/test_main.poh
+
+# Number Guessing Game (difficulty levels, hints, high scores)
+cd Examples/complete-apps/number-game
+plhub run src/main.poh
+plhub run tests/test_game.poh
+```
+
+**📱 NEW: Android APK Building!**
+- Build native Android APKs from PohLang code
+- Complete calculator app included
+- One-command build and deployment
+- See [Android Quick Start](docs/ANDROID_QUICKSTART.md) & [Full APK Guide](docs/ANDROID_APK_GUIDE.md)
+
+**📖 See [Complete Applications Guide](Examples/complete-apps/README.md)** for full documentation, and **[Complete App Building Guide](docs/COMPLETE_APP_GUIDE.md)** to learn how to build your own!
+
 ### Available Commands
 
 ```bash
 # Environment Management
-python plhub.py doctor              # Check environment health
-python plhub.py sync-runtime-local  # Sync local Rust runtime
-python plhub.py update-runtime      # Download official runtime
+plhub doctor                  # Check environment health
+plhub sync-runtime-local      # Sync local Rust runtime
+plhub update-runtime          # Download official runtime
 
 # Project Management
-python plhub.py create <name>       # Create new project
-python plhub.py init                # Initialize current directory
-python plhub.py clean               # Clean build artifacts
+plhub create <name>           # Create new project
+plhub init                    # Initialize current directory
+plhub clean                   # Clean build artifacts
 
 # Development
-python plhub.py run <file.poh>      # Run a PohLang program
-python plhub.py build               # Build project
-python plhub.py test                # Run tests
+plhub run <file.poh>          # Run a PohLang program
+plhub build                   # Build project (bytecode)
+plhub build apk               # Build Android APK (debug)
+plhub build apk --release     # Build Android APK (release)
+plhub build ipa               # Build iOS IPA
+plhub build exe               # Build Windows EXE
+plhub test                    # Run tests
 
 # Automation
-python plhub.py watch               # Watch and rebuild automatically
-python plhub.py dev                 # Start dev server with hot reload
-python plhub.py test --watch        # Watch and re-run tests
-python plhub.py debug               # Start debug session
+plhub watch                   # Watch and rebuild automatically
+plhub dev                     # Start dev server with hot reload
+plhub test --watch            # Watch and re-run tests
+plhub debug                   # Start debug session
 
 # UI Toolkit
-python plhub.py style list          # List available themes
-python plhub.py style apply <theme> # Apply a theme to project
-python plhub.py style create <name> # Create custom theme
-python plhub.py widget list         # List widget templates
-python plhub.py widget generate <t> # Generate widget from template
+plhub style list              # List available themes
+plhub style apply <theme>     # Apply a theme to project
+plhub style create <name>     # Create custom theme
+plhub widget list             # List widget templates
+plhub widget generate <t>     # Generate widget from template
 
 # Information
-python plhub.py list examples       # List example programs
-python plhub.py list templates      # List project templates
-python plhub.py --version           # Show version
+plhub list examples           # List example programs
+plhub list templates          # List project templates
+plhub --version               # Show version
 ```
+
+**📖 See [INSTALL_AND_USAGE.md](INSTALL_AND_USAGE.md) for complete command reference**
 
 ## 📂 Project Structure
 
@@ -175,7 +255,7 @@ PohLang/                       # Core Language (separate repository)
 
 ### 1. Create Project
 ```bash
-python plhub.py create calculator --template console
+plhub create calculator --template console
 cd calculator
 ```
 
@@ -196,25 +276,30 @@ End Program
 ### 3. Run & Test
 ```bash
 # Run with Rust runtime (fast)
-python plhub.py run src/main.poh
+plhub run src/main.poh
 
 # Run all tests
-python plhub.py test
+plhub test
 ```
 
 ### 4. Build
 ```bash
 # Build to bytecode (recommended)
-python plhub.py build --target bytecode
+plhub build
 
-# Or transpile to Dart
-python plhub.py build --target dart
+# Build Android APK
+plhub build apk --release
+
+# Build for other platforms
+plhub build ipa       # iOS
+plhub build exe       # Windows
+plhub build web       # Web
 ```
 
 ### 5. Environment Check
 ```bash
 # Verify everything is working
-python plhub.py doctor --verbose
+plhub doctor --verbose
 ```
 
 ## � Runtime Integration
@@ -237,24 +322,24 @@ During development, easily sync your local Rust runtime:
 cargo build --manifest-path ../PohLang/runtime/Cargo.toml
 
 # Sync to PLHub
-python plhub.py sync-runtime-local
+plhub sync-runtime-local
 
 # Or sync release build for performance
 cargo build --release --manifest-path ../PohLang/runtime/Cargo.toml
-python plhub.py sync-runtime-local --profile release
+plhub sync-runtime-local --profile release
 ```
 
 ### Downloading Official Releases
 
 ```bash
 # Get latest release
-python plhub.py update-runtime --version latest
+plhub update-runtime --version latest
 
 # Get specific version
-python plhub.py update-runtime --version 0.5.0
+plhub update-runtime --version 0.5.1
 
 # Verify installation
-python plhub.py doctor
+plhub doctor
 ```
 
 ### Runtime Metadata
@@ -263,7 +348,7 @@ PLHub tracks runtime information in `Runtime/pohlang_metadata.json`:
 
 ```json
 {
-  "pohlang_version": "0.5.0",
+  "pohlang_version": "0.5.1",
   "source_repo": "https://github.com/AlhaqGH/PohLang",
   "build_profile": "debug",
   "installed_at": "2025-10-05T12:00:00Z",
@@ -273,7 +358,7 @@ PLHub tracks runtime information in `Runtime/pohlang_metadata.json`:
 
 ## 🎯 Project Templates
 
-**PL-Hub v0.5.0** includes professional project templates with complete structure:
+**PL-Hub v0.5.1** includes professional project templates with complete structure:
 
 ### Available Templates
 
@@ -299,26 +384,26 @@ All templates include:
 
 ```bash
 # Basic starter project
-python plhub.py create my_app --template basic
+plhub create my_app --template basic
 
 # Interactive console application
-python plhub.py create my_cli --template console
+plhub create my_cli --template console
 
 # Reusable library package
-python plhub.py create my_lib --template library
+plhub create my_lib --template library
 
 # Web application (experimental)
-python plhub.py create my_web --template web
+plhub create my_web --template web
 ```
 
 ### Customization Options
 
 ```bash
 # Skip UI scaffolding
-python plhub.py create my_app --template basic --no-ui
+plhub create my_app --template basic --no-ui
 
 # Choose custom theme
-python plhub.py create styled_app --ui-theme midnight_dark
+plhub create styled_app --ui-theme midnight_dark
 ```
 
 **Example Console Template Output:**
@@ -342,15 +427,15 @@ PLHub provides comprehensive automation for a smooth development experience.
 
 **Watch Mode** - Automatically rebuild on file changes:
 ```bash
-python plhub.py watch
+plhub watch
 ```
 
 **Hot Reload** - Instant feedback with automatic restarts:
 ```bash
-python plhub.py dev
+plhub dev
 
 # Custom entry file
-python plhub.py dev --file examples/demo.poh
+plhub dev --file examples/demo.poh
 ```
 
 Features:
@@ -364,34 +449,34 @@ Features:
 
 **Run tests**:
 ```bash
-python plhub.py test
+plhub test
 ```
 
 **Watch mode for tests** - Auto re-run on changes:
 ```bash
-python plhub.py test --watch
+plhub test --watch
 ```
 
 **Filter specific tests**:
 ```bash
-python plhub.py test --filter arithmetic
+plhub test --filter arithmetic
 ```
 
 **CI/CD integration**:
 ```bash
 # Generate GitHub Actions report
-python plhub.py test --ci --ci-format github
+plhub test --ci --ci-format github
 
 # Generate JUnit XML (Jenkins, GitLab CI)
-python plhub.py test --ci --ci-format junit --ci-output results.xml
+plhub test --ci --ci-format junit --ci-output results.xml
 ```
 
 ### Debugging
 
 Start debug session with breakpoint support:
 ```bash
-python plhub.py debug
-python plhub.py debug --file src/main.poh
+plhub debug
+plhub debug --file src/main.poh
 ```
 
 ### VS Code Integration
@@ -408,39 +493,195 @@ Use `Ctrl+Shift+B` to build or `F5` to debug!
 
 ```bash
 # Terminal 1: Hot reload
-python plhub.py dev
+plhub dev
 
 # Terminal 2: Watch tests
-python plhub.py test --watch
+plhub test --watch
 
 # Edit your code - changes auto-reload, tests auto-run! ✨
 ```
 
 📚 **See [AUTOMATION_GUIDE.md](docs/AUTOMATION_GUIDE.md) for complete documentation**
 
+## 📱 Cross-Platform Development
+
+PLHub now supports building PohLang applications for **Android, iOS, macOS, Windows, and Web** with hot reload, testing, and deployment capabilities.
+
+### Supported Platforms
+
+✅ **Android** (API 24+) - Mobile apps with APK/AAB packaging  
+✅ **iOS** (15.0+) - iPhone/iPad apps with App Store deployment  
+✅ **macOS** (13.0+) - Native desktop apps  
+✅ **Windows** (10/11) - WinUI3 desktop apps with Microsoft Store support  
+✅ **Web** - Progressive web apps with modern browsers  
+
+### Quick Start
+
+```bash
+# Create platform-specific project
+plhub platform create android MyApp
+plhub platform create ios MyApp
+plhub platform create macos MyApp
+plhub platform create windows MyApp
+plhub platform create web MyApp
+
+# Build for platform
+plhub platform build android
+plhub platform build ios --config release
+
+# Run with hot reload
+plhub platform run android --hot-reload
+plhub platform run web --hot-reload
+
+# Run tests
+plhub platform test android
+plhub platform test ios --type ui
+
+# Manage devices
+plhub platform devices
+plhub platform devices --platform android
+plhub platform launch ios "iPhone 15"
+
+# Deploy
+plhub platform deploy android playstore
+plhub platform deploy web netlify
+```
+
+### Key Features
+
+🔄 **Hot Reload** - Instant code updates without restart (all platforms)  
+🧪 **Testing** - Unit, integration, UI, and E2E tests  
+📱 **Device Management** - Emulator/simulator launch and control  
+🚀 **Deployment** - Build, sign, and deploy to app stores  
+📊 **Real-time Monitoring** - Build status, logs, and performance metrics  
+
+### Platform Setup Requirements
+
+| Platform | Requirements |
+|----------|-------------|
+| **Android** | Java JDK 11+, Android Studio, Android SDK (API 24+) |
+| **iOS** | macOS 13+, Xcode 15+, iOS Simulator |
+| **macOS** | macOS 13+, Xcode 15+ |
+| **Windows** | Windows 10/11, Visual Studio 2022, .NET 8.0 SDK |
+| **Web** | Node.js 18+, npm, Modern browser |
+
+### Platform-Specific Templates
+
+Each platform gets a complete project structure:
+
+**Android**: Gradle build, AndroidManifest, Material Design resources  
+**iOS**: SwiftUI views, Info.plist, Assets catalog  
+**macOS**: AppKit/SwiftUI, Entitlements, Menu bar  
+**Windows**: WinUI3, XAML, Package manifest  
+**Web**: Webpack, HTML5, CSS3, Progressive Web App support  
+
+### Hot Reload Architecture
+
+PLHub's hot reload system provides platform-specific strategies:
+
+- **Android**: Incremental updates via ADB
+- **iOS/macOS**: State-preserving reload via Network.framework
+- **Windows**: Module replacement via WebSocket
+- **Web**: HMR (Hot Module Replacement) via webpack-dev-server
+
+### Testing Framework
+
+Comprehensive testing support for every platform:
+
+```bash
+# Android: JUnit + Espresso
+plhub platform test android --type unit
+plhub platform test android --type integration
+
+# iOS: XCTest
+plhub platform test ios --type ui
+
+# Windows: MSTest
+plhub platform test windows
+
+# Web: Jest/Vitest + Playwright
+plhub platform test web --type unit
+plhub platform test web --type e2e
+```
+
+### Device Management
+
+```bash
+# List all devices and emulators
+plhub platform devices
+
+# Platform-specific listing
+plhub platform devices --platform android
+
+# Launch emulator/simulator
+plhub platform launch android "Pixel_5"
+plhub platform launch ios "iPhone 15 Pro"
+plhub platform launch web chrome
+
+# Run on specific device
+plhub platform run android --device emulator-5554
+plhub platform run ios --device "iPhone 15"
+```
+
+### Deployment Targets
+
+**Android**:
+- Google Play Store (AAB)
+- Direct APK distribution
+- Firebase App Distribution
+
+**iOS**:
+- Apple App Store
+- TestFlight beta testing
+- Enterprise distribution
+
+**macOS**:
+- Mac App Store
+- DMG distribution
+- Homebrew
+
+**Windows**:
+- Microsoft Store (MSIX)
+- Direct installer (.exe)
+- Windows Package Manager
+
+**Web**:
+- Static hosting (Netlify, Vercel, GitHub Pages)
+- Cloud platforms (AWS, Azure, Firebase)
+- Custom servers (nginx, Apache)
+
+📚 **See [CROSS_PLATFORM_GUIDE.md](docs/CROSS_PLATFORM_GUIDE.md) for complete documentation**
+
 ## 🎨 UI Toolkit
 
-PLHub includes a built-in UI toolkit for styling and widget management.
+PLHub includes a comprehensive UI toolkit with **6 professional themes** and **16 widget templates** for building polished interfaces.
 
 ### Themes & Styling
 
 ```bash
 # List available themes
-python plhub.py style list
+plhub style list
 
 # Apply a theme to your project
-python plhub.py style apply midnight_dark
+plhub style apply ocean_blue
 
 # View theme details
-python plhub.py style show default_light
+plhub style show sunset_warm
 
 # Create a custom theme based on an existing one
-python plhub.py style create "My Theme" --base default_light --activate
+plhub style create "My Theme" --base forest_green --activate
+
+# View the gallery showcase
+plhub run Examples/UI_TOOLKIT_GALLERY.poh
 ```
 
 **Built-in Themes:**
-- `default_light` – Baseline light theme optimized for readability
-- `midnight_dark` – High-contrast dark theme inspired by modern developer tooling
+- `default_light` – General-purpose light theme (business apps)
+- `midnight_dark` – High-contrast dark theme (developer tools)
+- `ocean_blue` – Professional blue palette (corporate apps) ✨ NEW
+- `sunset_warm` – Warm orange/peach tones (creative interfaces) ✨ NEW
+- `forest_green` – Natural green palette (environmental apps) ✨ NEW
+- `high_contrast` – WCAG AAA accessibility theme ✨ NEW
 
 **Theme Structure:**
 ```
@@ -455,22 +696,24 @@ ui/styles/
 
 ```bash
 # List widget templates
-python plhub.py widget list
+plhub widget list
 
 # Preview a widget before generating
-python plhub.py widget preview card
+plhub widget preview card
 
 # Generate a widget in your project
-python plhub.py widget generate button --name PrimaryButton
+plhub widget generate button --name PrimaryButton
 
 # Dry-run to see what would be created
-python plhub.py widget generate stack --name LayoutDemo --dry-run
+plhub widget generate stack --name LayoutDemo --dry-run
 ```
 
-**Built-in Widget Templates:**
-- `button` – Simple button display with customizable label (uses only Set and Write)
-- `card` – Framed content block with title and body (natural language only)
-- `stack` – Vertical layout showing items in a list (using Repeat times)
+**Built-in Widget Templates** (16 total):
+- **Form**: `input`, `dropdown`, `checkbox`, `form` ✨ NEW
+- **Display**: `button`, `card`, `table`, `progress`, `alert` ✨ NEW
+- **Layout**: `navbar`, `footer`, `grid`, `stack` ✨ NEW
+- **Navigation**: `tabs`, `accordion` ✨ NEW
+- **Overlay**: `modal`, `tooltip` ✨ NEW
 
 **Design Philosophy:**  
 Widgets are **standalone PohLang programs** using only **natural language statements**: `Set`, `Write`, `If/Otherwise`, `Repeat times`, and natural operators (`plus`, `minus`, etc.). No complex function parameters, no brackets, no symbols—just simple, readable code!
@@ -526,29 +769,29 @@ End Program
 
 ```bash
 # Run all tests in tests/ directory
-python plhub.py test
+plhub test
 
 # Filter specific tests
-python plhub.py test --filter unit_tests
+plhub test --filter unit_tests
 
 # Verbose output
-python plhub.py test --verbose
+plhub test --verbose
 ```
 
 ## 🧹 Maintenance
 
 ```bash
 # Clean build artifacts and bytecode
-python plhub.py clean
+plhub clean
 
 # Also remove dependencies (when package manager is active)
-python plhub.py clean --all
+plhub clean --all
 
 # Check environment health
-python plhub.py doctor
+plhub doctor
 
 # Detailed diagnostics
-python plhub.py doctor --verbose
+plhub doctor --verbose
 ```
 
 ## 🤝 Contributing
@@ -581,7 +824,7 @@ See `PLHUB_DEVELOPER_GUIDE.md` for detailed contribution guidelines.
 
 ## 🌟 Status & Roadmap
 
-**PLHub v0.5.0** - Current Release
+**PLHub v0.5.1** - Current Release
 
 ### ✅ Completed
 - Rust runtime integration with automatic detection

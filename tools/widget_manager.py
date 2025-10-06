@@ -9,7 +9,7 @@ import json
 import re
 
 
-@dataclass(slots=True)
+@dataclass
 class WidgetFileSpec:
     """Definition of a single file emitted by a widget template."""
 
@@ -19,7 +19,7 @@ class WidgetFileSpec:
     overwrite: bool
 
 
-@dataclass(slots=True)
+@dataclass
 class WidgetTemplate:
     """Metadata and file definitions for a widget template."""
 

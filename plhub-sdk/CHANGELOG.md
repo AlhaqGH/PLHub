@@ -15,26 +15,105 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - Bug fixes and corrections
-## [0.5.1] - 2025-01-20
+## [0.5.1] - 2025-10-06
 
 ### Added
-- **Language-Independent Commands** - Run PLHub without Python prefix
-  - `plhub run`, `plhub build`, `plhub create` instead of `python plhub.py run`
-  - Cross-platform launcher scripts (plhub.bat for Windows, plhub.sh for Linux/macOS)
-  - Automatic installation scripts (install.bat, install.sh)
-  - PATH setup automation and troubleshooting guides
 
-- **Short Platform Names** - Simplified build command syntax
-  - `plhub build apk` instead of `plhub build --target android`
-  - `plhub build ipa` for iOS, `plhub build exe` for Windows
-  - `plhub build app` for macOS, `plhub build dmg` for macOS installer
+#### 🚀 Language-Independent Commands
+- **Global CLI Access** - PLHub now works like professional tools (git, npm, docker)
+  - Direct `plhub` command without `python` prefix
+  - Works from any directory after installation
+  - Automated PATH configuration
+
+- **Launcher Scripts** - Cross-platform command wrappers
+  - `plhub.bat` for Windows - Batch script wrapper calling Python internally
+  - `plhub.sh` for Linux/macOS - Bash script wrapper with python3
+  - Automatic Python detection and error handling
+  - Passes all arguments transparently
+
+- **Automated Installation** - One-command setup for all platforms
+  - `install.bat` (Windows) - Interactive installer with PATH configuration
+  - `install.sh` (Linux/macOS) - Shell-agnostic installer with symlink creation
+  - Dependency installation from requirements.txt
+  - Admin/sudo detection for system-wide vs user installation
+  - PATH verification and setup instructions
+
+- **Short Platform Names** - Intuitive build target syntax
+  - `apk` → Android APK (instead of `--target android`)
+  - `ipa` → iOS IPA (instead of `--target ios`)
+  - `exe` → Windows EXE (instead of `--target windows`)
+  - `app` → macOS APP (instead of `--target macos`)
+  - `dmg` → macOS DMG (alternate macOS format)
+  - `web` → Web application
+
+- **Helper Scripts** - Troubleshooting and verification tools
+  - `setup-path.ps1` - PowerShell PATH configuration helper
+  - `test-installation.bat` - Installation verification script
+
+#### 📚 Documentation
+- **INSTALL_AND_USAGE.md** - Complete command reference with short syntax
+- **LANGUAGE_INDEPENDENT_COMMANDS.md** - Full migration guide and technical details
+- **PATH_SETUP_HELP.md** - Comprehensive PATH troubleshooting guide
+- **IMPLEMENTATION_COMPLETE.md** - Implementation status and verification
 
 ### Changed
-- Updated all documentation to use new short command syntax
-- Improved installation and setup experience
-- Enhanced PATH configuration helpers
 
-## [0.5.0] - 2025-01-XX
+#### 🔄 Command Syntax
+- **Build Command** - Now accepts positional target argument
+  - Before: `python plhub.py build --target android --release`
+  - After: `plhub build apk --release`
+  - Legacy `--target` flag still supported for backward compatibility
+
+- **All Commands** - Shortened by removing Python prefix
+  - `plhub run app.poh` (was: `python plhub.py run app.poh`)
+  - `plhub create my-app` (was: `python plhub.py create my-app`)
+  - `plhub doctor` (was: `python plhub.py doctor`)
+  - `plhub test` (was: `python plhub.py test`)
+
+- **Documentation** - Updated throughout with new syntax
+  - README.md - All examples use short commands
+  - ANDROID_QUICKSTART.md - Updated build examples
+  - All guide documents - Reflect new CLI experience
+
+#### 🎨 Version Strings
+- Updated version to 0.5.1 across all files
+- Version description: "Language-Independent Commands"
+
+### Fixed
+- None (feature-focused release)
+
+### Technical Details
+
+#### Platform Mapping Implementation
+```python
+target_map = {
+    'apk': 'android',
+    'ipa': 'ios',
+    'exe': 'windows',
+    'app': 'macos',
+    'dmg': 'macos',
+}
+```
+
+#### Command Parser Updates
+- Positional `target` argument with choices including short names
+- Backward-compatible `--target` flag (dest='legacy_target')
+- Priority: explicit target → legacy --target → default 'bytecode'
+
+### Backward Compatibility
+- ✅ All v0.5.0 commands continue to work
+- ✅ `python plhub.py` syntax still supported
+- ✅ `--target android` still works alongside `apk`
+- ✅ No breaking changes
+
+### Migration Guide
+- **For existing users:** Both old and new syntax work
+- **For new users:** Use short commands after installation
+- **Recommendation:** Update documentation to new syntax for professionalism
+
+---
+
+## [0.5.0] - 2025-10-05
 
 ### Added
 
