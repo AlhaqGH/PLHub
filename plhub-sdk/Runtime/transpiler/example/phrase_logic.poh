@@ -1,7 +1,0 @@
-Set age to 20
-Set hasID to true
-Set isStudent to false
-Set hasPaid to false
-If age Greater Than 18 And hasID Equals true Write "You may enter"
-If age Less Or Equal 12 Or isStudent Equals true Write "Discount"
-If Not hasPaid Write "Payment required"

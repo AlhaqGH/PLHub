@@ -68,44 +68,9 @@ def _load_dotenv(dotenv_path: Path) -> None:
 # Load .env if present
 _load_dotenv(Path(__file__).parent / ".env")
 
-# Determine interpreter import location
-RUNTIME_DIR = Path(__file__).parent / 'Runtime'
-RUNTIME_INTERPRETER = RUNTIME_DIR / 'Interpreter'
-if RUNTIME_INTERPRETER.exists():
-    # Add the Runtime directory to sys.path so 'Interpreter' is importable
-    sys.path.insert(0, str(RUNTIME_DIR))
-else:
-    # Fall back to adjacent PohLang repo or installed package
-    POHLANG_PATH = Path(__file__).parent.parent / "PohLang"
-    if not POHLANG_PATH.exists():
-        try:
-            result = subprocess.run([sys.executable, "-c", "import pohlang; print(pohlang.__file__)"] ,
-                                   capture_output=True, text=True, check=True)
-            POHLANG_PATH = Path(result.stdout.strip()).parent
-        except (subprocess.CalledProcessError, ImportError):
-            print("Error: PohLang installation not found.")
-            print("Please ensure PohLang is installed or PLHub is in the same directory as PohLang.")
-            sys.exit(1)
-    sys.path.insert(0, str(POHLANG_PATH))
-
-# Import interpreter - make it optional for testing environments
-Interpreter = None
-RuntimeErrorPoh = Exception
-ParseError = Exception
-
-try:
-    from Interpreter.poh_interpreter import Interpreter, RuntimeErrorPoh
-    from Interpreter.poh_parser import ParseError
-except ImportError as e:
-    # Only fail if we're not in a testing context
-    if not any('unittest' in arg or 'pytest' in arg for arg in sys.argv):
-        print(f"Error: Could not import PohLang interpreter: {e}")
-        # Only print POHLANG_PATH if it's defined in this scope
-        if 'POHLANG_PATH' in globals():
-            print(f"PohLang path: {POHLANG_PATH}")
-        print("Make sure PohLang is properly installed or integrated via 'plhub release'.")
-        sys.exit(1)
-    # In testing context, continue with None - tests can handle this
+# Note: PLHub now uses the Rust runtime exclusively.
+# The Python interpreter (Interpreter module) is no longer required.
+# All PohLang programs are executed via the Rust binary (pohlang.exe/pohlang).
 
 
 def setup_logging():
@@ -701,7 +666,7 @@ def _find_pohlangc() -> str | None:
 
 @handle_common_errors
 def run_program(args):
-    """Run a PohLang program with enhanced feedback."""
+    """Run a PohLang program using the Rust runtime."""
     file_path = Path(args.file)
     
     with CommandContext(f"Run {file_path.name}") as ctx:
@@ -719,45 +684,35 @@ def run_program(args):
         if args.debug:
             UI.info("Debug mode enabled")
         
-        # Prefer Rust runtime if available
+        # Use Rust runtime (required)
         pohlangc = _find_pohlangc()
-        if pohlangc:
-            try:
-                cmd = [pohlangc, '--run', str(file_path)]
-                if args.verbose:
-                    UI.command(' '.join(cmd))
-                
-                UI.divider()
-                result = subprocess.run(cmd)
-                UI.divider()
-                
-                if result.returncode == 0:
-                    UI.success("Program executed successfully")
-                    ctx.set_success()
-                else:
-                    UI.error(f"Program exited with code {result.returncode}")
-                
-                return result.returncode
-            except Exception as e:
-                UI.warning(f"Rust runtime failed: {e}")
-                UI.info("Falling back to Python interpreter")
-
-        # Use Python interpreter
+        if not pohlangc:
+            UI.error("PohLang Rust runtime not found!")
+            UI.tip("Make sure PohLang is installed:")
+            UI.tip("  1. Install from: https://github.com/AlhaqGH/PohLang")
+            UI.tip("  2. Or run: plhub sync-runtime-local")
+            UI.tip("  3. Runtime should be at: Runtime/bin/pohlang(.exe)")
+            return 1
+        
         try:
-            interp = Interpreter()
-            if args.debug:
-                interp.debug_enabled = True
+            cmd = [pohlangc, '--run', str(file_path)]
+            if args.verbose:
+                UI.command(' '.join(cmd))
             
             UI.divider()
-            interp.run_file(str(file_path))
+            result = subprocess.run(cmd)
             UI.divider()
             
-            UI.success("Program executed successfully")
-            ctx.set_success()
-            return 0
-        except (RuntimeErrorPoh, ParseError) as e:
+            if result.returncode == 0:
+                UI.success("Program executed successfully")
+                ctx.set_success()
+            else:
+                UI.error(f"Program exited with code {result.returncode}")
+            
+            return result.returncode
+        except Exception as e:
             UI.error(f"Runtime error: {e}")
-            UI.tip("Run with --debug for more details")
+            UI.tip("Make sure the Rust runtime is properly installed")
             return 1
 
 

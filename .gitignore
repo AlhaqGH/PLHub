@@ -1,8 +1,6 @@
 # Binaries and SDK artifacts
 bin/
 Runtime/pohlang_metadata.json
-Runtime/Interpreter/__pycache__/
-Runtime/transpiler/**/__pycache__/
 dist/
 build/
 *.whl
