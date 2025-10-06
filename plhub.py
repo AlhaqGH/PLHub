@@ -26,7 +26,7 @@ import hashlib
 import zipfile
 import io
 from urllib.request import urlopen, Request
-from typing import List
+from typing import List, Optional
 
 from tools.style_manager import StyleManager
 from tools.widget_manager import WidgetManager
@@ -81,7 +81,7 @@ def setup_logging():
     )
 
 
-def find_project_root(start: Path | None = None) -> Path | None:
+def find_project_root(start: Optional[Path] = None) -> Optional[Path]:
     """Return the nearest directory (walking upwards) containing plhub.json."""
     current = start or Path.cwd()
     for candidate in [current, *current.parents]:
@@ -266,7 +266,7 @@ def git_tag_and_optionally_push(plhub_root: Path, tag_name: str, message: str, p
     return True
 
 
-def checkout_pohlang_ref(pohlang_repo: Path, ref: str | None) -> None:
+def checkout_pohlang_ref(pohlang_repo: Path, ref: Optional[str]) -> None:
     """Optionally checkout a specific ref in the PohLang repository."""
     if not ref:
         return
@@ -644,7 +644,7 @@ def main():
     return 0
 
 
-def _find_pohlangc() -> str | None:
+def _find_pohlangc() -> Optional[str]:
     """Locate the Rust pohlang binary shipped in PLHub/Runtime/bin or on PATH."""
     root = Path(__file__).parent
     candidates = []
@@ -1044,7 +1044,7 @@ def style_command(args):
     """Handle style management subcommands."""
     plhub_root = Path(__file__).parent
     project_override = getattr(args, 'project_root', None)
-    project_root: Path | None
+    project_root: Optional[Path]
     if project_override:
         project_root = Path(project_override).expanduser().resolve()
         if not (project_root / 'plhub.json').exists():
