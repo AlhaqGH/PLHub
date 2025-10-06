@@ -1,3 +1,21 @@
+# Binaries and SDK artifacts
+bin/
+Runtime/pohlang_metadata.json
+Runtime/Interpreter/__pycache__/
+Runtime/transpiler/**/__pycache__/
+dist/
+build/
+*.whl
+*.tar.gz
+*.zip
+*.pbc
+*.exe
+*.dll
+*.so
+.venv/
+.pytest_cache/
+__pycache__/
+*.log
 # Python
 __pycache__/
 *.py[cod]
@@ -57,3 +75,35 @@ Runtime/transpiler/
 Runtime/bin/
 temp_projects/
 user_projects/
+test_fixed/
+test_official/
+test_*.poh
+
+# Build artifacts
+plhub-sdk.zip
+*.apk
+*.aab
+*.ipa
+*.xcarchive
+*.msix
+
+# Node.js (for web projects)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+yarn.lock
+
+# Platform-specific
+.gradle/
+local.properties
+*.iml
+.DS_Store
+xcuserdata/
+*.pbxuser
+*.mode1v3
+*.mode2v3
+*.perspectivev3
+*.xcworkspace/
+DerivedData/

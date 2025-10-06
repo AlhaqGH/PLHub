@@ -1,0 +1,43 @@
+{
+  "platform": "windows",
+  "template_version": "1.0.0",
+  "target_framework": "net8.0-windows",
+  "windows_sdk": "10.0.22621.0",
+  "structure": {
+    "{{APP_NAME}}": {
+      "App.poh": true,
+      "MainWindow.poh": true,
+      "Views": {
+        "HomePage.poh": true,
+        "SettingsPage.poh": true
+      },
+      "ViewModels": {
+        "MainViewModel.poh": true
+      },
+      "Models": {
+        "AppModel.poh": true
+      },
+      "Services": {
+        "HotReloadService.poh": true,
+        "NavigationService.poh": true
+      },
+      "Assets": {
+        "AppIcon.ico": true,
+        "Logo.png": true
+      },
+      "Package.appxmanifest": true,
+      "{{APP_NAME}}.csproj": true
+    },
+    "{{APP_NAME}}.Tests": {
+      "UnitTests.poh": true,
+      "{{APP_NAME}}.Tests.csproj": true
+    }
+  },
+  "nuget_packages": [
+    "Microsoft.WindowsAppSDK",
+    "Microsoft.Windows.SDK.BuildTools",
+    "CommunityToolkit.Mvvm",
+    "CommunityToolkit.WinUI.UI.Controls"
+  ],
+  "ui_framework": "WinUI3"
+}

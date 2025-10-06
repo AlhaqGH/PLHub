@@ -1,0 +1,63 @@
+{
+  "platform": "web",
+  "template_version": "1.0.0",
+  "structure": {
+    "public": {
+      "index.html": true,
+      "manifest.json": true,
+      "robots.txt": true,
+      "favicon.ico": true,
+      "assets": {
+        "images": [],
+        "fonts": []
+      }
+    },
+    "src": {
+      "App.poh": true,
+      "main.poh": true,
+      "components": {
+        "Header.poh": true,
+        "Footer.poh": true,
+        "Navigation.poh": true,
+        "Card.poh": true
+      },
+      "pages": {
+        "Home.poh": true,
+        "About.poh": true,
+        "Contact.poh": true
+      },
+      "services": {
+        "api.poh": true,
+        "hotreload.poh": true
+      },
+      "styles": {
+        "main.css": true,
+        "variables.css": true,
+        "responsive.css": true
+      },
+      "utils": {
+        "helpers.poh": true,
+        "validators.poh": true
+      }
+    },
+    "tests": {
+      "unit": {
+        "App.test.poh": true
+      },
+      "e2e": {
+        "navigation.test.poh": true
+      }
+    },
+    "package.json": true,
+    "webpack.config.js": true,
+    "tsconfig.json": true,
+    ".gitignore": true,
+    "README.md": true
+  },
+  "dependencies": {
+    "runtime": "pohlang-web-runtime",
+    "bundler": "webpack",
+    "dev_server": "webpack-dev-server",
+    "hot_reload": "webpack-hot-middleware"
+  }
+}

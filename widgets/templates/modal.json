@@ -1,0 +1,59 @@
+{
+  "key": "modal",
+  "name": "Modal Dialog Widget",
+  "description": "Full-screen modal dialog for important messages or forms.",
+  "category": "overlay",
+  "tags": ["modal", "dialog", "overlay", "popup"],
+  "preview": [
+    "Write \"====================================\"",
+    "Write \"         IMPORTANT MESSAGE          \"",
+    "Write \"====================================\"",
+    "Write \"This is a modal dialog message.\"",
+    "Write \"-----------------------------------\"",
+    "Write \"[OK]    [Cancel]\"",
+    "Write \"====================================\""
+  ],
+  "files": [
+    {
+      "path": "ui/widgets/{{widget_snake}}.poh",
+      "description": "Modal dialog widget for overlays",
+      "content": [
+        "Start Program",
+        "",
+        "# {{widget_title}} - Modal Dialog Widget",
+        "# Displays a modal overlay with content",
+        "",
+        "Set modal_title to \"Confirmation Required\"",
+        "Set modal_message to \"Are you sure you want to continue?\"",
+        "Set modal_open to true",
+        "",
+        "If modal_open is equal to true",
+        "    Write \"\"",
+        "    Write \"========================================\"",
+        "    Write \"  \" plus modal_title",
+        "    Write \"========================================\"",
+        "    Write \"\"",
+        "    Write modal_message",
+        "    Write \"\"",
+        "    Write \"----------------------------------------\"",
+        "    Write \"[OK]              [Cancel]\"",
+        "    Write \"========================================\"",
+        "    Write \"\"",
+        "    ",
+        "    Write \"Select action (ok/cancel): \"",
+        "    Ask for action",
+        "    ",
+        "    If action is equal to \"ok\"",
+        "        Write \"Action confirmed!\"",
+        "        Set modal_open to false",
+        "    Otherwise",
+        "        Write \"Action cancelled\"",
+        "        Set modal_open to false",
+        "    End If",
+        "End If",
+        "",
+        "End Program"
+      ]
+    }
+  ]
+}

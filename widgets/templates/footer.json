@@ -1,0 +1,55 @@
+{
+  "key": "footer",
+  "name": "Footer Widget",
+  "description": "Page footer with links and copyright information.",
+  "category": "layout",
+  "tags": ["footer", "layout", "links", "copyright"],
+  "preview": [
+    "Write \"═══════════════════════════════════════\"",
+    "Write \"About | Privacy | Terms | Contact\"",
+    "Write \"© 2025 MyApp. All rights reserved.\"",
+    "Write \"═══════════════════════════════════════\""
+  ],
+  "files": [
+    {
+      "path": "ui/widgets/{{widget_snake}}.poh",
+      "description": "Footer widget with links and copyright",
+      "content": [
+        "Start Program",
+        "",
+        "# {{widget_title}} - Footer Widget",
+        "# Page footer with links and info",
+        "",
+        "Set app_name to \"PohLang App\"",
+        "Set year to \"2025\"",
+        "Set links to [\"About\", \"Privacy\", \"Terms\", \"Contact\"]",
+        "",
+        "Write \"\"",
+        "Write \"═══════════════════════════════════════════════════\"",
+        "Write \"\"",
+        "",
+        "# Display links",
+        "Set link_text to \"  \"",
+        "Set counter to 0",
+        "",
+        "Repeat 4 times",
+        "    Set link_text to link_text plus first in(links)",
+        "    ",
+        "    If counter is less than 3",
+        "        Set link_text to link_text plus \"  |  \"",
+        "    End If",
+        "    ",
+        "    Increase counter by 1",
+        "End",
+        "",
+        "Write link_text",
+        "Write \"\"",
+        "Write \"  © \" plus year plus \" \" plus app_name plus \". All rights reserved.\"",
+        "Write \"\"",
+        "Write \"═══════════════════════════════════════════════════\"",
+        "",
+        "End Program"
+      ]
+    }
+  ]
+}

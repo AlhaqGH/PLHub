@@ -1,0 +1,278 @@
+// ============================================================================
+// PohLang Android Calculator
+// ============================================================================
+// A simple calculator app for Android devices
+// Demonstrates PohLang mobile app development
+// ============================================================================
+
+// Import core functionality
+import System from "core"
+import Math from "math"
+
+// ============================================================================
+// Calculator State
+// ============================================================================
+
+create CalculatorState:
+    property currentValue as number = 0
+    property previousValue as number = 0
+    property operation as text = ""
+    property display as text = "0"
+    property shouldResetDisplay as boolean = false
+
+// ============================================================================
+// Calculator Operations
+// ============================================================================
+
+function performCalculation(state as CalculatorState) returns number:
+    if state.operation == "add":
+        return state.previousValue + state.currentValue
+    else if state.operation == "subtract":
+        return state.previousValue - state.currentValue
+    else if state.operation == "multiply":
+        return state.previousValue * state.currentValue
+    else if state.operation == "divide":
+        if state.currentValue == 0:
+            System.print("Error: Division by zero")
+            return 0
+        return state.previousValue / state.currentValue
+    else:
+        return state.currentValue
+
+function handleNumber(state as CalculatorState, digit as text):
+    if state.shouldResetDisplay:
+        state.display = digit
+        state.shouldResetDisplay = false
+    else:
+        if state.display == "0":
+            state.display = digit
+        else:
+            state.display = state.display + digit
+    
+    state.currentValue = Math.parseNumber(state.display)
+
+function handleOperation(state as CalculatorState, op as text):
+    if state.operation != "":
+        // Perform pending operation
+        state.currentValue = performCalculation(state)
+        state.display = Math.toString(state.currentValue)
+    
+    state.previousValue = state.currentValue
+    state.operation = op
+    state.shouldResetDisplay = true
+
+function handleEquals(state as CalculatorState):
+    if state.operation != "":
+        state.currentValue = performCalculation(state)
+        state.display = Math.toString(state.currentValue)
+        state.operation = ""
+        state.shouldResetDisplay = true
+
+function handleClear(state as CalculatorState):
+    state.currentValue = 0
+    state.previousValue = 0
+    state.operation = ""
+    state.display = "0"
+    state.shouldResetDisplay = false
+
+function handleDecimal(state as CalculatorState):
+    if state.shouldResetDisplay:
+        state.display = "0."
+        state.shouldResetDisplay = false
+    else if not Math.contains(state.display, "."):
+        state.display = state.display + "."
+
+function handlePercent(state as CalculatorState):
+    state.currentValue = state.currentValue / 100
+    state.display = Math.toString(state.currentValue)
+
+function handleNegate(state as CalculatorState):
+    state.currentValue = -state.currentValue
+    state.display = Math.toString(state.currentValue)
+
+// ============================================================================
+// Calculator UI (Android Layout)
+// ============================================================================
+
+function createCalculatorUI() returns text:
+    return """
+    Calculator UI Layout:
+    
+    ┌─────────────────────────┐
+    │                         │
+    │  Display: {display}     │
+    │                         │
+    ├─────────────────────────┤
+    │  C   ±   %   ÷          │
+    │  7   8   9   ×          │
+    │  4   5   6   -          │
+    │  1   2   3   +          │
+    │  0       .   =          │
+    └─────────────────────────┘
+    
+    Button Layout:
+    - Top row: Clear, Negate, Percent, Divide
+    - Rows 2-4: Numbers and operations
+    - Bottom row: Zero, Decimal, Equals
+    """
+
+// ============================================================================
+// Demo/Test Functions
+// ============================================================================
+
+function testBasicOperations():
+    System.print("=== Testing Calculator Operations ===")
+    System.print("")
+    
+    // Test addition
+    let addState = new CalculatorState()
+    handleNumber(addState, "5")
+    handleOperation(addState, "add")
+    handleNumber(addState, "3")
+    handleEquals(addState)
+    System.print("5 + 3 = " + addState.display)
+    assert addState.display == "8"
+    
+    // Test subtraction
+    let subState = new CalculatorState()
+    handleNumber(subState, "1")
+    handleNumber(subState, "0")
+    handleOperation(subState, "subtract")
+    handleNumber(subState, "3")
+    handleEquals(subState)
+    System.print("10 - 3 = " + subState.display)
+    assert subState.display == "7"
+    
+    // Test multiplication
+    let mulState = new CalculatorState()
+    handleNumber(mulState, "6")
+    handleOperation(mulState, "multiply")
+    handleNumber(mulState, "7")
+    handleEquals(mulState)
+    System.print("6 × 7 = " + mulState.display)
+    assert mulState.display == "42"
+    
+    // Test division
+    let divState = new CalculatorState()
+    handleNumber(divState, "2")
+    handleNumber(divState, "0")
+    handleOperation(divState, "divide")
+    handleNumber(divState, "4")
+    handleEquals(divState)
+    System.print("20 ÷ 4 = " + divState.display)
+    assert divState.display == "5"
+    
+    System.print("")
+    System.print("✅ All basic operations passed!")
+
+function testChainedOperations():
+    System.print("")
+    System.print("=== Testing Chained Operations ===")
+    System.print("")
+    
+    let state = new CalculatorState()
+    
+    // Calculate: 2 + 3 + 4 = 9
+    handleNumber(state, "2")
+    handleOperation(state, "add")
+    handleNumber(state, "3")
+    handleOperation(state, "add")  // Should calculate 2+3=5
+    System.print("2 + 3 = " + state.display)
+    handleNumber(state, "4")
+    handleEquals(state)
+    System.print("5 + 4 = " + state.display)
+    assert state.display == "9"
+    
+    System.print("")
+    System.print("✅ Chained operations passed!")
+
+function testSpecialFunctions():
+    System.print("")
+    System.print("=== Testing Special Functions ===")
+    System.print("")
+    
+    // Test percent
+    let percentState = new CalculatorState()
+    handleNumber(percentState, "5")
+    handleNumber(percentState, "0")
+    handlePercent(percentState)
+    System.print("50% = " + percentState.display)
+    assert percentState.display == "0.5"
+    
+    // Test negate
+    let negateState = new CalculatorState()
+    handleNumber(negateState, "4")
+    handleNumber(negateState, "2")
+    handleNegate(negateState)
+    System.print("-42 = " + negateState.display)
+    assert negateState.display == "-42"
+    
+    // Test decimal
+    let decimalState = new CalculatorState()
+    handleNumber(decimalState, "3")
+    handleDecimal(decimalState)
+    handleNumber(decimalState, "1")
+    handleNumber(decimalState, "4")
+    System.print("3.14 = " + decimalState.display)
+    assert decimalState.display == "3.14"
+    
+    System.print("")
+    System.print("✅ Special functions passed!")
+
+function testClear():
+    System.print("")
+    System.print("=== Testing Clear Function ===")
+    System.print("")
+    
+    let state = new CalculatorState()
+    handleNumber(state, "9")
+    handleNumber(state, "9")
+    handleNumber(state, "9")
+    System.print("Before clear: " + state.display)
+    handleClear(state)
+    System.print("After clear: " + state.display)
+    assert state.display == "0"
+    
+    System.print("")
+    System.print("✅ Clear function passed!")
+
+// ============================================================================
+// Main Entry Point
+// ============================================================================
+
+function main():
+    System.print("╔════════════════════════════════════════╗")
+    System.print("║   POHLANG ANDROID CALCULATOR APP      ║")
+    System.print("╚════════════════════════════════════════╝")
+    System.print("")
+    System.print("📱 Calculator for Android")
+    System.print("🔢 Version 1.0.0")
+    System.print("")
+    
+    // Display calculator UI
+    System.print(createCalculatorUI())
+    System.print("")
+    
+    // Run tests to demonstrate functionality
+    testBasicOperations()
+    testChainedOperations()
+    testSpecialFunctions()
+    testClear()
+    
+    System.print("")
+    System.print("╔════════════════════════════════════════╗")
+    System.print("║  CALCULATOR READY FOR ANDROID BUILD!   ║")
+    System.print("╚════════════════════════════════════════╝")
+    System.print("")
+    System.print("📦 To build APK:")
+    System.print("   python ../../plhub.py build android")
+    System.print("")
+    System.print("📲 To install:")
+    System.print("   adb install build/android/android-calculator-debug.apk")
+    System.print("")
+    System.print("🚀 To build and run:")
+    System.print("   python ../../plhub.py run android")
+    System.print("")
+
+// Run the app
+main()

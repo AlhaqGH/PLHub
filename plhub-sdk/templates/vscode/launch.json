@@ -1,0 +1,66 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "PohLang: Run Current File",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/../../plhub.py",
+      "args": [
+        "run",
+        "${file}"
+      ],
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "name": "PohLang: Run Main",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/../../plhub.py",
+      "args": [
+        "run",
+        "src/main.poh"
+      ],
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "name": "PohLang: Debug Current File",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/../../plhub.py",
+      "args": [
+        "debug",
+        "--file",
+        "${file}"
+      ],
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "name": "PohLang: Debug Main",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/../../plhub.py",
+      "args": [
+        "debug",
+        "--file",
+        "src/main.poh"
+      ],
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "name": "PohLang: Start Dev Server with Hot Reload",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/../../plhub.py",
+      "args": [
+        "dev"
+      ],
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}"
+    }
+  ]
+}

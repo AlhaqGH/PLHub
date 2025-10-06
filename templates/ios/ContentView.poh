@@ -1,0 +1,121 @@
+⟨ PohLang iOS SwiftUI View ⟩
+⟨ Main content view for iOS application ⟩
+
+Set app_title to "PohLang iOS"
+Set welcome_message to "Welcome to PohLang on iOS!"
+Set version to "1.0.0"
+
+⟨ View State ⟩
+Set counter to 0
+Set is_loading to false
+Set status_message to "Ready"
+
+⟨ View Body ⟩
+Define function body:
+    Call createNavigationView
+End function
+
+Define function createNavigationView:
+    Write "Navigation View:"
+    Call createVStack
+    Set navigation_title to app_title
+End function
+
+Define function createVStack:
+    Write "╔════════════════════════════════╗"
+    Write "║                                ║"
+    Write "║    " + app_title + "             ║"
+    Write "║                                ║"
+    Write "╚════════════════════════════════╝"
+    Write ""
+    Call displayWelcome
+    Call displayCounter
+    Call displayButtons
+    Call displayStatus
+End function
+
+⟨ UI Components ⟩
+Define function displayWelcome:
+    Write welcome_message
+    Write "Version: " + version
+    Write ""
+End function
+
+Define function displayCounter:
+    Write "───────────────────────────────"
+    Write "Counter: " + counter
+    Write "───────────────────────────────"
+    Write ""
+End function
+
+Define function displayButtons:
+    Write "[+] Increment  [-] Decrement  [R] Reset"
+    Write ""
+End function
+
+Define function displayStatus:
+    If is_loading equals true:
+        Write "Status: Loading..."
+    Otherwise:
+        Write "Status: " + status_message
+    End if
+End function
+
+⟨ Actions ⟩
+Define function incrementCounter:
+    Set counter to counter + 1
+    Set status_message to "Counter incremented"
+    Call refreshView
+End function
+
+Define function decrementCounter:
+    Set counter to counter - 1
+    Set status_message to "Counter decremented"
+    Call refreshView
+End function
+
+Define function resetCounter:
+    Set counter to 0
+    Set status_message to "Counter reset"
+    Call refreshView
+End function
+
+⟨ Lifecycle ⟩
+Define function onAppear:
+    Write "View appeared"
+    Call loadInitialData
+End function
+
+Define function onDisappear:
+    Write "View disappeared"
+    Call saveState
+End function
+
+Define function loadInitialData:
+    Set is_loading to true
+    Write "Loading data..."
+    ⟨ Simulate async load ⟩
+    Set is_loading to false
+    Set status_message to "Data loaded"
+End function
+
+Define function saveState:
+    Write "Saving application state"
+End function
+
+Define function refreshView:
+    Write "Refreshing view"
+End function
+
+⟨ Hot Reload Support ⟩
+Define function onHotReload:
+    Write "Hot reload triggered"
+    Call refreshView
+    Set status_message to "View hot reloaded"
+End function
+
+⟨ Preview ⟩
+Define function preview:
+    Write "iOS Preview Mode:"
+    Call body
+End function

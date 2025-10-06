@@ -1,0 +1,142 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "PohLang: Run Program",
+      "type": "shell",
+      "command": "python",
+      "args": [
+        "${workspaceFolder}/../../plhub.py",
+        "run",
+        "${file}"
+      ],
+      "group": "none",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "PohLang: Build Project",
+      "type": "shell",
+      "command": "python",
+      "args": [
+        "${workspaceFolder}/../../plhub.py",
+        "build"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "PohLang: Watch Mode",
+      "type": "shell",
+      "command": "python",
+      "args": [
+        "${workspaceFolder}/../../plhub.py",
+        "watch"
+      ],
+      "isBackground": true,
+      "group": "build",
+      "problemMatcher": {
+        "owner": "pohlang",
+        "fileLocation": "relative",
+        "pattern": {
+          "regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
+          "file": 1,
+          "line": 2,
+          "column": 3,
+          "severity": 4,
+          "message": 5
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": "^.*Building.*$",
+          "endsPattern": "^.*Build (successful|failed).*$"
+        }
+      }
+    },
+    {
+      "label": "PohLang: Run Tests",
+      "type": "shell",
+      "command": "python",
+      "args": [
+        "${workspaceFolder}/../../plhub.py",
+        "test"
+      ],
+      "group": {
+        "kind": "test",
+        "isDefault": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "PohLang: Watch Tests",
+      "type": "shell",
+      "command": "python",
+      "args": [
+        "${workspaceFolder}/../../plhub.py",
+        "test",
+        "--watch"
+      ],
+      "isBackground": true,
+      "group": "test",
+      "problemMatcher": {
+        "owner": "pohlang",
+        "pattern": {
+          "regexp": "^.*$",
+          "file": 1,
+          "location": 2,
+          "message": 3
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": "^.*Running.*test.*$",
+          "endsPattern": "^.*Watching for changes.*$"
+        }
+      }
+    },
+    {
+      "label": "PohLang: Start Dev Server",
+      "type": "shell",
+      "command": "python",
+      "args": [
+        "${workspaceFolder}/../../plhub.py",
+        "dev"
+      ],
+      "isBackground": true,
+      "group": "none",
+      "problemMatcher": {
+        "owner": "pohlang",
+        "fileLocation": "relative",
+        "pattern": {
+          "regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
+          "file": 1,
+          "line": 2,
+          "column": 3,
+          "severity": 4,
+          "message": 5
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": "^.*Starting.*$",
+          "endsPattern": "^.*(Reload complete|Hot reload server).*$"
+        }
+      }
+    },
+    {
+      "label": "PohLang: Clean Build",
+      "type": "shell",
+      "command": "python",
+      "args": [
+        "${workspaceFolder}/../../plhub.py",
+        "clean"
+      ],
+      "group": "build",
+      "problemMatcher": []
+    }
+  ]
+}

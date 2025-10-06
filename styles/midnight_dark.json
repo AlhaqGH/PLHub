@@ -1,0 +1,48 @@
+{
+  "name": "Midnight Dark",
+  "description": "High-contrast dark theme inspired by modern developer tooling.",
+  "tokens": {
+    "background": "#0F172A",
+    "surface": "#111827",
+    "foreground": "#E2E8F0",
+    "foregroundSecondary": "#94A3B8",
+    "border": "#1E293B",
+    "primary": "#38BDF8",
+    "primaryForeground": "#082F49",
+    "secondary": "#A855F7",
+    "accent": "#F97316",
+    "error": "#F87171",
+    "warning": "#FBBF24",
+    "info": "#60A5FA",
+    "success": "#34D399"
+  },
+  "typography": {
+    "fontFamily": "Inter, Segoe UI, sans-serif",
+    "fontSizeBase": 16,
+    "headingScale": [2.4, 1.9, 1.6, 1.3, 1.05, 0.9],
+    "lineHeight": 1.7
+  },
+  "elevation": {
+    "level0": "0px 0px 0px rgba(0, 0, 0, 0)",
+    "level1": "0px 1px 3px rgba(15, 23, 42, 0.45)",
+    "level2": "0px 8px 20px rgba(8, 15, 35, 0.55)",
+    "level3": "0px 18px 48px rgba(8, 15, 35, 0.65)"
+  },
+  "components": {
+    "button": {
+      "padding": "0.6rem 1.4rem",
+      "radius": "0.6rem",
+      "fontWeight": 600
+    },
+    "card": {
+      "radius": "1rem",
+      "padding": "1.75rem",
+      "border": "1px solid #1F2937"
+    },
+    "input": {
+      "padding": "0.7rem 1rem",
+      "radius": "0.6rem",
+      "border": "1px solid #1E293B"
+    }
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "name": "Sunset Warm",
+  "description": "Warm and inviting color palette inspired by golden hour sunsets.",
+  "tokens": {
+    "background": "#FFF7ED",
+    "surface": "#FFEDD5",
+    "foreground": "#7C2D12",
+    "foregroundSecondary": "#9A3412",
+    "border": "#FED7AA",
+    "primary": "#EA580C",
+    "primaryForeground": "#FFFFFF",
+    "secondary": "#F59E0B",
+    "accent": "#FB923C",
+    "error": "#DC2626",
+    "warning": "#D97706",
+    "info": "#3B82F6",
+    "success": "#16A34A"
+  },
+  "typography": {
+    "fontFamily": "Inter, Segoe UI, sans-serif",
+    "fontSizeBase": 16,
+    "headingScale": [2.25, 1.75, 1.5, 1.25, 1.0, 0.875],
+    "lineHeight": 1.65
+  },
+  "elevation": {
+    "level0": "none",
+    "level1": "0px 1px 3px rgba(124, 45, 18, 0.1)",
+    "level2": "0px 4px 12px rgba(124, 45, 18, 0.15)",
+    "level3": "0px 10px 32px rgba(124, 45, 18, 0.2)"
+  },
+  "components": {
+    "button": {
+      "padding": "0.625rem 1.5rem",
+      "radius": "0.75rem",
+      "fontWeight": 600
+    },
+    "card": {
+      "radius": "1rem",
+      "padding": "2rem",
+      "border": "1px solid #FED7AA"
+    },
+    "input": {
+      "padding": "0.75rem 1.25rem",
+      "radius": "0.75rem",
+      "border": "1px solid #FDBA74"
+    }
+  }
+}

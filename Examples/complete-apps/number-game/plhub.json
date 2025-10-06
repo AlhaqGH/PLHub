@@ -1,0 +1,19 @@
+{
+  "name": "number-game",
+  "version": "1.0.0",
+  "description": "Interactive number guessing game with difficulty levels and high scores",
+  "main": "src/main.poh",
+  "author": "PohLang Team",
+  "license": "MIT",
+  "dependencies": {},
+  "scripts": {
+    "run": "plhub run src/main.poh",
+    "test": "plhub test",
+    "build": "plhub build --target bytecode --release"
+  },
+  "build": {
+    "targets": ["bytecode", "native"],
+    "optimize": true,
+    "output": "build/"
+  }
+}

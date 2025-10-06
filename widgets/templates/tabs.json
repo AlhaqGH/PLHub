@@ -1,0 +1,55 @@
+{
+  "key": "tabs",
+  "name": "Tabs Widget",
+  "description": "Tabbed interface for organizing content into sections.",
+  "category": "navigation",
+  "tags": ["tabs", "navigation", "sections", "panels"],
+  "preview": [
+    "Write \"[Tab 1] Tab 2  Tab 3\"",
+    "Write \"─────────────────────\"",
+    "Write \"Content for Tab 1\"",
+    "Write \"This is the active tab.\""
+  ],
+  "files": [
+    {
+      "path": "ui/widgets/{{widget_snake}}.poh",
+      "description": "Tabs widget for sectioned content",
+      "content": [
+        "Start Program",
+        "",
+        "# {{widget_title}} - Tabs Widget",
+        "# Tabbed interface with multiple sections",
+        "",
+        "Set tabs to [\"Overview\", \"Details\", \"Settings\"]",
+        "Set active_tab to \"Overview\"",
+        "Set tab_content to \"This is the overview section.\"",
+        "",
+        "# Display tabs",
+        "Set tab_display to \"\"",
+        "Set counter to 0",
+        "",
+        "Repeat 3 times",
+        "    Set tab to first in(tabs)",
+        "    ",
+        "    If tab is equal to active_tab",
+        "        Set tab_display to tab_display plus \"[\" plus tab plus \"]\"",
+        "    Otherwise",
+        "        Set tab_display to tab_display plus \" \" plus tab plus \" \"",
+        "    End If",
+        "    ",
+        "    Set tab_display to tab_display plus \"  \"",
+        "    Increase counter by 1",
+        "End",
+        "",
+        "Write tab_display",
+        "Write \"──────────────────────────────────────\"",
+        "Write \"\"",
+        "Write tab_content",
+        "Write \"\"",
+        "Write \"──────────────────────────────────────\"",
+        "",
+        "End Program"
+      ]
+    }
+  ]
+}

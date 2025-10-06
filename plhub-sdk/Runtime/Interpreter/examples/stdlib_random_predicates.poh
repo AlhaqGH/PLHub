@@ -1,0 +1,23 @@
+# Standard library functions
+Set nums to List contains 1, 2, 3, 4, 5
+Write length(nums)
+Write sum(nums)
+Write min(nums)
+Write max(nums)
+
+# Random numbers
+Write random between 1 and 10
+Write random decimal between 0 and 1
+Set letters to List contains "a", "b", "c"
+Write random from letters
+
+# Collection predicates
+Write nums contains 3
+Write nums contains 99
+Write all nums are even
+Write any nums is odd
+
+# Iterate over lists and dictionaries
+Repeat nums Write "num: " plus it
+Set ages to Dictionary contains "Ann": 30, "Bob": 25
+Repeat ages Write "age: " plus (ages at it)

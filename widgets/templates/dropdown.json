@@ -1,0 +1,62 @@
+{
+  "key": "dropdown",
+  "name": "Dropdown Menu Widget",
+  "description": "Selection dropdown with multiple options for user choice.",
+  "category": "form",
+  "tags": ["dropdown", "select", "menu", "form"],
+  "preview": [
+    "Set options to [\"Option 1\", \"Option 2\", \"Option 3\"]",
+    "Write \"Select an option:\"",
+    "Set counter to 1",
+    "Repeat 3 times",
+    "    Write counter plus \". \" plus (first in options)",
+    "    Increase counter by 1",
+    "End"
+  ],
+  "files": [
+    {
+      "path": "ui/widgets/{{widget_snake}}.poh",
+      "description": "Dropdown menu widget for option selection",
+      "content": [
+        "Start Program",
+        "",
+        "# {{widget_title}} - Dropdown Widget",
+        "# Presents a list of options for selection",
+        "",
+        "Set dropdown_label to \"Choose an option\"",
+        "Set options to [\"Red\", \"Green\", \"Blue\"]",
+        "Set selected to \"\"",
+        "Set counter to 1",
+        "",
+        "Write dropdown_label plus \":\"",
+        "Write \"------------------------\"",
+        "",
+        "Repeat 3 times",
+        "    Write counter plus \". \" plus (first in options)",
+        "    Increase counter by 1",
+        "End",
+        "",
+        "Write \"\"",
+        "Write \"Enter your choice (1-3): \"",
+        "Ask for choice_num",
+        "",
+        "# Simulate selection based on number",
+        "If choice_num is equal to \"1\"",
+        "    Set selected to \"Red\"",
+        "End If",
+        "",
+        "If choice_num is equal to \"2\"",
+        "    Set selected to \"Green\"",
+        "End If",
+        "",
+        "If choice_num is equal to \"3\"",
+        "    Set selected to \"Blue\"",
+        "End If",
+        "",
+        "Write \"You selected: \" plus selected",
+        "",
+        "End Program"
+      ]
+    }
+  ]
+}

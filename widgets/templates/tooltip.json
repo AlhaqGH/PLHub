@@ -1,0 +1,52 @@
+{
+  "key": "tooltip",
+  "name": "Tooltip Widget",
+  "description": "Small popup hint that appears on hover or focus.",
+  "category": "overlay",
+  "tags": ["tooltip", "hint", "help", "popup"],
+  "preview": [
+    "Write \"Hover over me\"",
+    "Write \"\"",
+    "Write \"┌─────────────────────┐\"",
+    "Write \"│ This is a tooltip   │\"",
+    "Write \"│ with helpful info!  │\"",
+    "Write \"└─────────────────────┘\""
+  ],
+  "files": [
+    {
+      "path": "ui/widgets/{{widget_snake}}.poh",
+      "description": "Tooltip widget for contextual help",
+      "content": [
+        "Start Program",
+        "",
+        "# {{widget_title}} - Tooltip Widget",
+        "# Displays helpful hints and information",
+        "",
+        "Set element_text to \"Hover for help\"",
+        "Set tooltip_text to \"This provides additional context and guidance\"",
+        "Set show_tooltip to false",
+        "",
+        "Write \"Element: \" plus element_text plus \" ℹ️ \"",
+        "Write \"\"",
+        "Write \"Show tooltip? (yes/no): \"",
+        "Ask for response",
+        "",
+        "If response is equal to \"yes\"",
+        "    Set show_tooltip to true",
+        "End If",
+        "",
+        "If show_tooltip is equal to true",
+        "    Write \"\"",
+        "    Write \"┌─────────────────────────────────────────┐\"",
+        "    Write \"│ ℹ️  Tooltip                             │\"",
+        "    Write \"├─────────────────────────────────────────┤\"",
+        "    Write \"│ \" plus tooltip_text plus \"│\"",
+        "    Write \"└─────────────────────────────────────────┘\"",
+        "    Write \"\"",
+        "End If",
+        "",
+        "End Program"
+      ]
+    }
+  ]
+}

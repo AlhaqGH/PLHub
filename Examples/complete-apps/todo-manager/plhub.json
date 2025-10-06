@@ -1,0 +1,19 @@
+{
+  "name": "todo-manager",
+  "version": "1.0.0",
+  "description": "Complete todo list manager with categories and priorities",
+  "main": "src/main.poh",
+  "author": "PohLang Team",
+  "license": "MIT",
+  "dependencies": {},
+  "scripts": {
+    "run": "plhub run src/main.poh",
+    "test": "plhub test",
+    "build": "plhub build --target bytecode --release"
+  },
+  "build": {
+    "targets": ["bytecode", "native"],
+    "optimize": true,
+    "output": "build/"
+  }
+}

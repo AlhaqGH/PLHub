@@ -1,0 +1,16 @@
+# Demonstrate syntax error (unknown keyword) and suggestion
+Sya "Hello"  # typo, should be Write
+
+# Demonstrate runtime errors and friendly messages
+Set nums to List contains 1, 2
+Write nums at 5  # out-of-range
+Write 10 divided by 0  # divide by zero
+Use not_defined()  # undefined function
+
+# Demonstrate debug mode
+Debug on
+Write "Start"
+Set a to 5
+Increase a by 2
+Write a
+Debug off

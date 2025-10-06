@@ -1,0 +1,25 @@
+Start Program
+
+# Hot Reload Demo
+# Edit this file and save to see instant updates!
+
+Set app_name to "PohLang Hot Reload Demo"
+Set version to "1.0"
+
+Write "======================================="
+Write app_name
+Write "Version: " plus version
+Write "======================================="
+Write ""
+
+Set counter to 1
+Repeat 5 times
+    Write "Loop iteration: " plus counter
+    Increase counter by 1
+End
+
+Write ""
+Write "👉 Try editing this file and saving!"
+Write "   The app will automatically reload."
+
+End Program

@@ -1,0 +1,28 @@
+{
+  "key": "button",
+  "name": "Button Widget",
+  "description": "Simple button display that shows a label with square brackets.",
+  "category": "display",
+  "tags": ["button", "display", "simple"],
+  "preview": [
+    "Set button_label to \"Click Here\"",
+    "Write \"[ \" plus button_label plus \" ]\""
+  ],
+  "files": [
+    {
+      "path": "ui/widgets/{{widget_snake}}.poh",
+      "description": "Button widget - displays a button-styled text",
+      "content": [
+        "Start Program",
+        "",
+        "# {{widget_title}} - Button Widget",
+        "# Simple button display for your UI",
+        "",
+        "Set button_text to \"My Button\"",
+        "Write \"[ \" plus button_text plus \" ]\"",
+        "",
+        "End Program"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "platform": "macos",
+  "template_version": "1.0.0",
+  "deployment_target": "13.0",
+  "swift_version": "5.9",
+  "structure": {
+    "{{APP_NAME}}": {
+      "App": {
+        "{{APP_NAME}}App.poh": true,
+        "AppDelegate.poh": true
+      },
+      "Views": {
+        "ContentView.poh": true,
+        "MainWindow.poh": true,
+        "MenuBar.poh": true
+      },
+      "Models": {
+        "AppModel.poh": true,
+        "Document.poh": true
+      },
+      "Services": {
+        "HotReloadService.poh": true,
+        "FileService.poh": true
+      },
+      "Resources": {
+        "Assets.xcassets": {
+          "AppIcon.appiconset": ["Contents.json"],
+          "AccentColor.colorset": ["Contents.json"]
+        },
+        "{{APP_NAME}}.entitlements": true,
+        "Info.plist": true
+      }
+    },
+    "{{APP_NAME}}Tests": {
+      "{{APP_NAME}}Tests.poh": true
+    },
+    "{{APP_NAME}}.xcodeproj": {
+      "project.pbxproj": true
+    }
+  },
+  "frameworks": [
+    "SwiftUI",
+    "AppKit",
+    "Foundation",
+    "Combine"
+  ],
+  "entitlements": {
+    "com.apple.security.app-sandbox": true,
+    "com.apple.security.files.user-selected.read-write": true,
+    "com.apple.security.network.client": true,
+    "com.apple.security.network.server": true
+  }
+}

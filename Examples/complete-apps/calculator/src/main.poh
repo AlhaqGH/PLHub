@@ -1,0 +1,236 @@
+Start Program
+
+# ================================================
+# Advanced Calculator Application
+# A complete console application demonstrating
+# all features of PohLang
+# ================================================
+
+# Display welcome header
+Write "================================================"
+Write "       ADVANCED CALCULATOR v1.0"
+Write "================================================"
+Write ""
+
+# Initialize application state
+Set running to True
+Set history to []
+
+# Main application loop
+While running is True
+    # Display main menu
+    Write "Main Menu:"
+    Write "  1. Basic Operations"
+    Write "  2. Advanced Operations"
+    Write "  3. View History"
+    Write "  4. Clear History"
+    Write "  5. Exit"
+    Write ""
+    Write "Enter your choice (1-5):"
+    Ask for choice
+    Write ""
+    
+    # Handle menu selection
+    If choice is "1"
+        # Basic operations
+        Write "Basic Operations:"
+        Write "  a. Addition"
+        Write "  b. Subtraction"
+        Write "  c. Multiplication"
+        Write "  d. Division"
+        Write ""
+        Write "Enter operation (a-d):"
+        Ask for operation
+        
+        # Get numbers
+        Write "Enter first number:"
+        Ask for num1
+        Write "Enter second number:"
+        Ask for num2
+        
+        # Perform calculation
+        Set result to 0
+        Set operation_name to ""
+        
+        If operation is "a"
+            Set result to num1 plus num2
+            Set operation_name to "Addition"
+            
+        Otherwise If operation is "b"
+            Set result to num1 minus num2
+            Set operation_name to "Subtraction"
+            
+        Otherwise If operation is "c"
+            Set result to num1 times num2
+            Set operation_name to "Multiplication"
+            
+        Otherwise If operation is "d"
+            If num2 is 0
+                Write "❌ Error: Division by zero!"
+            Otherwise
+                Set result to num1 divided by num2
+                Set operation_name to "Division"
+            End If
+            
+        Otherwise
+            Write "❌ Invalid operation!"
+        End If
+        
+        # Display and save result
+        If operation_name is not ""
+            Write "─────────────────────────────────────"
+            Write "📊 Result:"
+            Write "   " plus num1 plus " " plus operation_name plus " " plus num2 plus " = " plus result
+            Write "─────────────────────────────────────"
+            
+            # Add to history
+            Set entry to operation_name plus ": " plus num1 plus " and " plus num2 plus " = " plus result
+            Set history to append entry to history
+        End If
+        
+    Otherwise If choice is "2"
+        # Advanced operations
+        Write "Advanced Operations:"
+        Write "  a. Power (x^y)"
+        Write "  b. Square Root"
+        Write "  c. Percentage"
+        Write "  d. Average of Numbers"
+        Write ""
+        Write "Enter operation (a-d):"
+        Ask for operation
+        
+        If operation is "a"
+            Write "Enter base:"
+            Ask for base
+            Write "Enter exponent:"
+            Ask for exponent
+            
+            # Calculate power
+            Set result to 1
+            Set counter to 0
+            While counter less than exponent
+                Set result to result times base
+                Set counter to counter plus 1
+            End While
+            
+            Write "─────────────────────────────────────"
+            Write "📊 Result:"
+            Write "   " plus base plus " ^ " plus exponent plus " = " plus result
+            Write "─────────────────────────────────────"
+            
+            Set entry to "Power: " plus base plus " ^ " plus exponent plus " = " plus result
+            Set history to append entry to history
+            
+        Otherwise If operation is "b"
+            Write "Enter number:"
+            Ask for number
+            
+            If number less than 0
+                Write "❌ Error: Cannot calculate square root of negative number!"
+            Otherwise
+                # Simple square root approximation
+                Set guess to number divided by 2
+                Set iteration to 0
+                
+                While iteration less than 10
+                    Set guess to (guess plus (number divided by guess)) divided by 2
+                    Set iteration to iteration plus 1
+                End While
+                
+                Write "─────────────────────────────────────"
+                Write "📊 Result:"
+                Write "   √" plus number plus " ≈ " plus guess
+                Write "─────────────────────────────────────"
+                
+                Set entry to "Square Root: √" plus number plus " ≈ " plus guess
+                Set history to append entry to history
+            End If
+            
+        Otherwise If operation is "c"
+            Write "Enter value:"
+            Ask for value
+            Write "Enter percentage:"
+            Ask for percent
+            
+            Set result to (value times percent) divided by 100
+            
+            Write "─────────────────────────────────────"
+            Write "📊 Result:"
+            Write "   " plus percent plus "% of " plus value plus " = " plus result
+            Write "─────────────────────────────────────"
+            
+            Set entry to "Percentage: " plus percent plus "% of " plus value plus " = " plus result
+            Set history to append entry to history
+            
+        Otherwise If operation is "d"
+            Write "How many numbers?"
+            Ask for count
+            
+            Set sum to 0
+            Set index to 0
+            Set numbers to []
+            
+            While index less than count
+                Set display_index to index plus 1
+                Write "Enter number " plus display_index plus ":"
+                Ask for num
+                Set sum to sum plus num
+                Set numbers to append num to numbers
+                Set index to index plus 1
+            End While
+            
+            Set average to sum divided by count
+            
+            Write "─────────────────────────────────────"
+            Write "📊 Result:"
+            Write "   Numbers: " plus numbers
+            Write "   Sum: " plus sum
+            Write "   Average: " plus average
+            Write "─────────────────────────────────────"
+            
+            Set entry to "Average: " plus numbers plus " = " plus average
+            Set history to append entry to history
+            
+        Otherwise
+            Write "❌ Invalid operation!"
+        End If
+        
+    Otherwise If choice is "3"
+        # View history
+        Write "════════════════════════════════════════"
+        Write "📜 CALCULATION HISTORY"
+        Write "════════════════════════════════════════"
+        
+        If count of history is 0
+            Write "No calculations yet."
+        Otherwise
+            Set index to 0
+            While index less than count of history
+                Set display_num to index plus 1
+                Set entry to history at index
+                Write "  " plus display_num plus ". " plus entry
+                Set index to index plus 1
+            End While
+        End If
+        Write "════════════════════════════════════════"
+        
+    Otherwise If choice is "4"
+        # Clear history
+        Set history to []
+        Write "✓ History cleared!"
+        
+    Otherwise If choice is "5"
+        # Exit
+        Set running to False
+        Write "════════════════════════════════════════"
+        Write "   Thank you for using Calculator!"
+        Write "════════════════════════════════════════"
+        
+    Otherwise
+        Write "❌ Invalid choice! Please enter 1-5."
+    End If
+    
+    Write ""
+End While
+
+End Program

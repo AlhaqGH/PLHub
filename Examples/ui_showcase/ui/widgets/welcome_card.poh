@@ -1,0 +1,15 @@
+Start Program
+
+# Welcome Card - Card Widget
+# Displays content in a framed box
+
+Set card_title to "Welcome Card"
+Set card_body to "This is a sample card widget created with PLHub."
+
+Write "========================"
+Write card_title
+Write "------------------------"
+Write card_body
+Write "========================"
+
+End Program

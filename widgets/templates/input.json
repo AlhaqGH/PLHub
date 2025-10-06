@@ -1,0 +1,41 @@
+{
+  "key": "input",
+  "name": "Text Input Widget",
+  "description": "Interactive text input field for collecting user input.",
+  "category": "form",
+  "tags": ["input", "form", "text", "interactive"],
+  "preview": [
+    "Set input_label to \"Username\"",
+    "Set input_value to \"\"",
+    "Write input_label plus \": [          ]\"",
+    "Ask for input_value",
+    "Write \"Entered: \" plus input_value"
+  ],
+  "files": [
+    {
+      "path": "ui/widgets/{{widget_snake}}.poh",
+      "description": "Text input widget for user input collection",
+      "content": [
+        "Start Program",
+        "",
+        "# {{widget_title}} - Text Input Widget",
+        "# Collects text input from the user",
+        "",
+        "Set label to \"Enter text\"",
+        "Set placeholder to \"Type here...\"",
+        "Set value to \"\"",
+        "",
+        "Write label plus \": \"",
+        "Ask for value",
+        "",
+        "If value is equal to \"\"",
+        "    Write \"[No input provided]\"",
+        "Otherwise",
+        "    Write \"You entered: \" plus value",
+        "End If",
+        "",
+        "End Program"
+      ]
+    }
+  ]
+}

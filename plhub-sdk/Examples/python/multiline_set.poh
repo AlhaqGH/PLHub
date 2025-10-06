@@ -1,0 +1,4 @@
+// moved from Interpreter/examples
+Set x to 1
+Set y to 2
+Write x + y

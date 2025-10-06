@@ -1,0 +1,87 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "PohLang",
+  "scopeName": "source.pohlang",
+  "patterns": [
+    {
+      "include": "#comments"
+    },
+    {
+      "include": "#strings"
+    },
+    {
+      "include": "#numbers"
+    },
+    {
+      "include": "#keywords"
+    },
+    {
+      "include": "#operators"
+    }
+  ],
+  "repository": {
+    "comments": {
+      "patterns": [
+        {
+          "name": "comment.line.number-sign.pohlang",
+          "match": "#.*$"
+        }
+      ]
+    },
+    "strings": {
+      "patterns": [
+        {
+          "name": "string.quoted.double.pohlang",
+          "begin": "\"",
+          "end": "\"",
+          "patterns": [
+            {
+              "name": "constant.character.escape.pohlang",
+              "match": "\\\\."
+            }
+          ]
+        }
+      ]
+    },
+    "numbers": {
+      "patterns": [
+        {
+          "name": "constant.numeric.pohlang",
+          "match": "\\b\\d+(\\.\\d+)?\\b"
+        }
+      ]
+    },
+    "keywords": {
+      "patterns": [
+        {
+          "name": "keyword.control.pohlang",
+          "match": "\\b(Write|Ask for|Set|If|Otherwise|End|Repeat|While|Make|Use|Import|Return|Break|Continue|Debug)\\b"
+        },
+        {
+          "name": "keyword.operator.pohlang", 
+          "match": "\\b(plus|minus|times|divided by|is equal to|is greater than|is less than|is|and|or|not)\\b"
+        },
+        {
+          "name": "constant.language.pohlang",
+          "match": "\\b(true|false|nothing)\\b"
+        }
+      ]
+    },
+    "operators": {
+      "patterns": [
+        {
+          "name": "keyword.operator.arithmetic.pohlang",
+          "match": "\\b(plus|minus|times|divided by)\\b"
+        },
+        {
+          "name": "keyword.operator.comparison.pohlang",
+          "match": "\\b(is equal to|is greater than|is less than|is not equal to)\\b"
+        },
+        {
+          "name": "keyword.operator.logical.pohlang",
+          "match": "\\b(and|or|not)\\b"
+        }
+      ]
+    }
+  }
+}

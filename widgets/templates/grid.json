@@ -1,0 +1,45 @@
+{
+  "key": "grid",
+  "name": "Grid Layout Widget",
+  "description": "Responsive grid layout for organizing content in rows and columns.",
+  "category": "layout",
+  "tags": ["grid", "layout", "columns", "responsive"],
+  "preview": [
+    "Write \"┌──────┬──────┬──────┐\"",
+    "Write \"│ Col1 │ Col2 │ Col3 │\"",
+    "Write \"├──────┼──────┼──────┤\"",
+    "Write \"│ A    │ B    │ C    │\"",
+    "Write \"└──────┴──────┴──────┘\""
+  ],
+  "files": [
+    {
+      "path": "ui/widgets/{{widget_snake}}.poh",
+      "description": "Grid layout widget for organized content",
+      "content": [
+        "Start Program",
+        "",
+        "# {{widget_title}} - Grid Layout Widget",
+        "# Displays content in a grid structure",
+        "",
+        "Set columns to 3",
+        "Set rows to 2",
+        "Set grid_items to [\"Item 1\", \"Item 2\", \"Item 3\", \"Item 4\", \"Item 5\", \"Item 6\"]",
+        "",
+        "Write \"Grid Layout (\" plus columns plus \"x\" plus rows plus \")\"",
+        "Write \"\"",
+        "Write \"┌─────────┬─────────┬─────────┐\"",
+        "",
+        "# Row 1",
+        "Write \"│ Item 1  │ Item 2  │ Item 3  │\"",
+        "Write \"├─────────┼─────────┼─────────┤\"",
+        "",
+        "# Row 2",
+        "Write \"│ Item 4  │ Item 5  │ Item 6  │\"",
+        "Write \"└─────────┴─────────┴─────────┘\"",
+        "Write \"\"",
+        "",
+        "End Program"
+      ]
+    }
+  ]
+}

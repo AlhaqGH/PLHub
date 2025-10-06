@@ -1,0 +1,54 @@
+{
+  "key": "navbar",
+  "name": "Navigation Bar Widget",
+  "description": "Top navigation bar with logo and menu items.",
+  "category": "layout",
+  "tags": ["navbar", "navigation", "menu", "header"],
+  "preview": [
+    "Write \"╔═══════════════════════════════════════╗\"",
+    "Write \"║ MyApp  [Home] [About] [Contact] [→] ║\"",
+    "Write \"╚═══════════════════════════════════════╝\""
+  ],
+  "files": [
+    {
+      "path": "ui/widgets/{{widget_snake}}.poh",
+      "description": "Navigation bar widget",
+      "content": [
+        "Start Program",
+        "",
+        "# {{widget_title}} - Navigation Bar Widget",
+        "# Top navigation with logo and menu items",
+        "",
+        "Set app_name to \"PohLang App\"",
+        "Set nav_items to [\"Home\", \"Features\", \"Docs\", \"About\"]",
+        "Set active_item to \"Home\"",
+        "",
+        "Write \"╔═══════════════════════════════════════════════════╗\"",
+        "Write \"║ \" plus app_name plus \"                             ║\"",
+        "Write \"╠═══════════════════════════════════════════════════╣\"",
+        "",
+        "Set nav_display to \"║  \"",
+        "Set counter to 0",
+        "",
+        "Repeat 4 times",
+        "    Set item to first in(nav_items)",
+        "    ",
+        "    If item is equal to active_item",
+        "        Set nav_display to nav_display plus \"[\" plus item plus \"]\"",
+        "    Otherwise",
+        "        Set nav_display to nav_display plus \" \" plus item plus \" \"",
+        "    End If",
+        "    ",
+        "    Set nav_display to nav_display plus \"  \"",
+        "    Increase counter by 1",
+        "End",
+        "",
+        "Write nav_display plus \"║\"",
+        "Write \"╚═══════════════════════════════════════════════════╝\"",
+        "Write \"\"",
+        "",
+        "End Program"
+      ]
+    }
+  ]
+}

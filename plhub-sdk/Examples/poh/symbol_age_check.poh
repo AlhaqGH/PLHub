@@ -1,0 +1,3 @@
+// moved from transpiler/example (legacy symbol form may give warnings)
+Set age to 30
+If age > 18 Write "Adult" Otherwise Write "Minor"

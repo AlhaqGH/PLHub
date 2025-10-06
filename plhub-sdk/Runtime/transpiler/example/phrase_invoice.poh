@@ -1,0 +1,10 @@
+Set subtotal to 120
+Set discount to 10
+Set taxRate to 0.07
+Set discounted to subtotal - discount
+Set tax to discounted * taxRate
+Set total to discounted + tax
+Write "Subtotal: " + subtotal
+Write "Discount: " + discount
+Write "Tax: " + tax
+Write "Total: " + total

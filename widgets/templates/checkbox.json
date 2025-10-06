@@ -1,0 +1,52 @@
+{
+  "key": "checkbox",
+  "name": "Checkbox Widget",
+  "description": "Checkbox for binary on/off selection.",
+  "category": "form",
+  "tags": ["checkbox", "toggle", "form", "boolean"],
+  "preview": [
+    "Set is_checked to false",
+    "Write \"[\" plus (is_checked ? \"X\" : \" \") plus \"] Accept terms\"",
+    "Ask for response",
+    "If response is equal to \"yes\"",
+    "    Set is_checked to true",
+    "End If"
+  ],
+  "files": [
+    {
+      "path": "ui/widgets/{{widget_snake}}.poh",
+      "description": "Checkbox widget for boolean selection",
+      "content": [
+        "Start Program",
+        "",
+        "# {{widget_title}} - Checkbox Widget",
+        "# Simple checkbox for yes/no selection",
+        "",
+        "Set checkbox_label to \"Accept terms and conditions\"",
+        "Set is_checked to false",
+        "Set checkbox_symbol to \"[ ]\"",
+        "",
+        "Write checkbox_symbol plus \" \" plus checkbox_label",
+        "Write \"\"",
+        "Write \"Toggle? (yes/no): \"",
+        "Ask for response",
+        "",
+        "If response is equal to \"yes\"",
+        "    Set is_checked to true",
+        "    Set checkbox_symbol to \"[X]\"",
+        "End If",
+        "",
+        "Write \"\"",
+        "Write \"Updated: \" plus checkbox_symbol plus \" \" plus checkbox_label",
+        "",
+        "If is_checked is equal to true",
+        "    Write \"Status: Checked ✓\"",
+        "Otherwise",
+        "    Write \"Status: Unchecked\"",
+        "End If",
+        "",
+        "End Program"
+      ]
+    }
+  ]
+}

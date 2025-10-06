@@ -1,0 +1,8 @@
+recursive-include Runtime *
+recursive-include Runtime/transpiler *
+recursive-include Runtime/bin *
+recursive-include Examples *.poh
+recursive-include templates *
+recursive-include docs *.md
+recursive-include tools *
+include README.md

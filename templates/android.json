@@ -1,0 +1,55 @@
+{
+  "name": "android-app",
+  "version": "1.0.0",
+  "description": "Android mobile application built with PohLang",
+  "type": "android",
+  "author": "Your Name",
+  "license": "MIT",
+  "target": {
+    "platform": "android",
+    "minSdk": 24,
+    "targetSdk": 34,
+    "compileSdk": 34
+  },
+  "android": {
+    "package_name": "com.pohlang.myapp",
+    "app_name": "My PohLang App",
+    "icon": "assets/icon.png",
+    "splash": "assets/splash.png",
+    "permissions": [
+      "INTERNET",
+      "ACCESS_NETWORK_STATE"
+    ],
+    "features": [
+      "android.hardware.touchscreen",
+      "android.software.home_screen"
+    ],
+    "orientation": "portrait",
+    "theme": "AppCompat.Light.DarkActionBar"
+  },
+  "build": {
+    "sourceDir": "src",
+    "outputDir": "build/android",
+    "entry": "src/main.poh",
+    "assets": [
+      "assets/**/*"
+    ],
+    "resources": [
+      "res/**/*"
+    ]
+  },
+  "dependencies": {},
+  "scripts": {
+    "build": "plhub build android",
+    "build:release": "plhub build android --release",
+    "install": "adb install build/android/*.apk",
+    "run": "plhub run android",
+    "clean": "rm -rf build/android android/"
+  },
+  "keywords": [
+    "pohlang",
+    "android",
+    "mobile",
+    "app"
+  ]
+}

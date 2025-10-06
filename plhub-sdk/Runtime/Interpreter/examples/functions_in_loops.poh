@@ -1,0 +1,12 @@
+Make double with a
+    Return a times 2
+End
+Set i to 1
+While i is at most 3
+    If i is odd
+        Write double(i)
+    Otherwise
+        Write i
+    End If
+    Set i to i plus 1
+End While

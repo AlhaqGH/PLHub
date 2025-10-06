@@ -1,0 +1,53 @@
+{
+  "key": "progress",
+  "name": "Progress Bar Widget",
+  "description": "Visual progress indicator showing completion percentage.",
+  "category": "feedback",
+  "tags": ["progress", "loading", "percentage", "indicator"],
+  "preview": [
+    "Write \"Progress: 65%\"",
+    "Write \"[█████████████       ] 65/100\"",
+    "Write \"Loading...Please wait.\""
+  ],
+  "files": [
+    {
+      "path": "ui/widgets/{{widget_snake}}.poh",
+      "description": "Progress bar widget for visual feedback",
+      "content": [
+        "Start Program",
+        "",
+        "# {{widget_title}} - Progress Bar Widget",
+        "# Visual progress indicator",
+        "",
+        "Set progress_value to 65",
+        "Set progress_max to 100",
+        "Set progress_label to \"Loading...\"",
+        "",
+        "# Calculate percentage",
+        "Set percentage to progress_value",
+        "",
+        "Write progress_label",
+        "Write \"\"",
+        "",
+        "# Build progress bar (20 chars wide)",
+        "Set bar_filled to \"█████████████\"",
+        "Set bar_empty to \"       \"",
+        "",
+        "Write \"[\" plus bar_filled plus bar_empty plus \"] \" plus percentage plus \"%\"",
+        "Write \"\"",
+        "",
+        "If percentage is equal to 100",
+        "    Write \"✓ Complete!\"",
+        "Otherwise",
+        "    If percentage is greater than 50",
+        "        Write \"Status: More than halfway there...\"",
+        "    Otherwise",
+        "        Write \"Status: In progress...\"",
+        "    End If",
+        "End If",
+        "",
+        "End Program"
+      ]
+    }
+  ]
+}

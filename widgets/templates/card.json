@@ -1,0 +1,39 @@
+{
+  "key": "card",
+  "name": "Card Widget",
+  "description": "Framed content block with a title and body text - simple display format.",
+  "category": "display",
+  "tags": ["card", "display", "text"],
+  "preview": [
+    "Set card_title to \"Welcome\"",
+    "Set card_body to \"This is the card content\"",
+    "Write \"========================\"",
+    "Write card_title",
+    "Write \"------------------------\"",
+    "Write card_body",
+    "Write \"========================\""
+  ],
+  "files": [
+    {
+      "path": "ui/widgets/{{widget_snake}}.poh",
+      "description": "Card widget with title and body",
+      "content": [
+        "Start Program",
+        "",
+        "# {{widget_title}} - Card Widget",
+        "# Displays content in a framed box",
+        "",
+        "Set card_title to \"My Card Title\"",
+        "Set card_body to \"Card content goes here\"",
+        "",
+        "Write \"========================\"",
+        "Write card_title",
+        "Write \"------------------------\"",
+        "Write card_body",
+        "Write \"========================\"",
+        "",
+        "End Program"
+      ]
+    }
+  ]
+}

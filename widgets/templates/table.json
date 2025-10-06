@@ -1,0 +1,44 @@
+{
+  "key": "table",
+  "name": "Table Widget",
+  "description": "Data table with headers, rows, and cells.",
+  "category": "display",
+  "tags": ["table", "data", "rows", "columns"],
+  "preview": [
+    "Write \"┌──────┬──────┬──────┐\"",
+    "Write \"│ Name │ Age  │ City │\"",
+    "Write \"├──────┼──────┼──────┤\"",
+    "Write \"│ John │ 25   │ NYC  │\"",
+    "Write \"│ Jane │ 30   │ LA   │\"",
+    "Write \"└──────┴──────┴──────┘\""
+  ],
+  "files": [
+    {
+      "path": "ui/widgets/{{widget_snake}}.poh",
+      "description": "Table widget for structured data display",
+      "content": [
+        "Start Program",
+        "",
+        "# {{widget_title}} - Table Widget",
+        "# Displays data in tabular format",
+        "",
+        "Set table_title to \"User Data\"",
+        "Set headers to [\"Name\", \"Age\", \"City\"]",
+        "",
+        "Write table_title",
+        "Write \"\"",
+        "Write \"┌──────────────┬─────────┬──────────────┐\"",
+        "Write \"│ Name         │ Age     │ City         │\"",
+        "Write \"├──────────────┼─────────┼──────────────┤\"",
+        "Write \"│ John Doe     │ 25      │ New York     │\"",
+        "Write \"│ Jane Smith   │ 30      │ Los Angeles  │\"",
+        "Write \"│ Bob Johnson  │ 28      │ Chicago      │\"",
+        "Write \"└──────────────┴─────────┴──────────────┘\"",
+        "Write \"\"",
+        "Write \"Total rows: 3\"",
+        "",
+        "End Program"
+      ]
+    }
+  ]
+}

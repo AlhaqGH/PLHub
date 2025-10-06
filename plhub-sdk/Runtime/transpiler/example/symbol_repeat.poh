@@ -1,0 +1,5 @@
+mode: symbol
+var count = 3
+print("Start")
+count = count - 1
+print(count)

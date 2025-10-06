@@ -1,0 +1,2 @@
+Ask for age
+If age > 18 Say "Adult" Otherwise Say "Minor"

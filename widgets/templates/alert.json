@@ -1,0 +1,51 @@
+{
+  "key": "alert",
+  "name": "Alert Widget",
+  "description": "Alert notification for displaying status messages.",
+  "category": "feedback",
+  "tags": ["alert", "notification", "message", "feedback"],
+  "preview": [
+    "Write \"⚠️  WARNING: This is an alert message\"",
+    "Write \"=====================================\"",
+    "Write \"Please review the following details before proceeding.\"",
+    "Write \"[Dismiss]\"" 
+  ],
+  "files": [
+    {
+      "path": "ui/widgets/{{widget_snake}}.poh",
+      "description": "Alert widget for status notifications",
+      "content": [
+        "Start Program",
+        "",
+        "# {{widget_title}} - Alert Widget",
+        "# Displays colored alert messages with status",
+        "",
+        "Set alert_type to \"warning\"",
+        "Set alert_message to \"Please save your work before continuing\"",
+        "Set alert_icon to \"⚠️ \"",
+        "",
+        "# Different alert types",
+        "If alert_type is equal to \"success\"",
+        "    Set alert_icon to \"✓ \"",
+        "End If",
+        "",
+        "If alert_type is equal to \"error\"",
+        "    Set alert_icon to \"✗ \"",
+        "End If",
+        "",
+        "If alert_type is equal to \"info\"",
+        "    Set alert_icon to \"ℹ️  \"",
+        "End If",
+        "",
+        "# Display alert",
+        "Write \"========================================\"",
+        "Write alert_icon plus make uppercase(alert_type) plus \": \" plus alert_message",
+        "Write \"========================================\"",
+        "Write \"[Dismiss]\"",
+        "Write \"\"",
+        "",
+        "End Program"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "name": "Ocean Blue",
+  "description": "Calm and professional blue-themed design inspired by the ocean depths.",
+  "tokens": {
+    "background": "#F0F9FF",
+    "surface": "#E0F2FE",
+    "foreground": "#0C4A6E",
+    "foregroundSecondary": "#075985",
+    "border": "#BAE6FD",
+    "primary": "#0284C7",
+    "primaryForeground": "#FFFFFF",
+    "secondary": "#0891B2",
+    "accent": "#06B6D4",
+    "error": "#DC2626",
+    "warning": "#EA580C",
+    "info": "#0EA5E9",
+    "success": "#059669"
+  },
+  "typography": {
+    "fontFamily": "Inter, Segoe UI, sans-serif",
+    "fontSizeBase": 16,
+    "headingScale": [2.5, 1.875, 1.5, 1.25, 1.125, 0.875],
+    "lineHeight": 1.6
+  },
+  "elevation": {
+    "level0": "none",
+    "level1": "0px 1px 3px rgba(7, 89, 133, 0.1)",
+    "level2": "0px 4px 14px rgba(7, 89, 133, 0.15)",
+    "level3": "0px 10px 28px rgba(7, 89, 133, 0.2)"
+  },
+  "components": {
+    "button": {
+      "padding": "0.625rem 1.5rem",
+      "radius": "0.625rem",
+      "fontWeight": 600
+    },
+    "card": {
+      "radius": "0.875rem",
+      "padding": "1.75rem",
+      "border": "1px solid #BAE6FD"
+    },
+    "input": {
+      "padding": "0.75rem 1.125rem",
+      "radius": "0.625rem",
+      "border": "1px solid #7DD3FC"
+    }
+  }
+}

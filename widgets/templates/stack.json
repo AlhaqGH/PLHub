@@ -1,0 +1,39 @@
+{
+  "key": "stack",
+  "name": "Stack Layout",
+  "description": "Vertical list of items displayed one per line - simple layout format.",
+  "category": "layout",
+  "tags": ["stack", "layout", "list"],
+  "preview": [
+    "Set item_count to 3",
+    "Set counter to 1",
+    "Write \"Stack Layout:\"",
+    "Repeat item_count times",
+    "    Write \"Item \" plus counter",
+    "    Increase counter by 1",
+    "End"
+  ],
+  "files": [
+    {
+      "path": "ui/widgets/{{widget_snake}}.poh",
+      "description": "Stack layout widget showing vertical list",
+      "content": [
+        "Start Program",
+        "",
+        "# {{widget_title}} - Stack Layout Widget",
+        "# Displays items in a vertical stack",
+        "",
+        "Set item_count to 3",
+        "Set counter to 1",
+        "",
+        "Write \"Stack Layout:\"",
+        "Repeat item_count times",
+        "    Write \"Item \" plus counter",
+        "    Increase counter by 1",
+        "End",
+        "",
+        "End Program"
+      ]
+    }
+  ]
+}

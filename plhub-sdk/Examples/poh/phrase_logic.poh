@@ -1,0 +1,8 @@
+// moved from transpiler/example
+Set age to 20
+Set hasID to true
+Set isStudent to false
+Set hasPaid to false
+If age is greater than 18 And hasID is true Write "You may enter"
+If age is less than or equal to 12 Or isStudent is true Write "Discount"
+If Not hasPaid Write "Payment required"

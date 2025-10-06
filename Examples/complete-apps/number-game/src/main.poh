@@ -1,0 +1,251 @@
+Start Program
+
+# ================================================
+# Number Guessing Game v1.0
+# Interactive game with difficulty levels,
+# hints, and high score tracking
+# ================================================
+
+Write "════════════════════════════════════════"
+Write "    NUMBER GUESSING GAME v1.0"
+Write "════════════════════════════════════════"
+Write ""
+
+# Game statistics
+Set games_played to 0
+Set games_won to 0
+Set best_attempts to 999
+Set total_attempts to 0
+
+# Main menu loop
+Set playing to True
+
+While playing is True
+    Write ""
+    Write "────────────────────────────────────────"
+    Write "MAIN MENU"
+    Write "────────────────────────────────────────"
+    Write "  1. Play Game"
+    Write "  2. Instructions"
+    Write "  3. Statistics"
+    Write "  4. Exit"
+    Write "────────────────────────────────────────"
+    Write "Enter choice:"
+    Ask for choice
+    
+    If choice is "1"
+        # Play game
+        Write ""
+        Write "SELECT DIFFICULTY"
+        Write "────────────────────────────────────────"
+        Write "  1. Easy   (1-50,  unlimited guesses)"
+        Write "  2. Medium (1-100, 10 guesses)"
+        Write "  3. Hard   (1-500, 7 guesses)"
+        Write "────────────────────────────────────────"
+        Write "Enter difficulty:"
+        Ask for difficulty
+        
+        # Set game parameters
+        Set max_number to 50
+        Set max_guesses to 999
+        Set difficulty_name to "EASY"
+        
+        If difficulty is "2"
+            Set max_number to 100
+            Set max_guesses to 10
+            Set difficulty_name to "MEDIUM"
+        Otherwise If difficulty is "3"
+            Set max_number to 500
+            Set max_guesses to 7
+            Set difficulty_name to "HARD"
+        End If
+        
+        # Generate random number (simplified - using time-based seed)
+        # In real implementation, would use proper random number generation
+        Set secret_number to 42  # For demo purposes
+        
+        Write ""
+        Write "════════════════════════════════════════"
+        Write "      GAME STARTED - " plus difficulty_name
+        Write "════════════════════════════════════════"
+        Write "I'm thinking of a number between 1 and " plus max_number
+        Write "You have " plus max_guesses plus " guesses"
+        Write "════════════════════════════════════════"
+        Write ""
+        
+        # Game loop
+        Set attempts to 0
+        Set won to False
+        Set game_over to False
+        
+        While game_over is False
+            Set attempts to attempts plus 1
+            Set remaining to max_guesses minus attempts
+            
+            Write "Guess #" plus attempts plus " (Remaining: " plus remaining plus ")"
+            Write "Enter your guess:"
+            Ask for guess
+            
+            If guess is secret_number
+                # Win!
+                Set won to True
+                Set game_over to True
+                
+                Write ""
+                Write "🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉"
+                Write "     CONGRATULATIONS! YOU WON!"
+                Write "🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉"
+                Write ""
+                Write "You found the number " plus secret_number
+                Write "Attempts: " plus attempts
+                Write ""
+                
+                # Calculate score (lower is better)
+                Set score to attempts times 10
+                If difficulty is "2"
+                    Set score to score minus 5
+                Otherwise If difficulty is "3"
+                    Set score to score minus 10
+                End If
+                Write "Score: " plus score plus " points"
+                Write ""
+                
+            Otherwise
+                # Wrong guess - provide hints
+                If guess less than secret_number
+                    Write "❌ Too low! Try higher"
+                    
+                    # Additional hints based on distance
+                    Set distance to secret_number minus guess
+                    If distance less than 5
+                        Write "💡 Hint: You're very close!"
+                    Otherwise If distance less than 10
+                        Write "💡 Hint: Getting warmer!"
+                    End If
+                    
+                Otherwise
+                    Write "❌ Too high! Try lower"
+                    
+                    # Additional hints based on distance
+                    Set distance to guess minus secret_number
+                    If distance less than 5
+                        Write "💡 Hint: You're very close!"
+                    Otherwise If distance less than 10
+                        Write "💡 Hint: Getting warmer!"
+                    End If
+                End If
+                Write ""
+                
+                # Check if out of guesses
+                If attempts greater than max_guesses minus 1
+                    Set game_over to True
+                    Write "════════════════════════════════════════"
+                    Write "        GAME OVER!"
+                    Write "════════════════════════════════════════"
+                    Write "You ran out of guesses!"
+                    Write "The number was: " plus secret_number
+                    Write "Better luck next time!"
+                    Write ""
+                End If
+            End If
+        End While
+        
+        # Update statistics
+        Set games_played to games_played plus 1
+        Set total_attempts to total_attempts plus attempts
+        
+        If won is True
+            Set games_won to games_won plus 1
+            
+            # Update best score
+            If attempts less than best_attempts
+                Set best_attempts to attempts
+                Write "🏆 NEW BEST SCORE! 🏆"
+                Write ""
+            End If
+        End If
+        
+    Otherwise If choice is "2"
+        # Instructions
+        Write ""
+        Write "════════════════════════════════════════"
+        Write "        INSTRUCTIONS"
+        Write "════════════════════════════════════════"
+        Write ""
+        Write "HOW TO PLAY:"
+        Write "  1. Select difficulty level"
+        Write "  2. I'll think of a random number"
+        Write "  3. Try to guess it in as few attempts"
+        Write "     as possible"
+        Write "  4. I'll tell you if your guess is too"
+        Write "     high or too low"
+        Write ""
+        Write "DIFFICULTY LEVELS:"
+        Write "  • EASY:   1-50,  unlimited guesses"
+        Write "  • MEDIUM: 1-100, 10 guesses maximum"
+        Write "  • HARD:   1-500, 7 guesses maximum"
+        Write ""
+        Write "SCORING:"
+        Write "  • Fewer attempts = Higher score"
+        Write "  • Harder difficulty = Bonus points"
+        Write "  • Track your best score!"
+        Write ""
+        Write "TIPS:"
+        Write "  • Use binary search strategy"
+        Write "  • Start with middle number"
+        Write "  • Pay attention to hints"
+        Write "════════════════════════════════════════"
+        
+    Otherwise If choice is "3"
+        # Statistics
+        Write ""
+        Write "════════════════════════════════════════"
+        Write "        STATISTICS"
+        Write "════════════════════════════════════════"
+        Write ""
+        Write "Games Played: " plus games_played
+        Write "Games Won:    " plus games_won
+        
+        If games_played greater than 0
+            Set win_rate to (games_won times 100) divided by games_played
+            Write "Win Rate:     " plus win_rate plus "%"
+            
+            Set avg_attempts to total_attempts divided by games_played
+            Write "Avg Attempts: " plus avg_attempts
+        End If
+        
+        If best_attempts less than 999
+            Write ""
+            Write "🏆 Best Score: " plus best_attempts plus " attempts"
+        End If
+        
+        Write "════════════════════════════════════════"
+        
+    Otherwise If choice is "4"
+        # Exit
+        Set playing to False
+        Write ""
+        Write "════════════════════════════════════════"
+        Write "   Thanks for playing!"
+        Write ""
+        
+        If games_played greater than 0
+            Write "Session Summary:"
+            Write "  Games Played: " plus games_played
+            Write "  Games Won:    " plus games_won
+            
+            If best_attempts less than 999
+                Write "  Best Score:   " plus best_attempts plus " attempts"
+            End If
+        End If
+        
+        Write ""
+        Write "   See you next time! 👋"
+        Write "════════════════════════════════════════"
+        
+    Otherwise
+        Write "❌ Invalid choice! Please enter 1-4."
+    End If
+End While
+
+End Program

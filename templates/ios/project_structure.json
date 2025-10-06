@@ -1,0 +1,54 @@
+{
+  "platform": "ios",
+  "template_version": "1.0.0",
+  "deployment_target": "15.0",
+  "swift_version": "5.9",
+  "structure": {
+    "{{APP_NAME}}": {
+      "App": {
+        "AppDelegate.poh": true,
+        "SceneDelegate.poh": true,
+        "{{APP_NAME}}App.poh": true
+      },
+      "Views": {
+        "ContentView.poh": true,
+        "MainViewController.poh": true
+      },
+      "Models": {
+        "AppModel.poh": true
+      },
+      "Services": {
+        "HotReloadService.poh": true,
+        "NetworkService.poh": true
+      },
+      "Resources": {
+        "Assets.xcassets": {
+          "AppIcon.appiconset": ["Contents.json"],
+          "AccentColor.colorset": ["Contents.json"]
+        },
+        "LaunchScreen.storyboard": true,
+        "Info.plist": true
+      }
+    },
+    "{{APP_NAME}}Tests": {
+      "{{APP_NAME}}Tests.poh": true,
+      "Info.plist": true
+    },
+    "{{APP_NAME}}UITests": {
+      "{{APP_NAME}}UITests.poh": true,
+      "Info.plist": true
+    },
+    "{{APP_NAME}}.xcodeproj": {
+      "project.pbxproj": true
+    },
+    "Podfile": true
+  },
+  "frameworks": [
+    "SwiftUI",
+    "UIKit",
+    "Foundation",
+    "Combine",
+    "CoreData",
+    "Network"
+  ]
+}

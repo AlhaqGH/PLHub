@@ -1,0 +1,48 @@
+{
+  "name": "android-calculator",
+  "version": "1.0.0",
+  "description": "Android calculator app built with PohLang",
+  "type": "android",
+  "author": "PohLang Team",
+  "license": "MIT",
+  
+  "target": {
+    "platform": "android",
+    "minSdk": 24,
+    "targetSdk": 34,
+    "compileSdk": 34
+  },
+  
+  "android": {
+    "package_name": "com.pohlang.calculator",
+    "app_name": "PohLang Calculator",
+    "icon": "assets/icon.png",
+    "permissions": [],
+    "orientation": "portrait",
+    "theme": "AppCompat.Light.DarkActionBar"
+  },
+  
+  "build": {
+    "sourceDir": "src",
+    "outputDir": "build/android",
+    "entry": "src/main.poh",
+    "assets": []
+  },
+  
+  "dependencies": {},
+  
+  "scripts": {
+    "build": "python ../../plhub.py build android",
+    "build:release": "python ../../plhub.py build android --release",
+    "install": "adb install build/android/android-calculator-debug.apk",
+    "run": "python ../../plhub.py run android",
+    "clean": "rm -rf build/android android/"
+  },
+  
+  "keywords": [
+    "pohlang",
+    "android",
+    "calculator",
+    "mobile"
+  ]
+}

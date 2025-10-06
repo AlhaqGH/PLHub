@@ -1,0 +1,48 @@
+{
+  "name": "Forest Green",
+  "description": "Natural and calming green palette inspired by forest environments.",
+  "tokens": {
+    "background": "#F0FDF4",
+    "surface": "#DCFCE7",
+    "foreground": "#14532D",
+    "foregroundSecondary": "#166534",
+    "border": "#BBF7D0",
+    "primary": "#16A34A",
+    "primaryForeground": "#FFFFFF",
+    "secondary": "#059669",
+    "accent": "#10B981",
+    "error": "#DC2626",
+    "warning": "#F59E0B",
+    "info": "#0284C7",
+    "success": "#22C55E"
+  },
+  "typography": {
+    "fontFamily": "Inter, Segoe UI, sans-serif",
+    "fontSizeBase": 16,
+    "headingScale": [2.5, 1.875, 1.5, 1.25, 1.0, 0.875],
+    "lineHeight": 1.65
+  },
+  "elevation": {
+    "level0": "none",
+    "level1": "0px 1px 3px rgba(20, 83, 45, 0.1)",
+    "level2": "0px 4px 14px rgba(20, 83, 45, 0.15)",
+    "level3": "0px 12px 32px rgba(20, 83, 45, 0.2)"
+  },
+  "components": {
+    "button": {
+      "padding": "0.625rem 1.5rem",
+      "radius": "0.625rem",
+      "fontWeight": 600
+    },
+    "card": {
+      "radius": "0.875rem",
+      "padding": "1.75rem",
+      "border": "1px solid #BBF7D0"
+    },
+    "input": {
+      "padding": "0.75rem 1.125rem",
+      "radius": "0.625rem",
+      "border": "1px solid #86EFAC"
+    }
+  }
+}

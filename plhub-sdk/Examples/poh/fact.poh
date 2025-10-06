@@ -1,0 +1,7 @@
+Make fact with n
+    If n is 0
+        Return 1
+    End
+    Return n * fact(n - 1)
+End
+Write fact(6)

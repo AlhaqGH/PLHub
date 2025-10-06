@@ -1,0 +1,62 @@
+Start Program
+
+# UI Showcase Example
+# Demonstrates PLHub styling and widget capabilities using simple natural PohLang
+
+Write "==================================="
+Write "  PohLang UI Toolkit Showcase"
+Write "==================================="
+Write ""
+
+# Card Widget Demo
+Write "===================="
+Write "Welcome to PohLang!"
+Write "--------------------"
+Write "This example demonstrates the UI toolkit."
+Write "===================="
+
+Write ""
+Write "-----------------------------------"
+Write ""
+
+# Button Widget Demo
+Write "Interactive Components:"
+Write ""
+
+Set button_text to "Primary Action"
+Write "  [ " plus button_text plus " ]"
+
+Set button_text to "Secondary Action"
+Write "  [ " plus button_text plus " ]"
+
+Set button_text to "Cancel"
+Write "  [ " plus button_text plus " ]"
+
+Write ""
+Write "-----------------------------------"
+Write ""
+
+# Stack Layout Demo
+Write "Navigation Menu (Stack Layout):"
+Write ""
+
+Set item_count to 4
+Set counter to 1
+
+Set menu_item_1 to "Dashboard"
+Set menu_item_2 to "Projects"
+Set menu_item_3 to "Settings"
+Set menu_item_4 to "Help"
+
+Write "  - " plus menu_item_1
+Write "  - " plus menu_item_2
+Write "  - " plus menu_item_3
+Write "  - " plus menu_item_4
+
+Write ""
+Write "==================================="
+Write "  Styling: Check ui/styles/"
+Write "  Widgets: Check ui/widgets/"
+Write "==================================="
+
+End Program

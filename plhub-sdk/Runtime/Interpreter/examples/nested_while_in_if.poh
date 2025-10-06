@@ -1,0 +1,9 @@
+Set x to 3
+If x is positive
+    While x is greater than 0
+        Write x
+        Set x to x minus 1
+    End While
+Otherwise
+    Write "non-positive"
+End If

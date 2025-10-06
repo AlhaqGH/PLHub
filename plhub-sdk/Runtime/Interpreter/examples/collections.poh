@@ -1,0 +1,16 @@
+# Lists
+Set items to List contains "a", "b", "c"
+Write items at 0
+Add "d" to items
+Write items at 3
+Remove "b" from items
+Repeat items Write "each: " plus it
+
+# Dictionaries
+Set ages to Dictionary contains "Ann": 30, "Bob": 25
+Write ages at "Ann"
+Add "Cara": 28 to ages
+Write ages at "Cara"
+Remove "Bob" from ages
+Write keys of ages
+Write values of ages

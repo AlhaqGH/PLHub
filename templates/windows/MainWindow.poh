@@ -1,0 +1,215 @@
+⟨ PohLang Windows WinUI3 Application ⟩
+⟨ Main window for Windows desktop application ⟩
+
+Set window_title to "PohLang Windows App"
+Set app_version to "1.0.0"
+Set window_width to 1280
+Set window_height to 720
+
+⟨ Window State ⟩
+Set is_maximized to false
+Set current_page to "Home"
+Set theme_mode to "Light"
+
+⟨ Window Initialization ⟩
+Define function InitializeComponent:
+    Write "Initializing Windows application"
+    Call setupWindow
+    Call createMenuBar
+    Call createNavigationView
+    Call setupHotReload
+End function
+
+Define function setupWindow:
+    Write "╔════════════════════════════════════════╗"
+    Write "║  " + window_title + "                    ║"
+    Write "║  Version: " + app_version + "                         ║"
+    Write "╚════════════════════════════════════════╝"
+    Set window_title_set to true
+End function
+
+⟨ Menu Bar ⟩
+Define function createMenuBar:
+    Write "Creating menu bar"
+    Call addFileMenu
+    Call addEditMenu
+    Call addViewMenu
+    Call addHelpMenu
+End function
+
+Define function addFileMenu:
+    Write "Menu: File"
+    Write "  - New Project (Ctrl+N)"
+    Write "  - Open (Ctrl+O)"
+    Write "  - Save (Ctrl+S)"
+    Write "  - Exit (Alt+F4)"
+End function
+
+Define function addEditMenu:
+    Write "Menu: Edit"
+    Write "  - Cut (Ctrl+X)"
+    Write "  - Copy (Ctrl+C)"
+    Write "  - Paste (Ctrl+V)"
+    Write "  - Preferences"
+End function
+
+Define function addViewMenu:
+    Write "Menu: View"
+    Write "  - Toggle Theme"
+    Write "  - Zoom In (Ctrl++)"
+    Write "  - Zoom Out (Ctrl+-)"
+    Write "  - Full Screen (F11)"
+End function
+
+Define function addHelpMenu:
+    Write "Menu: Help"
+    Write "  - Documentation"
+    Write "  - About"
+End function
+
+⟨ Navigation View ⟩
+Define function createNavigationView:
+    Write "═══ Navigation ═══"
+    Write "🏠 Home"
+    Write "⚙️  Settings"
+    Write "📊 Dashboard"
+    Write "📁 Projects"
+    Write ""
+    Call loadPage with page current_page
+End function
+
+Define function loadPage with parameters page:
+    Set current_page to page
+    Write "Loading page: " + page
+    
+    If page equals "Home":
+        Call displayHomePage
+    Otherwise if page equals "Settings":
+        Call displaySettingsPage
+    Otherwise if page equals "Dashboard":
+        Call displayDashboardPage
+    Otherwise if page equals "Projects":
+        Call displayProjectsPage
+    End if
+End function
+
+⟨ Page Views ⟩
+Define function displayHomePage:
+    Write "════════════════════════════════════════"
+    Write "            HOME PAGE"
+    Write "════════════════════════════════════════"
+    Write ""
+    Write "Welcome to PohLang Windows App!"
+    Write ""
+    Write "Quick Actions:"
+    Write "  [N] Create New Project"
+    Write "  [O] Open Existing Project"
+    Write "  [E] View Examples"
+    Write ""
+    Call displayRecentProjects
+End function
+
+Define function displaySettingsPage:
+    Write "════════════════════════════════════════"
+    Write "           SETTINGS PAGE"
+    Write "════════════════════════════════════════"
+    Write ""
+    Write "Theme: " + theme_mode
+    Write "  [T] Toggle Theme"
+    Write ""
+    Write "Hot Reload: Enabled"
+    Write "  [H] Configure Hot Reload"
+    Write ""
+    Write "Editor Settings:"
+    Write "  Font Size: 14"
+    Write "  Tab Size: 4"
+End function
+
+Define function displayDashboardPage:
+    Write "════════════════════════════════════════"
+    Write "          DASHBOARD PAGE"
+    Write "════════════════════════════════════════"
+    Write ""
+    Write "System Status: ✓ Running"
+    Write "Projects: 5"
+    Write "Build Status: ✓ Success"
+    Write ""
+    Call displayMetrics
+End function
+
+Define function displayProjectsPage:
+    Write "════════════════════════════════════════"
+    Write "          PROJECTS PAGE"
+    Write "════════════════════════════════════════"
+    Write ""
+    Call displayProjectList
+End function
+
+⟨ Helper Functions ⟩
+Define function displayRecentProjects:
+    Write "Recent Projects:"
+    Write "  1. MyFirstApp"
+    Write "  2. DemoProject"
+    Write "  3. TestApp"
+End function
+
+Define function displayMetrics:
+    Write "Performance Metrics:"
+    Write "  CPU: 25%"
+    Write "  Memory: 512 MB"
+    Write "  Disk: 2.5 GB"
+End function
+
+Define function displayProjectList:
+    Write "All Projects:"
+    Write "  📁 MyFirstApp (Modified: 2 hours ago)"
+    Write "  📁 DemoProject (Modified: 1 day ago)"
+    Write "  📁 TestApp (Modified: 3 days ago)"
+End function
+
+⟨ Window Events ⟩
+Define function onWindowClosing:
+    Write "Window closing"
+    Call saveWindowState
+    Call cleanupResources
+End function
+
+Define function onWindowSizeChanged:
+    Write "Window resized"
+End function
+
+Define function toggleTheme:
+    If theme_mode equals "Light":
+        Set theme_mode to "Dark"
+    Otherwise:
+        Set theme_mode to "Light"
+    End if
+    Write "Theme changed to: " + theme_mode
+    Call refreshUI
+End function
+
+⟨ Hot Reload ⟩
+Define function setupHotReload:
+    Write "Hot reload service initialized"
+    Write "Watching for file changes..."
+End function
+
+Define function onHotReload:
+    Write "Hot reload triggered"
+    Call refreshUI
+    Write "UI refreshed successfully"
+End function
+
+⟨ State Management ⟩
+Define function saveWindowState:
+    Write "Saving window state"
+End function
+
+Define function cleanupResources:
+    Write "Cleaning up resources"
+End function
+
+Define function refreshUI:
+    Write "Refreshing user interface"
+    Call loadPage with page current_page
+End function

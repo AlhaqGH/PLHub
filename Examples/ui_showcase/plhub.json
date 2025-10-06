@@ -1,0 +1,8 @@
+{
+  "name": "ui_showcase",
+  "version": "1.0.0",
+  "description": "PLHub UI Toolkit showcase example",
+  "main": "main.poh",
+  "dependencies": {},
+  "dev_dependencies": {}
+}

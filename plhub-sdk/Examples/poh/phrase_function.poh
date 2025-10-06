@@ -1,0 +1,3 @@
+// moved from transpiler/example
+Make greet with name Write "Hello " + name
+Use greet with "World"
