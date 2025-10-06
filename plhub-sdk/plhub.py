@@ -31,6 +31,10 @@ from typing import List
 from tools.style_manager import StyleManager
 from tools.widget_manager import WidgetManager
 
+# Note: Advanced modules (platform_manager, hotreload_manager, test_manager, etc.)
+# are available in the main PLHub repository but not in the SDK package.
+# The SDK provides core functionality for basic project management and runtime integration.
+
 def _load_dotenv(dotenv_path: Path) -> None:
     """Lightweight .env loader (KEY=VALUE pairs, no quotes)."""
     # Try python-dotenv if available
@@ -384,7 +388,7 @@ def main():
     parser.add_argument(
         '-v', '--version',
         action='version',
-        version='PL-Hub v0.5.1 - Language-Independent Commands'
+        version='PL-Hub v0.5.1 - PohLang Development Environment with Language-Independent Commands'
     )
     
     subparsers = parser.add_subparsers(dest='command', help='Available commands')
@@ -406,12 +410,17 @@ def main():
     install_parser = subparsers.add_parser('install', help='Install a PohLang package')
     install_parser.add_argument('package', help='Package name to install')
     
-    # Build command
+    # Build command - support both old and new syntax
     build_parser = subparsers.add_parser('build', help='Build the current project')
-    build_parser.add_argument('--target', default='bytecode', choices=['python', 'dart', 'native', 'bytecode'], help='Build target (default: bytecode)')
+    build_parser.add_argument('target', nargs='?', default='bytecode',
+                            choices=['python', 'dart', 'native', 'bytecode', 'apk', 'ipa', 'exe', 'app', 'dmg', 'web', 'android', 'ios', 'windows', 'macos', 'linux'],
+                            help='Build target: apk (Android), ipa (iOS), exe (Windows), app (macOS), web, or bytecode/dart/native')
     build_parser.add_argument('--release', action='store_true', help='Build in release mode (optimized)')
     build_parser.add_argument('--debug', action='store_true', help='Build in debug mode (with debug info)')
     build_parser.add_argument('--out', default=None, help='Output path for artifacts')
+    build_parser.add_argument('--platform', default=None, help='Platform-specific build options')
+    # Legacy support
+    build_parser.add_argument('--target', dest='legacy_target', default=None, help='(Legacy) Build target')
     
     # Transpile command
     transpile_parser = subparsers.add_parser('transpile', help='Transpile a .poh file to another target')
@@ -525,6 +534,62 @@ def main():
     debug_parser.add_argument('--port', type=int, default=5858, help='Debug server port')
     debug_parser.add_argument('--verbose', action='store_true', help='Show detailed output')
 
+    # Platform command - cross-platform development
+    platform_parser = subparsers.add_parser('platform', help='Manage cross-platform development (Android, iOS, macOS, Windows, Web)')
+    platform_subparsers = platform_parser.add_subparsers(dest='platform_command', required=True)
+    
+    # Platform create
+    platform_create_parser = platform_subparsers.add_parser('create', help='Create new platform project')
+    platform_create_parser.add_argument('platform', choices=['android', 'ios', 'macos', 'windows', 'web'], 
+                                       help='Target platform')
+    platform_create_parser.add_argument('name', help='Project name')
+    platform_create_parser.add_argument('--package', default=None, help='Package name (e.g., com.example.app)')
+    platform_create_parser.add_argument('--output', default=None, help='Output directory')
+    
+    # Platform build
+    platform_build_parser = platform_subparsers.add_parser('build', help='Build platform project')
+    platform_build_parser.add_argument('platform', choices=['android', 'ios', 'macos', 'windows', 'web'], 
+                                      help='Target platform')
+    platform_build_parser.add_argument('--config', default='debug', choices=['debug', 'release'], 
+                                      help='Build configuration')
+    platform_build_parser.add_argument('--project-dir', default=None, help='Project directory')
+    
+    # Platform run
+    platform_run_parser = platform_subparsers.add_parser('run', help='Run platform project')
+    platform_run_parser.add_argument('platform', choices=['android', 'ios', 'macos', 'windows', 'web'], 
+                                    help='Target platform')
+    platform_run_parser.add_argument('--device', default=None, help='Target device ID or name')
+    platform_run_parser.add_argument('--project-dir', default=None, help='Project directory')
+    platform_run_parser.add_argument('--hot-reload', action='store_true', help='Enable hot reload')
+    
+    # Platform test
+    platform_test_parser = platform_subparsers.add_parser('test', help='Run platform tests')
+    platform_test_parser.add_argument('platform', choices=['android', 'ios', 'macos', 'windows', 'web'], 
+                                     help='Target platform')
+    platform_test_parser.add_argument('--type', default='unit', choices=['unit', 'integration', 'ui', 'e2e'], 
+                                     help='Test type')
+    platform_test_parser.add_argument('--pattern', default=None, help='Test pattern filter')
+    platform_test_parser.add_argument('--project-dir', default=None, help='Project directory')
+    
+    # Platform deploy
+    platform_deploy_parser = platform_subparsers.add_parser('deploy', help='Deploy platform project')
+    platform_deploy_parser.add_argument('platform', choices=['android', 'ios', 'macos', 'windows', 'web'], 
+                                       help='Target platform')
+    platform_deploy_parser.add_argument('target', help='Deployment target (e.g., store, device, server)')
+    platform_deploy_parser.add_argument('--project-dir', default=None, help='Project directory')
+    
+    # Platform devices
+    platform_devices_parser = platform_subparsers.add_parser('devices', help='List available devices')
+    platform_devices_parser.add_argument('--platform', default=None, 
+                                        choices=['android', 'ios', 'macos', 'windows', 'web'],
+                                        help='Filter by platform (default: all)')
+    
+    # Platform launch
+    platform_launch_parser = platform_subparsers.add_parser('launch', help='Launch emulator/simulator')
+    platform_launch_parser.add_argument('platform', choices=['android', 'ios', 'macos', 'windows', 'web'], 
+                                       help='Target platform')
+    platform_launch_parser.add_argument('device', help='Device/emulator name to launch')
+
     args = parser.parse_args()
     
     if not args.command:
@@ -547,6 +612,8 @@ def main():
         return style_command(args)
     elif args.command == 'widget':
         return widget_command(args)
+    elif args.command == 'platform':
+        return platform_command(args)
     elif args.command == 'update-runtime':
         return update_runtime_command(args)
     elif args.command == 'release':
@@ -644,7 +711,7 @@ def create_project(args):
         return 1
     
     print(f"Creating PohLang project '{project_name}' with template '{template}'...")
-    print(f"Using PLHub v0.5.0 automated project structure...")
+    print(f"Using PLHub v0.5.1 automated project structure...")
     
     # Create project structure using automation
     try:
@@ -744,7 +811,7 @@ def install_package(args):
     # Check if we're in a project directory
     if not Path("plhub.json").exists():
         print("Error: Not in a PohLang project directory.")
-        print("Run 'python plhub.py create <project_name>' to create a new project.")
+        print("Run 'plhub create <project_name>' to create a new project.")
         return 1
     
     print(f"Installing package '{package_name}'...")
@@ -767,22 +834,46 @@ def install_package(args):
 
 def build_project(args):
     """Build the current project."""
-    if not Path("plhub.json").exists():
+    project_root = find_project_root()
+    if not project_root:
         print("Error: Not in a PohLang project directory.")
         return 1
     
+    # Handle target mapping (new short syntax to full target names)
     target = args.target
+    
+    # Support legacy --target flag
+    if args.legacy_target:
+        target = args.legacy_target
+    
+    # Map short names to full target names
+    target_map = {
+        'apk': 'android',
+        'ipa': 'ios',
+        'exe': 'windows',
+        'app': 'macos',
+        'dmg': 'macos',
+    }
+    
+    target = target_map.get(target, target)
     build_mode = "release" if getattr(args, 'release', False) else ("debug" if getattr(args, 'debug', False) else "default")
+    
+    # Handle platform-specific builds
+    if target in ['android', 'ios', 'windows', 'macos', 'linux', 'web']:
+        print(f"⚠️  Platform-specific builds ('{target}') are not available in the SDK package.")
+        print("    Please use the full PLHub installation from:")
+        print("    https://github.com/AlhaqGH/PLHub")
+        return 1
     
     mode_str = f" ({build_mode})" if build_mode != "default" else ""
     print(f"Building project for target: {target}{mode_str}")
     
-    with open("plhub.json", "r") as f:
+    with open(project_root / "plhub.json", "r") as f:
         config = json.load(f)
     
-    main_file = config.get("main", "src/main.poh")
+    main_file = project_root / config.get("main", "src/main.poh")
     
-    if not Path(main_file).exists():
+    if not main_file.exists():
         print(f"Error: Main file '{main_file}' not found.")
         return 1
     
@@ -1456,7 +1547,7 @@ def sync_runtime_local(args) -> int:
                 metadata = {}
         
         # Read version from Cargo.toml
-        version = '0.5.0'
+        version = '0.5.1'
         cargo_toml = pohlang_repo / 'runtime' / 'Cargo.toml'
         if cargo_toml.exists():
             try:
@@ -1841,7 +1932,7 @@ def sync_runtime_local(args) -> int:
                 metadata = {}
         
         # Read version from Cargo.toml
-        version = '0.5.0'
+        version = '0.5.1'
         cargo_toml = pohlang_repo / 'runtime' / 'Cargo.toml'
         if cargo_toml.exists():
             try:
@@ -1927,6 +2018,49 @@ def dev_command(args) -> int:
     except Exception as e:
         print(f"❌ Dev server error: {e}")
         return 1
+
+
+def platform_command(args) -> int:
+    """Handle platform commands for cross-platform development."""
+    print("⚠️  Platform commands are not available in the SDK package.")
+    print("    Please use the full PLHub installation from:")
+    print("    https://github.com/AlhaqGH/PLHub")
+    return 1
+
+
+def platform_create(args) -> int:
+    """Create new platform project (not available in SDK)."""
+    return platform_command(args)
+
+
+def platform_build(args) -> int:
+    """Build platform project (not available in SDK)."""
+    return platform_command(args)
+
+
+def platform_run(args) -> int:
+    """Run platform project (not available in SDK)."""
+    return platform_command(args)
+
+
+def platform_test(args) -> int:
+    """Run platform tests (not available in SDK)."""
+    return platform_command(args)
+
+
+def platform_deploy(args) -> int:
+    """Deploy platform project (not available in SDK)."""
+    return platform_command(args)
+
+
+def platform_devices(args) -> int:
+    """List available devices (not available in SDK)."""
+    return platform_command(args)
+
+
+def platform_launch(args) -> int:
+    """Launch emulator/simulator (not available in SDK)."""
+    return platform_command(args)
 
 
 def debug_command(args) -> int:
