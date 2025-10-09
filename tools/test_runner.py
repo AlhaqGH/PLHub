@@ -23,7 +23,7 @@ import re
 
 
 @dataclass
-class TestResult:
+class PohTestResult:
     """Individual test result"""
     name: str
     file: str
@@ -34,14 +34,14 @@ class TestResult:
 
 
 @dataclass
-class TestSuite:
+class PohTestSuite:
     """Complete test suite results"""
     total: int
     passed: int
     failed: int
     skipped: int
     duration: float
-    results: List[TestResult]
+    results: List[PohTestResult]
     timestamp: str
     
     @property
@@ -52,7 +52,7 @@ class TestSuite:
         return (self.passed / self.total) * 100
 
 
-class TestRunner:
+class PohTestRunner:
     """Automated test runner with watch mode and reporting"""
     
     def __init__(self, project_root: Path, verbose: bool = False):
@@ -103,13 +103,13 @@ class TestRunner:
         
         return sorted(test_files)
     
-    def run_test_file(self, file_path: Path) -> TestResult:
+    def run_test_file(self, file_path: Path) -> PohTestResult:
         """Run a single test file and capture results"""
         start_time = time.time()
         pohlang_bin = self.find_pohlang_binary()
         
         if not pohlang_bin:
-            return TestResult(
+            return PohTestResult(
                 name=file_path.stem,
                 file=str(file_path),
                 passed=False,
@@ -132,7 +132,7 @@ class TestRunner:
             error = result.stderr if result.returncode != 0 else None
             passed = result.returncode == 0
             
-            return TestResult(
+            return PohTestResult(
                 name=file_path.stem,
                 file=str(file_path.relative_to(self.project_root)),
                 passed=passed,
@@ -143,7 +143,7 @@ class TestRunner:
             
         except subprocess.TimeoutExpired:
             duration = time.time() - start_time
-            return TestResult(
+            return PohTestResult(
                 name=file_path.stem,
                 file=str(file_path.relative_to(self.project_root)),
                 passed=False,
@@ -153,7 +153,7 @@ class TestRunner:
             )
         except Exception as e:
             duration = time.time() - start_time
-            return TestResult(
+            return PohTestResult(
                 name=file_path.stem,
                 file=str(file_path.relative_to(self.project_root)),
                 passed=False,
@@ -162,7 +162,7 @@ class TestRunner:
                 error=str(e)
             )
     
-    def run_all_tests(self, filter_pattern: Optional[str] = None) -> TestSuite:
+    def run_all_tests(self, filter_pattern: Optional[str] = None) -> PohTestSuite:
         """Run all discovered tests"""
         test_files = self.discover_tests(filter_pattern)
         
@@ -170,7 +170,7 @@ class TestRunner:
             print("⚠️  No test files found")
             if not self.test_dir.exists():
                 print(f"   Create a 'tests/' directory and add .poh files with 'test' in the name")
-            return TestSuite(
+            return PohTestSuite(
                 total=0,
                 passed=0,
                 failed=0,
@@ -201,7 +201,7 @@ class TestRunner:
         passed = sum(1 for r in results if r.passed)
         failed = sum(1 for r in results if not r.passed)
         
-        test_suite = TestSuite(
+        test_suite = PohTestSuite(
             total=len(results),
             passed=passed,
             failed=failed,
@@ -216,7 +216,7 @@ class TestRunner:
         
         return test_suite
     
-    def save_results(self, suite: TestSuite):
+    def save_results(self, suite: PohTestSuite):
         """Save test results to JSON file"""
         self.results_dir.mkdir(parents=True, exist_ok=True)
         
@@ -236,7 +236,7 @@ class TestRunner:
                 'results': [asdict(r) for r in suite.results]
             }, f, indent=2)
     
-    def print_summary(self, suite: TestSuite):
+    def print_summary(self, suite: PohTestSuite):
         """Print test suite summary"""
         print("\n" + "=" * 60)
         print("TEST SUMMARY")
@@ -321,7 +321,7 @@ class TestRunner:
             print("Note: Install 'watchdog' package for watch mode")
             print("  pip install watchdog")
     
-    def generate_ci_report(self, suite: TestSuite, format: str = 'github') -> str:
+    def generate_ci_report(self, suite: PohTestSuite, format: str = 'github') -> str:
         """Generate CI-friendly test report"""
         if format == 'github':
             report = "## Test Results\n\n"
@@ -344,7 +344,7 @@ class TestRunner:
         elif format == 'junit':
             # JUnit XML format for CI/CD systems
             xml = '<?xml version="1.0" encoding="UTF-8"?>\n'
-            xml += f'<testsuite name="PohLang Tests" tests="{suite.total}" '
+            xml += f'<PohTestSuite name="PohLang Tests" tests="{suite.total}" '
             xml += f'failures="{suite.failed}" time="{suite.duration:.2f}">\n'
             
             for result in suite.results:
@@ -359,7 +359,10 @@ class TestRunner:
                     xml += '    </failure>\n'
                     xml += '  </testcase>\n'
             
-            xml += '</testsuite>\n'
+            xml += '</PohTestSuite>\n'
             return xml
         
         return ''
+
+
+

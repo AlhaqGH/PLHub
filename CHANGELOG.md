@@ -5,7 +5,36 @@ All notable changes to PL-Hub will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.5.1] - 2025-10-06
+## [0.5.2] - 2025-10-09
+
+### Fixed
+- Fixed pytest namespace collision between `tools/` and `plhub-sdk/` directories
+- Eliminated all pytest collection warnings by renaming internal test classes
+- Added `pytest.ini` configuration for proper test discovery
+- Resolved "Test*" class naming conflicts with pytest's test discovery
+
+### Changed
+- Renamed test infrastructure classes to `PohTest*` naming convention:
+  - `TestType` → `PohTestType`
+  - `TestResult` → `PohTestResult`
+  - `TestSuite` → `PohTestSuite`
+  - `TestRunner` → `PohTestRunner`
+  - `TestManager` → `PohTestManager`
+- Updated imports across `plhub.py`, `tools/test_manager.py`, and `tools/test_runner.py`
+- Added `norecursedirs` to `pytest.ini` to exclude packaged distributions from test collection
+
+### Testing
+- ✅ All 11 automated tests now pass with zero warnings
+- ✅ Test suite runs cleanly in ~1.1 seconds
+- ✅ Added comprehensive test coverage documentation in `VERIFICATION_REPORT.md`
+
+### Verified
+- All CLI commands functional: `doctor`, `list`, `create`, `run`
+- Project scaffolding works correctly
+- Runtime integration seamless with PohLang v0.5.2
+- Python 3.12.10 compatibility confirmed
+
+## [0.5.1] - 2025-09-28
 
 ### Added
 - New features and improvements

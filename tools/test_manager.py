@@ -18,7 +18,7 @@ from dataclasses import dataclass
 from datetime import datetime
 
 
-class TestType(Enum):
+class PohTestType(Enum):
     """Types of tests"""
     UNIT = "unit"
     INTEGRATION = "integration"
@@ -28,10 +28,10 @@ class TestType(Enum):
 
 
 @dataclass
-class TestResult:
+class PohTestResult:
     """Test execution result"""
     test_name: str
-    test_type: TestType
+    test_type: PohTestType
     status: str  # passed, failed, skipped
     duration: float  # seconds
     error_message: Optional[str] = None
@@ -44,7 +44,7 @@ class TestResult:
 
 
 @dataclass
-class TestSuite:
+class PohTestSuite:
     """Collection of test results"""
     platform: str
     total_tests: int
@@ -52,7 +52,7 @@ class TestSuite:
     failed: int
     skipped: int
     duration: float
-    results: List[TestResult]
+    results: List[PohTestResult]
     timestamp: datetime = None
     
     def __post_init__(self):
@@ -67,19 +67,19 @@ class TestSuite:
         return (self.passed / self.total_tests) * 100
 
 
-class TestRunner:
+class PohTestRunner:
     """Base class for platform test runners"""
     
     def __init__(self, project_dir: Path, platform: str):
         self.project_dir = project_dir
         self.platform = platform
     
-    def run_tests(self, test_type: TestType = TestType.UNIT,
-                  pattern: Optional[str] = None) -> TestSuite:
+    def run_tests(self, test_type: PohTestType = PohTestType.UNIT,
+                  pattern: Optional[str] = None) -> PohTestSuite:
         """Run tests and return results"""
         raise NotImplementedError
     
-    def _parse_results(self, output: str) -> List[TestResult]:
+    def _parse_results(self, output: str) -> List[PohTestResult]:
         """Parse test output into results"""
         raise NotImplementedError
     
@@ -100,19 +100,19 @@ class TestRunner:
             return -1, "", str(e)
 
 
-class AndroidTestRunner(TestRunner):
+class AndroidTestRunner(PohTestRunner):
     """Android test runner"""
     
-    def run_tests(self, test_type: TestType = TestType.UNIT,
-                  pattern: Optional[str] = None) -> TestSuite:
+    def run_tests(self, test_type: PohTestType = PohTestType.UNIT,
+                  pattern: Optional[str] = None) -> PohTestSuite:
         """Run Android tests"""
         print(f"Running Android {test_type.value} tests...")
         
         gradlew = "./gradlew.bat" if sys.platform == "win32" else "./gradlew"
         
-        if test_type == TestType.UNIT:
+        if test_type == PohTestType.UNIT:
             cmd = [gradlew, "test", "--console=plain"]
-        elif test_type in [TestType.UI, TestType.INTEGRATION]:
+        elif test_type in [PohTestType.UI, PohTestType.INTEGRATION]:
             cmd = [gradlew, "connectedAndroidTest", "--console=plain"]
         else:
             cmd = [gradlew, "test", "--console=plain"]
@@ -126,7 +126,7 @@ class AndroidTestRunner(TestRunner):
         
         results = self._parse_results(stdout + stderr)
         
-        return TestSuite(
+        return PohTestSuite(
             platform="android",
             total_tests=len(results),
             passed=sum(1 for r in results if r.status == "passed"),
@@ -136,7 +136,7 @@ class AndroidTestRunner(TestRunner):
             results=results
         )
     
-    def _parse_results(self, output: str) -> List[TestResult]:
+    def _parse_results(self, output: str) -> List[PohTestResult]:
         """Parse Gradle test output"""
         results = []
         
@@ -153,23 +153,23 @@ class AndroidTestRunner(TestRunner):
                 else:
                     status = "skipped"
                 
-                results.append(TestResult(
+                results.append(PohTestResult(
                     test_name=test_name,
-                    test_type=TestType.UNIT,
+                    test_type=PohTestType.UNIT,
                     status=status,
                     duration=0.0
                 ))
         
         return results if results else [
-            TestResult("DefaultTest", TestType.UNIT, "passed", 0.0)
+            PohTestResult("DefaultTest", PohTestType.UNIT, "passed", 0.0)
         ]
 
 
-class IOSTestRunner(TestRunner):
+class IOSTestRunner(PohTestRunner):
     """iOS test runner"""
     
-    def run_tests(self, test_type: TestType = TestType.UNIT,
-                  pattern: Optional[str] = None) -> TestSuite:
+    def run_tests(self, test_type: PohTestType = PohTestType.UNIT,
+                  pattern: Optional[str] = None) -> PohTestSuite:
         """Run iOS tests"""
         print(f"Running iOS {test_type.value} tests...")
         
@@ -194,7 +194,7 @@ class IOSTestRunner(TestRunner):
         
         results = self._parse_results(stdout + stderr)
         
-        return TestSuite(
+        return PohTestSuite(
             platform="ios",
             total_tests=len(results),
             passed=sum(1 for r in results if r.status == "passed"),
@@ -204,7 +204,7 @@ class IOSTestRunner(TestRunner):
             results=results
         )
     
-    def _parse_results(self, output: str) -> List[TestResult]:
+    def _parse_results(self, output: str) -> List[PohTestResult]:
         """Parse XCTest output"""
         results = []
         
@@ -224,23 +224,23 @@ class IOSTestRunner(TestRunner):
                     except:
                         pass
                 
-                results.append(TestResult(
+                results.append(PohTestResult(
                     test_name=test_name,
-                    test_type=TestType.UNIT,
+                    test_type=PohTestType.UNIT,
                     status=status,
                     duration=duration
                 ))
         
         return results if results else [
-            TestResult("DefaultTest", TestType.UNIT, "passed", 0.0)
+            PohTestResult("DefaultTest", PohTestType.UNIT, "passed", 0.0)
         ]
 
 
-class MacOSTestRunner(TestRunner):
+class MacOSTestRunner(PohTestRunner):
     """macOS test runner"""
     
-    def run_tests(self, test_type: TestType = TestType.UNIT,
-                  pattern: Optional[str] = None) -> TestSuite:
+    def run_tests(self, test_type: PohTestType = PohTestType.UNIT,
+                  pattern: Optional[str] = None) -> PohTestSuite:
         """Run macOS tests"""
         print(f"Running macOS {test_type.value} tests...")
         
@@ -264,7 +264,7 @@ class MacOSTestRunner(TestRunner):
         
         results = self._parse_results(stdout + stderr)
         
-        return TestSuite(
+        return PohTestSuite(
             platform="macos",
             total_tests=len(results),
             passed=sum(1 for r in results if r.status == "passed"),
@@ -274,16 +274,16 @@ class MacOSTestRunner(TestRunner):
             results=results
         )
     
-    def _parse_results(self, output: str) -> List[TestResult]:
+    def _parse_results(self, output: str) -> List[PohTestResult]:
         """Parse XCTest output (same as iOS)"""
         return IOSTestRunner(self.project_dir, "macos")._parse_results(output)
 
 
-class WindowsTestRunner(TestRunner):
+class WindowsTestRunner(PohTestRunner):
     """Windows test runner"""
     
-    def run_tests(self, test_type: TestType = TestType.UNIT,
-                  pattern: Optional[str] = None) -> TestSuite:
+    def run_tests(self, test_type: PohTestType = PohTestType.UNIT,
+                  pattern: Optional[str] = None) -> PohTestSuite:
         """Run Windows tests"""
         print(f"Running Windows {test_type.value} tests...")
         
@@ -300,7 +300,7 @@ class WindowsTestRunner(TestRunner):
         
         results = self._parse_results(stdout + stderr)
         
-        return TestSuite(
+        return PohTestSuite(
             platform="windows",
             total_tests=len(results),
             passed=sum(1 for r in results if r.status == "passed"),
@@ -310,7 +310,7 @@ class WindowsTestRunner(TestRunner):
             results=results
         )
     
-    def _parse_results(self, output: str) -> List[TestResult]:
+    def _parse_results(self, output: str) -> List[PohTestResult]:
         """Parse dotnet test output"""
         results = []
         
@@ -330,30 +330,30 @@ class WindowsTestRunner(TestRunner):
                     if part.isdigit():
                         count = int(part)
                         for i in range(count):
-                            results.append(TestResult(
+                            results.append(PohTestResult(
                                 test_name=f"Test{i+1}",
-                                test_type=TestType.UNIT,
+                                test_type=PohTestType.UNIT,
                                 status=status,
                                 duration=0.0
                             ))
                         break
         
         return results if results else [
-            TestResult("DefaultTest", TestType.UNIT, "passed", 0.0)
+            PohTestResult("DefaultTest", PohTestType.UNIT, "passed", 0.0)
         ]
 
 
-class WebTestRunner(TestRunner):
+class WebTestRunner(PohTestRunner):
     """Web test runner"""
     
-    def run_tests(self, test_type: TestType = TestType.UNIT,
-                  pattern: Optional[str] = None) -> TestSuite:
+    def run_tests(self, test_type: PohTestType = PohTestType.UNIT,
+                  pattern: Optional[str] = None) -> PohTestSuite:
         """Run web tests"""
         print(f"Running web {test_type.value} tests...")
         
-        if test_type == TestType.UNIT:
+        if test_type == PohTestType.UNIT:
             cmd = ["npm", "run", "test:unit"]
-        elif test_type == TestType.E2E:
+        elif test_type == PohTestType.E2E:
             cmd = ["npm", "run", "test:e2e"]
         else:
             cmd = ["npm", "test"]
@@ -367,7 +367,7 @@ class WebTestRunner(TestRunner):
         
         results = self._parse_results(stdout + stderr)
         
-        return TestSuite(
+        return PohTestSuite(
             platform="web",
             total_tests=len(results),
             passed=sum(1 for r in results if r.status == "passed"),
@@ -377,7 +377,7 @@ class WebTestRunner(TestRunner):
             results=results
         )
     
-    def _parse_results(self, output: str) -> List[TestResult]:
+    def _parse_results(self, output: str) -> List[PohTestResult]:
         """Parse Jest/Vitest output"""
         results = []
         
@@ -392,7 +392,7 @@ class WebTestRunner(TestRunner):
                 else:
                     continue
                 
-                results.append(TestResult(
+                results.append(PohTestResult(
                     test_name=test_name[:100],  # Truncate long names
                     test_type=test_type,
                     status=status,
@@ -400,11 +400,11 @@ class WebTestRunner(TestRunner):
                 ))
         
         return results if results else [
-            TestResult("DefaultTest", TestType.UNIT, "passed", 0.0)
+            PohTestResult("DefaultTest", PohTestType.UNIT, "passed", 0.0)
         ]
 
 
-class TestManager:
+class PohTestManager:
     """Manages testing across all platforms"""
     
     def __init__(self):
@@ -417,8 +417,8 @@ class TestManager:
         }
     
     def run_tests(self, platform: str, project_dir: Path,
-                  test_type: TestType = TestType.UNIT,
-                  pattern: Optional[str] = None) -> TestSuite:
+                  test_type: PohTestType = PohTestType.UNIT,
+                  pattern: Optional[str] = None) -> PohTestSuite:
         """Run tests for specified platform"""
         runner_class = self.runners.get(platform)
         if not runner_class:
@@ -435,7 +435,7 @@ class TestManager:
         
         return suite
     
-    def display_results(self, suite: TestSuite):
+    def display_results(self, suite: PohTestSuite):
         """Display test results"""
         print("\n" + "="*60)
         print(f"TEST RESULTS - {suite.platform.upper()}")
@@ -459,7 +459,7 @@ class TestManager:
         
         print()
     
-    def save_results(self, suite: TestSuite, project_dir: Path):
+    def save_results(self, suite: PohTestSuite, project_dir: Path):
         """Save test results to file"""
         results_dir = project_dir / "test_results"
         results_dir.mkdir(exist_ok=True)
@@ -493,3 +493,6 @@ class TestManager:
             json.dump(data, f, indent=2)
         
         print(f"Test results saved to: {filepath}")
+
+
+

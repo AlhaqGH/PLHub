@@ -32,7 +32,7 @@ from tools.style_manager import StyleManager
 from tools.widget_manager import WidgetManager
 from tools.platform_manager import PlatformManager, Platform
 from tools.hotreload_manager import HotReloadManager
-from tools.test_manager import TestManager, TestType
+from tools.test_manager import PohTestManager, PohTestType
 from tools.device_manager import UnifiedDeviceManager
 from tools.ui_helpers import UI, Icon, Color, Spinner, ProgressBar, confirm, select, input_text
 from tools.command_helpers import (
@@ -2203,10 +2203,10 @@ def platform_run(args) -> int:
 def platform_test(args) -> int:
     """Run platform tests."""
     try:
-        test_manager = TestManager()
+        test_manager = PohTestManager()
         project_dir = Path(args.project_dir) if args.project_dir else Path.cwd()
         
-        test_type = TestType(args.type)
+        test_type = PohTestType(args.type)
         
         suite = test_manager.run_tests(
             platform=args.platform,
