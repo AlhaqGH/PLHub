@@ -5,6 +5,25 @@ All notable changes to PL-Hub will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.4] - 2025-10-10
+
+### Changed
+- Updated to support PohLang v0.5.4 runtime with Phase 5 error handling
+- Version bump to match PohLang runtime version
+
+### Runtime Integration
+- Compatible with PohLang v0.5.4 featuring:
+  - Comprehensive error handling with try/catch/finally
+  - Natural English error messages
+  - 7 built-in error types + custom types
+  - Type-specific error catching
+  - File location reporting
+
+### Notes
+- Fully backward compatible with PohLang v0.5.2 programs
+- All existing PLHub functionality remains unchanged
+- Error handling is purely additive to the language
+
 ## [0.5.2] - 2025-10-09
 
 ### Fixed
