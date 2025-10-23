@@ -5,6 +5,33 @@ All notable changes to PL-Hub will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+
+## [0.6.6] - 2025-10-23
+
+### Changed
+- Updated to support PohLang v0.6.6 runtime with Phase 8 optimizations
+- Version bump to match PohLang runtime version
+
+### Runtime Integration
+- Compatible with PohLang v0.6.6 featuring:
+  - Inline caching with 256-slot cache for fast global variable access
+  - Enhanced error messages with source line number tracking
+  - VM execution statistics and comprehensive profiling
+  - Optimized instruction sequences (constant folding, instruction fusion)
+  - Peephole optimization and dead code elimination
+  - 1,150+ lines of optimization code
+
+### Performance
+- Significant VM performance improvements through advanced optimizations
+- Better developer experience with enhanced error reporting
+- Comprehensive profiling capabilities with --stats flag
+
+### Notes
+- Fully backward compatible with PohLang v0.5.x programs
+- All existing PLHub functionality remains unchanged
+- Phase 8 optimizations are transparent to users
+
+
 ## [0.5.4] - 2025-10-10
 
 ### Changed

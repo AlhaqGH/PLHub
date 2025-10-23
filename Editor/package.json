@@ -1,0 +1,182 @@
+{
+  "name": "plhub",
+  "displayName": "PLHub",
+  "description": "PohLang v0.6.0 SDK development environment with project management, package tools, and runtime integration (requires PohLang Language Support extension)",
+  "version": "0.2.5",
+  "publisher": "pohlang",
+  "license": "MIT",
+  "icon": "images/PLHUB.png",
+  "galleryBanner": {
+    "color": "#1e1e1e",
+    "theme": "dark"
+  },
+  "engines": {
+    "vscode": "^1.70.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "keywords": [
+    "pohlang",
+    "poh",
+    "interpreter",
+    "programming language",
+    "rust",
+    "phrasal expressions",
+    "natural language",
+    "beginner-friendly"
+  ],
+  "main": "./out/extension.js",
+  "activationEvents": [
+    "onLanguage:pohlang",
+    "onCommand:PLHub.runFile",
+    "onCommand:PLHub.createProject",
+    "onCommand:PLHub.updateLanguage",
+    "onCommand:PLHub.runEnvironmentExample",
+    "onCommand:PLHub.showSDKVersions",
+    "onStartupFinished"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "PLHub.runFile",
+        "title": "PL-Hub: Run File"
+      },
+      {
+        "command": "PLHub.createProject",
+        "title": "PL-Hub: Create Project"
+      },
+      {
+        "command": "PLHub.updateLanguage",
+        "title": "PL-Hub: Update Language"
+      },
+      {
+        "command": "PLHub.runEnvironmentExample",
+        "title": "PL-Hub: Run Environment Example"
+      },
+      {
+        "command": "PLHub.showSDKVersions",
+        "title": "PL-Hub: Show SDK Versions"
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "when": "resourceExtname == .poh",
+          "command": "PLHub.runFile",
+          "group": "navigation"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "PLHub.runFile",
+          "when": "resourceExtname == .poh"
+        }
+      ]
+    },
+    "keybindings": [
+      {
+        "command": "PLHub.runFile",
+        "key": "ctrl+f5",
+        "when": "resourceExtname == .poh"
+      }
+    ],
+    "configuration": {
+      "title": "PohLang Hub",
+      "properties": {
+        "pohlangHub.interpreterRepo": {
+          "type": "string",
+          "default": "AlhaqGH/PohLang",
+          "markdownDescription": "GitHub repo for PohLang interpreter releases (legacy key). Prefer `pohlangHub.pohlangRepo`."
+        },
+        "pohlangHub.sdkRepo": {
+          "type": "string",
+          "default": "AlhaqGH/PLHub",
+          "markdownDescription": "GitHub repo for PL-Hub SDK releases (legacy key). Prefer `pohlangHub.plhubRepo`."
+        },
+        "pohlangHub.autoUpdateSDKs": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "Automatically fetch latest interpreter/SDK before runs (legacy key). Prefer `pohlangHub.autoUpdate`."
+        },
+        "pohlangHub.pohlangRepo": {
+          "type": "string",
+          "default": "AlhaqGH/PohLang",
+          "description": "GitHub repo for PohLang interpreter releases (owner/repo)"
+        },
+        "pohlangHub.plhubRepo": {
+          "type": "string",
+          "default": "AlhaqGH/PLHub",
+          "description": "GitHub repo for PL-Hub SDK releases (owner/repo)"
+        },
+        "pohlangHub.autoUpdate": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically fetch latest interpreter/SDK before runs"
+        },
+        "pohlangHub.updateIntervalDays": {
+          "type": "number",
+          "default": 7,
+          "minimum": 0,
+          "description": "How often (in days) to check for SDK updates when autoUpdate is enabled. 0 = check every run."
+        },
+        "pohlangHub.sdkTagOverride": {
+          "type": "string",
+          "default": "",
+          "description": "Optional Git tag to pin both SDK downloads to (e.g. sdk-v0.5.0). Leave empty for latest."
+        },
+        "pohlangHub.assetPattern": {
+          "type": "string",
+          "default": "",
+          "markdownDescription": "Regex to filter release assets to download (applied in addition to platform defaults)."
+        },
+        "pohlangHub.githubToken": {
+          "type": "string",
+          "default": "",
+          "markdownDescription": "Optional GitHub token for higher rate limits. Store as VS Code Secret if needed."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "echo skip prepublish",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.70.0",
+    "@types/node": "16.x",
+    "@typescript-eslint/eslint-plugin": "^5.31.0",
+    "@typescript-eslint/parser": "^5.31.0",
+    "eslint": "^8.20.0",
+    "typescript": "^4.7.4"
+  },
+  "dependencies": {
+    "extract-zip": "^2.0.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pohlang/PLHub.git"
+  },
+  "bugs": {
+    "url": "https://github.com/pohlang/PLHub/issues"
+  },
+  "homepage": "https://github.com/pohlang/PLHub#readme",
+  "__metadata": {
+    "installedTimestamp": 1760465982380,
+    "targetPlatform": "undefined",
+    "size": 3730707
+  },
+  "files": [
+    "out/**",
+    "images/PLHUB.png",
+    "readme.md",
+    "CHANGELOG.md",
+    "LICENSE*",
+    "package.json",
+    "node_modules/**"
+  ]
+}
