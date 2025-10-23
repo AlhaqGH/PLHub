@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.2.5] - 2025-10-23
 
 ### Changed
-- Updated for PohLang Runtime v0.6.6 - Phase 8 Optimizations Complete
+- Updated for PohLang Runtime v0.6.6 / PLHub v0.6.0 - Phase 8 Optimizations Complete
 - Compatible with enhanced VM featuring inline caching and profiling
 
 ### Runtime Features (v0.6.6)
