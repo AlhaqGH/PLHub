@@ -1,8 +1,8 @@
 {
-  "pohlang_version": "0.5.0",
-  "source_repo": "https://github.com/AlhaqGH/PohLang",
+  "pohlang_version": "0.6.7",
+  "source_repo": "https://github.com/pohlang/PohLang",
   "build_profile": "release",
-  "installed_at": "2025-10-05T09:30:59.033985",
+  "installed_at": "2025-10-25T12:00:00.000000",
   "source": "official_release",
-  "release_url": "https://github.com/AlhaqGH/PohLang/releases/download/v0.5.0/pohlang-v0.5.0-windows-x64.zip"
+  "release_url": "https://github.com/pohlang/PohLang/releases/tag/v0.6.7"
 }

@@ -173,26 +173,108 @@ jobs:
       run: |
         mkdir -p plhub-sdk
         
-        # Copy essential files
-        cp -r CLI/ plhub-sdk/
-        cp -r Editor/ plhub-sdk/
-        cp -r Examples/ plhub-sdk/
+        # Copy core components
+        cp -r cli/ plhub-sdk/ 2>/dev/null || cp -r CLI/ plhub-sdk/
+        cp -r editor/ plhub-sdk/ 2>/dev/null || cp -r Editor/ plhub-sdk/
+        cp -r examples/ plhub-sdk/ 2>/dev/null || cp -r Examples/ plhub-sdk/
         cp -r templates/ plhub-sdk/
         cp -r docs/ plhub-sdk/
         cp -r tools/ plhub-sdk/
-        cp -r Runtime/ plhub-sdk/
+        cp -r styles/ plhub-sdk/
+        cp -r widgets/ plhub-sdk/
+        cp -r Runtime/ plhub-sdk/runtime/
+        
+        # Copy build system and tooling
+        cp -r Modules/ plhub-sdk/ 2>/dev/null || true
+        cp -r packages/ plhub-sdk/ 2>/dev/null || true
+        
+        # Copy main files
         cp plhub.py plhub-sdk/
-        cp README.md plhub-sdk/
         cp setup.py plhub-sdk/
         cp MANIFEST.in plhub-sdk/
+        cp requirements.txt plhub-sdk/
+        cp LICENSE plhub-sdk/
+        
+        # Copy documentation
+        cp README.md plhub-sdk/
+        cp CHANGELOG.md plhub-sdk/
+        cp COMPATIBILITY.md plhub-sdk/ 2>/dev/null || true
+        
+        # Create SDK documentation
+        cat > plhub-sdk/SDK_README.md << 'SDKEOF'
+        # PLHub Development Framework SDK
+        
+        This is the **complete development framework** for PohLang - like Flutter for Dart.
+        
+        ## What's Included
+        
+        - **CLI Tools** (`cli/`) - Project management, build system, testing
+        - **Runtime** (`runtime/`) - Embedded PohLang language runtime
+        - **Templates** (`templates/`) - Project scaffolding (basic, console, library, web)
+        - **Editor Integration** (`editor/`) - VS Code extension, language server
+        - **UI Toolkit** (`styles/`, `widgets/`) - 6 themes, 16 widgets
+        - **Examples** (`examples/`) - Complete applications (calculator APK, etc.)
+        - **Tools** (`tools/`) - Build, test, debug, format
+        - **Documentation** (`docs/`) - Comprehensive guides
+        
+        ## Quick Start
+        
+        ```bash
+        # Install
+        pip install -e .
+        
+        # Verify
+        plhub --version
+        plhub doctor
+        
+        # Create project
+        plhub create my-app --template console
+        cd my-app
+        
+        # Run
+        plhub run src/main.poh
+        
+        # Build for Android
+        plhub build apk
+        ```
+        
+        ## System Requirements
+        
+        - Python 3.9+
+        - For Android: Java JDK 11+, Android Studio
+        - For iOS: macOS 13+, Xcode 15+
+        - For Web: Node.js 18+
+        
+        ## Documentation
+        
+        - `README.md` - Overview and features
+        - `SDK_README.md` - This file
+        - `docs/getting_started.md` - First steps
+        - `docs/cli_reference.md` - Complete command reference
+        - `docs/AUTOMATION_GUIDE.md` - Development workflow
+        - `docs/CROSS_PLATFORM_GUIDE.md` - Platform support
+        
+        ## Support
+        
+        - Issues: https://github.com/AlhaqGH/PLHub/issues
+        - Discussions: https://github.com/AlhaqGH/PLHub/discussions
+        SDKEOF
         
         # Create installer script
         cat > plhub-sdk/install.sh << 'EOF'
         #!/bin/bash
-        echo "Installing PL-Hub SDK..."
+        echo "========================================="
+        echo "  PLHub SDK Installer"
+        echo "  Development Framework for PohLang"
+        echo "========================================="
+        echo ""
         
         # Install Python package
-        pip install -e .
+        echo "Installing PLHub package..."
+        pip install -e . || {
+            echo "Error: pip install failed"
+            exit 1
+        }
         
         # Make plhub command available
         INSTALL_DIR=${HOME}/.local/bin
@@ -200,14 +282,23 @@ jobs:
         
         cat > "$INSTALL_DIR/plhub" << 'SCRIPT'
         #!/bin/bash
-        exec python "$(dirname "$0")/../lib/python*/site-packages/plhub.py" "$@"
+        exec python -m plhub "$@"
         SCRIPT
         
         chmod +x "$INSTALL_DIR/plhub"
         
-        echo "PL-Hub SDK installed successfully!"
-        echo "Add $INSTALL_DIR to your PATH if not already added."
-        echo "Usage: plhub --help"
+        echo ""
+        echo "✅ PLHub SDK installed successfully!"
+        echo ""
+        echo "Next steps:"
+        echo "  1. Add $INSTALL_DIR to your PATH (if not already added)"
+        echo "  2. Close and reopen your terminal"
+        echo "  3. Run: plhub --version"
+        echo "  4. Run: plhub doctor"
+        echo ""
+        echo "Create your first project:"
+        echo "  plhub create my-app --template console"
+        echo ""
         EOF
         
         chmod +x plhub-sdk/install.sh
@@ -215,12 +306,31 @@ jobs:
         # Create Windows installer
         cat > plhub-sdk/install.bat << 'EOF'
         @echo off
-        echo Installing PL-Hub SDK...
+        echo =========================================
+        echo   PLHub SDK Installer
+        echo   Development Framework for PohLang
+        echo =========================================
+        echo.
         
+        echo Installing PLHub package...
         pip install -e .
+        if %ERRORLEVEL% NEQ 0 (
+            echo Error: pip install failed
+            exit /b 1
+        )
         
-        echo PL-Hub SDK installed successfully!
-        echo Usage: python plhub.py --help
+        echo.
+        echo ✅ PLHub SDK installed successfully!
+        echo.
+        echo Next steps:
+        echo   1. Close and reopen your terminal
+        echo   2. Run: plhub --version
+        echo   3. Run: plhub doctor
+        echo.
+        echo Create your first project:
+        echo   plhub create my-app --template console
+        echo.
+        pause
         EOF
         
         # Create archive

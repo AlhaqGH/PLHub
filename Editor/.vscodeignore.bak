@@ -1,0 +1,9 @@
+# Exclude heavy/unneeded content from VSIX
+bin/**
+examples/**
+tests/**
+src/**
+**/*.map
+.git/**
+.github/**
+.vscode/**

@@ -1,0 +1,15 @@
+Start Program
+Write "=== Phrasal Collections ==="
+
+Set xs to Make a list of 1, 2 and 3
+Write xs
+
+Set ys to Make a mutable list of 4, 5
+Write ys
+
+Set m to Make a dictionary with "a" as 1, "b" as 2
+Write m
+
+Set mm to Make a mutable dictionary with "x" as 10, "y" as 20
+Write mm
+End Program

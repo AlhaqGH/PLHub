@@ -1,249 +1,285 @@
-# PL-Hub SDK v0.5.0 - Distribution Package
+# PLHub SDK Structure & Purpose
 
-**Official PohLang Development Environment SDK**
+**PLHub is the complete development framework for PohLang** - think Flutter for Dart, or .NET SDK for C#.
 
-## 📦 What's Included
+## SDK vs Runtime Distinction
 
-This SDK package contains everything needed to develop PohLang applications with full automation support.
+### PohLang Language SDK (in `/PohLang/`)
+- **Purpose**: Embed PohLang in applications, create language bindings
+- **Contents**: Runtime binary, language spec (Grammar.ebnf), API docs
+- **For**: Language developers, tool builders, embedders
+- **Example use**: "I want to add PohLang scripting to my C++ game"
 
-### Core Components
+### PLHub Development Framework SDK (this package)
+- **Purpose**: Build complete applications with PohLang
+- **Contents**: CLI tools, project templates, build system, UI toolkit, platform targets
+- **For**: Application developers, software engineers
+- **Example use**: "I want to build an Android app with PohLang"
 
-- **plhub.py** - Main CLI tool (1,994 lines)
-- **setup.py** - Python package installer
-- **install_official_runtime.py** - Official PohLang v0.5.0 runtime installer
+## PLHub SDK Components
 
-### Automation Tools (`tools/`)
+```
+plhub-sdk/
+├── cli/                        # Command-line tools
+│   ├── plhub.py                # Main CLI entry point
+│   ├── commands/               # Command implementations
+│   └── utils/                  # CLI utilities
+│
+├── runtime/                    # Embedded PohLang runtime
+│   ├── bin/pohlang(.exe)       # Language runtime binary
+│   ├── Interpreter/            # Python fallback interpreter
+│   ├── transpiler/             # Dart transpiler
+│   └── pohlang_metadata.json   # Version tracking
+│
+├── templates/                  # Project scaffolding
+│   ├── basic/                  # Simple starter
+│   ├── console/                # CLI applications
+│   ├── library/                # Reusable packages
+│   └── web/                    # Web applications
+│
+├── editor/                     # Editor integrations
+│   ├── vscode/                 # VS Code extension
+│   ├── language-server/        # LSP implementation
+│   └── syntax/                 # Syntax definitions
+│
+├── tools/                      # Development tools
+│   ├── build/                  # Build system
+│   ├── test/                   # Testing framework
+│   ├── debug/                  # Debugger
+│   └── format/                 # Code formatter
+│
+├── styles/                     # UI theming system
+│   ├── themes/                 # 6 built-in themes
+│   └── widgets/                # 16 widget templates
+│
+├── examples/                   # Sample applications
+│   ├── complete-apps/          # Full applications
+│   │   ├── calculator/         # Android calculator APK
+│   │   ├── todo-manager/       # CRUD application
+│   │   └── number-game/        # Game with high scores
+│   └── tutorials/              # Learning examples
+│
+├── docs/                       # Comprehensive documentation
+│   ├── getting_started.md
+│   ├── cli_reference.md
+│   ├── AUTOMATION_GUIDE.md
+│   ├── CROSS_PLATFORM_GUIDE.md
+│   ├── UI_TOOLKIT.md
+│   └── development_workflow.md
+│
+├── setup.py                    # Python package installer
+├── requirements.txt            # Dependencies
+├── README.md                   # Main documentation
+└── SDK_README.md               # This file
+```
 
-- **build_automation.py** - Incremental builds with watch mode
-- **test_runner.py** - Test automation with CI/CD support
-- **hot_reload.py** - Development server with instant reload
-- **project_structure.py** - Project scaffolding system (951 lines)
-- **style_manager.py** - UI theme management
-- **widget_manager.py** - Widget template system
+## What PLHub SDK Provides
 
-### Project Templates (`templates/`)
-
-Four professional project templates with PohLang v0.5.0 features:
-- **basic.poh** - Simple starter template
-- **console.poh** - Interactive CLI application
-- **web.poh** - Web application structure
-- **vscode/** - VS Code tasks and debug configurations
-
-### Documentation (`docs/`)
-
-- **AUTOMATION_GUIDE.md** (88KB) - Complete automation workflows
-- **RELEASE_v0.5.0.md** - Release summary
-- **QUICK_REFERENCE.md** - Command reference
-- **cli_reference.md** - CLI documentation
-- **development_workflow.md** - Best practices
-- **getting_started.md** - Beginner's guide
-
-### Additional Files
-
-- **README.md** - Complete documentation
-- **CHANGELOG.md** - Version history
-- **COMPATIBILITY.md** - PohLang v0.5.0 compatibility report
-- **KNOWN_ISSUES.md** - Known runtime issues and workarounds
-- **RELEASE_CHECKLIST.md** - Pre-release verification
-- **RELEASE_PACKAGE.md** - Distribution guide
-
-## 🚀 Quick Start
-
-### 1. Installation
-
+### 1. Complete Development Environment
+Like **Flutter** provides `flutter create`, `flutter run`, `flutter build`, PLHub provides:
 ```bash
-# Extract the SDK
-unzip plhub-sdk.zip -d plhub
-cd plhub
+plhub create my-app --template console
+plhub run src/main.poh
+plhub build apk
+```
 
-# Install PohLang v0.5.0 runtime (Windows)
-python install_official_runtime.py
+### 2. Multi-Platform Build System
+- **Android** APKs/AABs
+- **iOS** IPAs
+- **Windows** EXE/MSIX
+- **macOS** DMG/App
+- **Web** Progressive Web Apps
 
+### 3. Project Management
+- Project templates and scaffolding
+- Configuration management
+- Dependency resolution (coming soon)
+- Version control integration
+
+### 4. Development Automation
+- **Watch mode**: Auto-rebuild on file changes
+- **Hot reload**: Instant feedback during development
+- **Test automation**: Watch mode for tests
+- **Debug server**: Breakpoint support
+
+### 5. UI Development Toolkit
+- **6 professional themes** (light, dark, ocean, sunset, forest, high-contrast)
+- **16 widget templates** (buttons, cards, forms, modals, etc.)
+- Theme customization system
+- Responsive layout helpers
+
+### 6. Cross-Platform Testing
+- Unit tests
+- Integration tests
+- UI tests
+- E2E tests
+- CI/CD integration (GitHub Actions, JUnit)
+
+### 7. Editor Integration
+- **VS Code tasks** (run, build, test, debug)
+- **Launch configurations** for debugging
+- **Problem matchers** for error reporting
+- **Language server** for IntelliSense
+
+### 8. Deployment Tools
+- **Android**: Google Play Store, Firebase
+- **iOS**: App Store, TestFlight
+- **Windows**: Microsoft Store
+- **macOS**: Mac App Store
+- **Web**: Netlify, Vercel, Firebase
+
+## Installation Methods
+
+### Method 1: Python Package (Recommended)
+```bash
+pip install plhub
+plhub --version
+```
+
+### Method 2: Standalone SDK
+```bash
+# Download plhub-sdk-{version}.tar.gz or .zip
+tar -xzf plhub-sdk-{version}.tar.gz
+cd plhub-sdk-{version}
+
+# Linux/macOS
+./install.sh
+
+# Windows
+install.bat
+```
+
+### Method 3: Development Setup
+```bash
+git clone https://github.com/AlhaqGH/PLHub
+cd PLHub
+pip install -e .
+```
+
+## SDK vs Language Runtime Comparison
+
+| Feature | PohLang SDK | PLHub SDK |
+|---------|-------------|-----------|
+| **Purpose** | Language embedding | App development |
+| **Primary users** | Tool builders | App developers |
+| **Contains** | Runtime + specs | CLI + tools + templates |
+| **Example use** | "Embed PohLang in C++" | "Build Android app" |
+| **Key files** | libpohlang, Grammar.ebnf | plhub CLI, templates |
+| **Analogy** | Python C API | Django/Flask |
+| **Size** | ~50 MB | ~200 MB |
+| **Dependencies** | None (standalone) | Python 3.9+ |
+
+## Quick Start Examples
+
+### Example 1: Create Console App
+```bash
+plhub create calculator --template console
+cd calculator
+plhub run src/main.poh
+```
+
+### Example 2: Build Android APK
+```bash
+cd examples/android-calculator
+plhub build apk
+# Output: build/android/calculator-debug.apk
+```
+
+### Example 3: Development with Hot Reload
+```bash
+plhub create my-app
+cd my-app
+plhub dev  # Hot reload enabled
+# Edit src/main.poh - changes apply instantly!
+```
+
+### Example 4: Apply UI Theme
+```bash
+plhub style list
+plhub style apply ocean_blue
+plhub widget generate button --name PrimaryButton
+```
+
+### Example 5: Cross-Platform Build
+```bash
+plhub platform create android MyApp
+plhub platform run android --hot-reload
+plhub platform test android
+plhub platform build android --config release
+```
+
+## Embedded Runtime
+
+PLHub SDK includes the PohLang runtime binary for immediate use:
+- **Location**: `runtime/bin/pohlang(.exe)`
+- **Version**: Tracked in `runtime/pohlang_metadata.json`
+- **Update**: `plhub update-runtime --version latest`
+- **Local sync**: `plhub sync-runtime-local` (for development)
+
+## Documentation Structure
+
+- **README.md** - Overview and quick start
+- **SDK_README.md** - This file (SDK structure)
+- **docs/getting_started.md** - First steps
+- **docs/cli_reference.md** - Complete command reference
+- **docs/AUTOMATION_GUIDE.md** - Watch, hot reload, testing
+- **docs/CROSS_PLATFORM_GUIDE.md** - Android, iOS, Web, etc.
+- **docs/UI_TOOLKIT.md** - Themes and widgets
+- **docs/development_workflow.md** - Best practices
+
+## System Requirements
+
+### Minimum
+- **OS**: Windows 10/11, macOS 13+, Ubuntu 20.04+
+- **Python**: 3.9 or higher
+- **RAM**: 4 GB
+- **Storage**: 500 MB
+
+### Platform-Specific
+- **Android**: Java JDK 11+, Android Studio, Android SDK
+- **iOS**: macOS 13+, Xcode 15+
+- **Windows apps**: Visual Studio 2022, .NET 8.0
+- **Web**: Node.js 18+
+
+## Troubleshooting
+
+### Command not found
+```bash
 # Verify installation
-python plhub.py doctor
+plhub --version
+
+# If not found, check PATH
+# Windows: Add %APPDATA%\plhub to PATH
+# Linux/macOS: Add ~/.local/bin to PATH
 ```
 
-### 2. Create Your First Project
-
+### Runtime not found
 ```bash
-# Create a project (choose template)
-python plhub.py create my_app --template basic
-
-# Navigate to project
-cd my_app
-
-# Run the application
-python ../plhub.py run src/main.poh
-
-# Start development with hot reload
-python ../plhub.py dev
+plhub doctor          # Check environment
+plhub update-runtime  # Download runtime
 ```
 
-### 3. Explore Features
-
+### Build errors
 ```bash
-# Run examples
-python ../plhub.py run examples/example.poh
-
-# Run tests
-python ../plhub.py test
-
-# Build for distribution
-python ../plhub.py build --release
+plhub clean          # Clean build artifacts
+plhub doctor         # Check requirements
 ```
 
-## ✨ Key Features
+## Support & Resources
 
-### Development Automation
-
-- **Build Automation** - Watch mode, incremental compilation, caching
-- **Test Automation** - Auto-discovery, watch mode, CI/CD reports
-- **Hot Reload** - Instant feedback with state preservation
-- **Debug Support** - Breakpoint infrastructure
-
-### Professional Templates
-
-| Template | Description | Files | Use Case |
-|----------|-------------|-------|----------|
-| **basic** | Simple starter | 5 files, 4 dirs | Learning PohLang |
-| **console** | Interactive CLI | 8 files, 8 dirs | Command-line tools |
-| **library** | Reusable package | 8 files, 8 dirs | Shared libraries |
-| **web** | Web application | 8 files, 8 dirs | Web apps (future) |
-
-### PohLang v0.5.0 Support
-
-All 20 phrasal built-in expressions supported:
-
-**Mathematical**: `total of`, `smallest in`, `largest in`, `absolute value of`, `round`, `round down`, `round up`
-
-**String**: `make uppercase`, `make lowercase`, `trim spaces from`
-
-**Collection**: `first in`, `last in`, `reverse of`, `count of`, `join...with`, `split...by`, `contains...in`, `remove...from`, `append...to`, `insert...at...in`
-
-### VS Code Integration
-
-Every project includes:
-- **7 pre-configured tasks** (Run, Build, Watch, Test, Dev, Debug, Clean)
-- **5 debug configurations** (Run/Debug file, Run/Debug tests, Attach to server)
-
-## 📋 System Requirements
-
-### Required
-- Python 3.9 or higher
-- Windows, macOS, or Linux
-
-### Optional
-- Dart SDK (for Dart transpilation)
-- watchdog library (for efficient file watching): `pip install watchdog`
-- VS Code (for IDE integration)
-
-## 🎯 Common Commands
-
-```bash
-# Project Management
-python plhub.py create <name> --template <type>  # Create project
-python plhub.py init                              # Initialize current dir
-python plhub.py clean                             # Clean artifacts
-
-# Development
-python plhub.py run <file.poh>                   # Run program
-python plhub.py build [--release|--debug]        # Build project
-python plhub.py test [--watch] [--ci]            # Run tests
-python plhub.py watch                             # Auto-rebuild
-python plhub.py dev                               # Hot reload server
-python plhub.py debug                             # Debug session
-
-# Environment
-python plhub.py doctor                            # Check environment
-python plhub.py sync-runtime-local                # Sync local runtime
-
-# UI Toolkit
-python plhub.py style list                        # List themes
-python plhub.py widget list                       # List widgets
-```
-
-## ⚠️ Known Issues
-
-### Multi-line If Statements
-
-The PohLang v0.5.0 official runtime has a parser issue with multi-line If statements using phrasal comparisons.
-
-**What doesn't work:**
-```poh
-If temperature is greater than 20
-    Write "Warm"
-Otherwise
-    Write "Cool"
-End If
-```
-
-**Workaround - Use inline If:**
-```poh
-If temperature is greater than 20 Write "Warm" Otherwise Write "Cool"
-```
-
-**All other features work perfectly**, including all 20 phrasal expressions!
-
-See `KNOWN_ISSUES.md` for details and workarounds.
-
-## 📚 Documentation
-
-| Document | Description |
-|----------|-------------|
-| **README.md** | Main documentation with examples |
-| **AUTOMATION_GUIDE.md** | Complete automation workflows (88KB) |
-| **QUICK_REFERENCE.md** | Command reference and tips |
-| **COMPATIBILITY.md** | PohLang v0.5.0 compatibility |
-| **KNOWN_ISSUES.md** | Known issues and workarounds |
-| **RELEASE_PACKAGE.md** | Distribution guide |
-
-## 🎓 Learning Path
-
-### Beginners
-1. Install runtime: `python install_official_runtime.py`
-2. Create basic project: `python plhub.py create my_app --template basic`
-3. Explore examples: `python plhub.py run my_app/examples/example.poh`
-4. Modify and learn
-
-### Intermediate
-1. Create console app: `python plhub.py create my_cli --template console`
-2. Enable hot reload: `python plhub.py dev`
-3. Write tests: `python plhub.py test --watch`
-4. Build for distribution: `python plhub.py build --release`
-
-### Advanced
-1. Create library: `python plhub.py create my_lib --template library`
-2. Design APIs using phrasal expressions
-3. Document and test comprehensively
-4. Distribute your library
-
-## 🔗 Links
-
-- **PohLang Repository**: https://github.com/AlhaqGH/PohLang
-- **PLHub Repository**: https://github.com/AlhaqGH/PLHub
-- **Official Release**: https://github.com/AlhaqGH/PohLang/releases/tag/v0.5.0
 - **Issues**: https://github.com/AlhaqGH/PLHub/issues
+- **Discussions**: https://github.com/AlhaqGH/PLHub/discussions
+- **PohLang Language**: https://github.com/AlhaqGH/PohLang
+- **Documentation**: Full docs in `docs/` directory
 
-## 📄 License
+## License
 
-MIT License - See LICENSE file for details.
-
-## 🙏 Credits
-
-Developed by the PohLang team to make programming accessible through natural language.
-
-## 💬 Support
-
-- Documentation: See `docs/` directory
-- Run diagnostics: `python plhub.py doctor --verbose`
-- Report issues: https://github.com/AlhaqGH/PLHub/issues
+MIT License - Same as PohLang project
 
 ---
 
-**PL-Hub v0.5.0** - Making PohLang development fast, efficient, and enjoyable.
+**PLHub SDK** = Complete development framework for building PohLang applications
 
-**Download**: plhub-sdk.zip  
-**Install**: Extract and run `python install_official_runtime.py`  
-**Start**: `python plhub.py create my_app --template basic`
+**PohLang SDK** = Language runtime and specs for embedding/tooling
 
-🚀 Happy Coding with PohLang v0.5.0!
+Choose the right SDK for your needs!
