@@ -4,6 +4,8 @@
 
 While **PohLang** is the core language (Rust runtime, parser, VM, and language specifications), **PL-Hub** provides the complete development ecosystem around it: tooling, project management, package system, editor integration, and deployment tools.
 
+🎮 **Try PohLang Online**: [PohLang Playground](https://pohlang-playground.pages.dev) - Write and run PohLang code in your browser without any installation!
+
 Think of it this way:
 - **PohLang** is like **Dart** (the language runtime)
 - **PL-Hub** is like **Flutter** (the development framework and tools)
